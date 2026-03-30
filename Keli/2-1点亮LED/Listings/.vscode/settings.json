@@ -1,8 +1,0 @@
-{
-    "C_Cpp.default.compilerPath": "D:/Keil_v5/C51/INC/Atmel",
-    "files.associations": {
-        "regx52.h": "c",
-        "REGX52.H": "cpp"
-    },
-    "C_Cpp.errorSquiggles": "enabled"
-}
