@@ -1,0 +1,70 @@
+C51 COMPILER V9.60.7.0   TIMER0                                                            08/22/2025 09:13:48 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE TIMER0
+OBJECT MODULE PLACED IN .\Objects\timer0.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE timer0.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listin
+                    -gs\timer0.lst) PREPRINT(.\Listings\timer0.i) OBJECT(.\Objects\timer0.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          void Timer0_Init()
+   4          {
+   5   1              TMOD = (TMOD & 0XF0) | 0x01;
+   6   1              TF0 = 0;
+   7   1              TR0 = 1;
+   8   1              
+   9   1              TH0 = 0xFC;
+  10   1              TL0 = 0x17;
+  11   1              
+  12   1              ET0 = 1;
+  13   1              EA = 1;
+  14   1              PT0 = 0;
+  15   1      }
+C51 COMPILER V9.60.7.0   TIMER0                                                            08/22/2025 09:13:48 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION Timer0_Init (BEGIN)
+                                           ; SOURCE LINE # 3
+                                           ; SOURCE LINE # 4
+                                           ; SOURCE LINE # 5
+0000 E589              MOV     A,TMOD
+0002 54F0              ANL     A,#0F0H
+0004 4401              ORL     A,#01H
+0006 F589              MOV     TMOD,A
+                                           ; SOURCE LINE # 6
+0008 C28D              CLR     TF0
+                                           ; SOURCE LINE # 7
+000A D28C              SETB    TR0
+                                           ; SOURCE LINE # 9
+000C 758CFC            MOV     TH0,#0FCH
+                                           ; SOURCE LINE # 10
+000F 758A17            MOV     TL0,#017H
+                                           ; SOURCE LINE # 12
+0012 D2A9              SETB    ET0
+                                           ; SOURCE LINE # 13
+0014 D2AF              SETB    EA
+                                           ; SOURCE LINE # 14
+0016 C2B9              CLR     PT0
+                                           ; SOURCE LINE # 15
+0018 22                RET     
+             ; FUNCTION Timer0_Init (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     25    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

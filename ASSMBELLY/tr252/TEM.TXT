@@ -1,0 +1,16 @@
+begin:
+	JMP       start                    ;27E9:0100  EB02            
+	XOR       AX,AX                    ;27E9:0102  31C0            
+start:
+	MOV       BX,[0000]                ;27E9:0104  8B1E0000        
+	MOV       AH,09                    ;27E9:0108  B409            
+	INT       21                       ;27E9:010A  CD21            
+	INT       20                       ;27E9:010C  CD20            
+	XOR       [DI],CH                  ;27E9:010E  302D            
+	PUSHA                              ;27E9:0110  60              
+	LAR       BX,[BX]                  ;27E9:0111  0F021F          
+	SETB      BH                       ;27E9:0114  0F92C7          
+	MOVZX     EBX,CX                   ;27E9:0117  660FB7D9        
+	SMSW      AX                       ;27E9:011B  0F01E0          
+	FSINCOS                            ;27E9:011E  D9FB            
+

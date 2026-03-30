@@ -1,0 +1,7 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\DS1302.obj",
+".\Objects\LCD1602.obj",
+".\Objects\Delay.obj" 
+TO ".\Objects\7-1 ±÷”–æ∆¨" 
+PRINT(".\Listings\7-1 ±÷”–æ∆¨.m51") RAMSIZE(256) 

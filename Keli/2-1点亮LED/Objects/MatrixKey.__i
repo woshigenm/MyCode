@@ -1,0 +1,1 @@
+"MatrixKey.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listings\MatrixKey.lst) PREPRINT(.\Listings\MatrixKey.i) OBJECT(.\Objects\MatrixKey.obj)

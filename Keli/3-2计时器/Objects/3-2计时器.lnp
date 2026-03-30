@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\LCD1602.obj",
+".\Objects\timer0.obj" 
+TO ".\Objects\3-2计时器" 
+PRINT(".\Listings\3-2计时器.m51") RAMSIZE(256) 

@@ -1,0 +1,123 @@
+C51 COMPILER V9.60.7.0   TIMER0                                                            08/16/2025 19:07:58 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE TIMER0
+OBJECT MODULE PLACED IN .\Objects\timer0.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE timer0.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listin
+                    -gs\timer0.lst) OBJECT(.\Objects\timer0.obj)
+
+line level    source
+
+   1          #include "timer0.h"
+   2          #include <REGX52.H>
+   3          
+   4          //xms 为微秒
+   5          void Timer0_Init(unsigned int xms)
+   6          {
+   7   1              TMOD = (TMOD & 0XF0) | 0x01;
+   8   1              TF0 = 0;
+   9   1              TR0 = 1;
+  10   1              
+  11   1              TH0 = (MAX_US - xms) / 256;
+  12   1              TL0 = (MAX_US - xms) % 256;
+  13   1              
+  14   1              ET0 = 1;
+  15   1              EA = 1;
+  16   1              PT0 = 0;
+  17   1      }
+C51 COMPILER V9.60.7.0   TIMER0                                                            08/16/2025 19:07:58 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _Timer0_Init (BEGIN)
+                                           ; SOURCE LINE # 5
+0000 8E00        R     MOV     xms,R6
+0002 8F00        R     MOV     xms+01H,R7
+                                           ; SOURCE LINE # 6
+                                           ; SOURCE LINE # 7
+0004 E589              MOV     A,TMOD
+0006 54F0              ANL     A,#0F0H
+0008 4401              ORL     A,#01H
+000A F589              MOV     TMOD,A
+                                           ; SOURCE LINE # 8
+000C C28D              CLR     TF0
+                                           ; SOURCE LINE # 9
+000E D28C              SETB    TR0
+                                           ; SOURCE LINE # 11
+0010 AE00        R     MOV     R6,xms
+0012 AF00        R     MOV     R7,xms+01H
+0014 AB07              MOV     R3,AR7
+0016 AA06              MOV     R2,AR6
+0018 E4                CLR     A
+0019 C3                CLR     C
+001A 9B                SUBB    A,R3
+001B FF                MOV     R7,A
+001C E4                CLR     A
+001D 9A                SUBB    A,R2
+001E FE                MOV     R6,A
+001F 7401              MOV     A,#01H
+0021 9400              SUBB    A,#00H
+0023 FD                MOV     R5,A
+0024 E4                CLR     A
+0025 9400              SUBB    A,#00H
+0027 FC                MOV     R4,A
+0028 E4                CLR     A
+0029 FB                MOV     R3,A
+002A 7A01              MOV     R2,#01H
+002C F9                MOV     R1,A
+002D F8                MOV     R0,A
+002E 120000      E     LCALL   ?C?SLDIV
+0031 8F8C              MOV     TH0,R7
+                                           ; SOURCE LINE # 12
+0033 AE00        R     MOV     R6,xms
+0035 AF00        R     MOV     R7,xms+01H
+0037 AB07              MOV     R3,AR7
+0039 AA06              MOV     R2,AR6
+003B E4                CLR     A
+003C C3                CLR     C
+003D 9B                SUBB    A,R3
+003E FF                MOV     R7,A
+003F E4                CLR     A
+0040 9A                SUBB    A,R2
+0041 FE                MOV     R6,A
+0042 7401              MOV     A,#01H
+0044 9400              SUBB    A,#00H
+0046 FD                MOV     R5,A
+0047 E4                CLR     A
+0048 9400              SUBB    A,#00H
+004A FC                MOV     R4,A
+004B E4                CLR     A
+004C FB                MOV     R3,A
+C51 COMPILER V9.60.7.0   TIMER0                                                            08/16/2025 19:07:58 PAGE 3   
+
+004D 7A01              MOV     R2,#01H
+004F F9                MOV     R1,A
+0050 F8                MOV     R0,A
+0051 120000      E     LCALL   ?C?SLDIV
+0054 AF03              MOV     R7,AR3
+0056 8F8A              MOV     TL0,R7
+                                           ; SOURCE LINE # 14
+0058 D2A9              SETB    ET0
+                                           ; SOURCE LINE # 15
+005A D2AF              SETB    EA
+                                           ; SOURCE LINE # 16
+005C C2B9              CLR     PT0
+                                           ; SOURCE LINE # 17
+005E 22                RET     
+             ; FUNCTION _Timer0_Init (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     95    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

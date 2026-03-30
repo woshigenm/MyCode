@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\Delay.obj",
+".\Objects\timer0.obj",
+".\Objects\main.obj" 
+TO ".\Objects\5-1·äÃùÆ÷·ÅÒôÀÖ" 
+PRINT(".\Listings\5-1·äÃùÆ÷·ÅÒôÀÖ.m51") RAMSIZE(256) 

@@ -1,0 +1,11 @@
+".\Objects\STARTUP.obj",
+".\Objects\Delay.obj",
+".\Objects\DS1302.obj",
+".\Objects\LCD1602.obj",
+".\Objects\main.obj",
+".\Objects\Key.obj",
+".\Objects\Nixie.obj",
+".\Objects\timer0.obj",
+".\Objects\MatrixKey.obj" 
+TO ".\Objects\7-2 ±÷”–æ∆¨" 
+PRINT(".\Listings\7-2 ±÷”–æ∆¨.m51")

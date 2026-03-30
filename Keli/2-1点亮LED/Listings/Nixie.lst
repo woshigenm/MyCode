@@ -1,0 +1,84 @@
+C51 COMPILER V9.60.7.0   NIXIE                                                             08/22/2025 09:23:09 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE NIXIE
+OBJECT MODULE PLACED IN .\Objects\Nixie.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Nixie.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listing
+                    -s\Nixie.lst) PREPRINT(.\Listings\Nixie.i) OBJECT(.\Objects\Nixie.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          
+   4          //0-9
+   5          const unsigned char Number[] =
+   6          {
+   7                  0x3F, 0x06, 0x5B, 0x4F, 0x66,
+   8                  0x6F, 0x7D, 0x07, 0x7F, 0x67
+   9          };
+  10          
+  11          //Postion = 0 ~ 7
+  12          void Nixie(unsigned char Postion, unsigned char Num)
+  13          {
+  14   1              if(Postion > 7)
+  15   1                      return;
+  16   1              
+  17   1              P2 = (Postion << 2);
+  18   1              
+  19   1              P0 = Number[Num];
+  20   1              Delay(1);
+  21   1              P0 = 0x00;
+  22   1      }
+C51 COMPILER V9.60.7.0   NIXIE                                                             08/22/2025 09:23:09 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _Nixie (BEGIN)
+                                           ; SOURCE LINE # 12
+;---- Variable 'Postion' assigned to Register 'R7' ----
+;---- Variable 'Num' assigned to Register 'R5' ----
+                                           ; SOURCE LINE # 13
+                                           ; SOURCE LINE # 14
+0000 EF                MOV     A,R7
+0001 D3                SETB    C
+0002 9407              SUBB    A,#07H
+0004 5018              JNC     ?C0002
+                                           ; SOURCE LINE # 17
+0006 EF                MOV     A,R7
+0007 25E0              ADD     A,ACC
+0009 25E0              ADD     A,ACC
+000B F5A0              MOV     P2,A
+                                           ; SOURCE LINE # 19
+000D 7400        R     MOV     A,#LOW Number
+000F 2D                ADD     A,R5
+0010 F8                MOV     R0,A
+0011 E6                MOV     A,@R0
+0012 F580              MOV     P0,A
+                                           ; SOURCE LINE # 20
+0014 7F01              MOV     R7,#01H
+0016 7E00              MOV     R6,#00H
+0018 120000      E     LCALL   _Delay
+                                           ; SOURCE LINE # 21
+001B E4                CLR     A
+001C F580              MOV     P0,A
+                                           ; SOURCE LINE # 22
+001E         ?C0002:
+001E 22                RET     
+             ; FUNCTION _Nixie (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     31    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

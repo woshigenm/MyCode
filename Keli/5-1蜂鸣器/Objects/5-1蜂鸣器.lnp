@@ -1,0 +1,10 @@
+".\Objects\STARTUP.obj",
+".\Objects\Buzzer.obj",
+".\Objects\Delay.obj",
+".\Objects\Key.obj",
+".\Objects\LCD1602.obj",
+".\Objects\main.obj",
+".\Objects\Nixie.obj",
+".\Objects\timer0.obj" 
+TO ".\Objects\5-1·äÃùÆ÷" 
+PRINT(".\Listings\5-1·äÃùÆ÷.m51") RAMSIZE(256) 

@@ -1,0 +1,1592 @@
+                          README OF TR
+
+                          ============
+
+
+
+                                        - Thanks CheMing and Stonehead
+
+
+
+   If you have used DEBUG, SYMDEB, TD (Turbo Debugger), CV (CodeView) or
+
+SoftICE, you should try TR which has more powerful functions than
+
+debuggers mentioned above.
+
+
+
+   TR(tracer) is a debugger based on the CPU simulation technology.
+
+
+
+   The main features are:
+
+
+
+1. Interpret Mode
+
+=================
+
+
+
+  TR runs a program by interpreting its code just like a REAL Intel CPU
+
+  would, step by step. TR understands every CPU opcode and will give the
+
+  correct result, without INT1, INT3, DR0-DR8, or protected mode.
+
+  Theoretically, TR will never be found by any program which is
+
+  traced, and you can never find a program which can't be traced :-)
+
+
+
+
+
+  Traditional debuggers or tracers have too many shortages:
+
+
+
+  (1) Using INT1 and the Trap Flag
+
+
+
+      Because they use INT1 and TF to step the program, so it's easy
+
+      to cheat and detect it!
+
+
+
+  (2) Using INT3
+
+
+
+      These debuggers insert INT3(CCh) into the program's code after every
+
+      instruction. If the program destroys the INT3 vector or tests
+
+      itself, the tracer would not work well :-(
+
+
+
+  (3) SoftICE doesn't use above two methods, but uses 386 hardware
+
+      interrupts instead. SoftICE is very strong but so easy to be
+
+      found :(
+
+
+
+  Overall, traditional debuggers & tracers trace the program using standard
+
+  tracing methods which can be found in INTEL's CPU manual. They could
+
+  only trace those programs which haven't any anti-debug code. If the
+
+  program won't cooperate, they all cannot work well :-( But TR will
+
+  trace all the programs that the CPU can deal with, even another TR
+
+  session.
+
+
+
+  On the other hand, traditional debuggers or tracers simply insert a
+
+  breakpoint into the program and wait until they catch the control back.
+
+  They don't know whether they will get control back or what the program
+
+  intends to do. TR runs the program in interpret mode, it controls all
+
+  things absolutely. Just because of that, TR can set more and more
+
+  complex breakpoints.
+
+
+
+  Interpret Run is the main difference between TR and all other
+
+  debuggers, and this is also why TR has a higher performance.
+
+
+
+2.Batch File
+
+============
+
+
+
+  Although batch is not a new word to you, you can find no one using it
+
+  in a debugger. In TR, you can put all your commands in a text file and
+
+  use it just like you execute a DOS batch file. TR as well has a special
+
+  batch file named "AUTORUN.TR". Just like its name, this file can be
+
+  executed automatically every time you start TR.
+
+
+
+3.Magic Offset
+
+==============
+
+
+
+  Everyone is used to the "G 100" command which means run and stop at
+
+  address CS:100. In general, debuggers do it like this: insert a
+
+  breakpoint(INT3/CC) at CS:100 and GO the program. When the CPU meets
+
+  the INT3, the program will be stopped. So, the debuggers can only set a
+
+  breakpoint at current CS and offset 100. But not TR! TR can stop the
+
+  program at every offset 100! What does this mean? It means when IP=100,
+
+  the program will be stopped! We call this Magic Offset. Hmm, what's the
+
+  use? Too many! Think by yourself :-) One simplest and direct usage is
+
+  use "G 100" you can *UNPACK* all .COM files!
+
+
+
+4.Assembly Language Command
+
+===========================
+
+
+
+  It's a good idea that you can use ASM opcode in your debug environment.
+
+  You can accomplish your wish in TR! You may use either "R AX 001A" or
+
+  "MOV AX, 001A". Both do the same thing. Remember, all assembly opcode
+
+  can be used in TR, e.g. "CLI", "MOV [WORD 1234], 4567", "IN AL,21"...
+
+
+
+
+
+5.Add Comments During Tracing
+
+=============================
+
+
+
+  "CALL 7FDE" is not good compared to "CALL OPEN_FILE". But most tracers
+
+  must face such opcodes. Even if you have known what the procedure
+
+  would do, you could only write it down on paper. Now TR can write
+
+  your comments directly into the program and saved them into another file
+
+  automatically. From now on all programs are easy for understand. TR will
+
+  as well display comments for most INT21 function calls automatically for
+
+  you.
+
+
+
+6.Automatic Jump
+
+================
+
+
+
+  Many protectors use lots of JMP codes to make the decryptor of their
+
+  protection unreadable. In most situations, you can only see some JMPs in
+
+  the code window. At the target address, in general, you can't see the
+
+  correct disassemble opcode because the protect programs likely insert
+
+  some DATA in front of that address, so, it's difficult to understand
+
+  these programs. With the Automatic Jump feature, TR displays the correct
+
+  code at the JMP address in code window instead of displaying a "JMP
+
+  xxxx". This way you can see the correct codes sequence but not lots of
+
+  jumps: the code is easy to read!
+
+
+
+
+
+7.Log
+
+=====
+
+
+
+  TR could save all CS:IP on interpret-run. This makes it possible to
+
+  analyse the program easily. If the program exits with an error, you can
+
+  find the problem by backtracing your LOG. Command 'LOGPRO' can get all
+
+  the key opcode program run. The program will have no secret after you
+
+  LOG it. Refer to the commands LOG, LOGS, VLOG and LOGPRO.
+
+
+
+8.Write EXE file from memory
+
+============================
+
+
+
+  You can find many universal unpackers on the net, but what would you do
+
+  if they tell you "I can't unpack it"? Unpack functions should be in
+
+  debuggers. TR's MKEXE function let you make EXE file easy!
+
+
+
+9.Various Complex breakpoints, One-time breakpoints
+
+===================================================
+
+
+
+  All other debuggers' breakpoints are what INTEL prepared. They cannot
+
+  fit the need of modern trace technology. TR has many revolutionary
+
+  breakpoints:
+
+
+
+   (1) BP conditions
+
+       Conditional break-point. ex.:
+
+
+
+       BP IP>4000
+
+       BP ah=2 dl=80 ch>30
+
+
+
+   (2) BPINT intnum [conditions]
+
+       Interrupt break-point.
+
+
+
+   (3) BPXB bytes [conditions]
+
+       Break-point if ??? code is encountered. For example, "MOV AX,????"
+
+       is assembled in HEX "B8????", so you can use
+
+
+
+       BPXB b8
+
+
+
+       to break on all "mov ax,????" opcodes. Other examples:
+
+
+
+       BPXB cd          ;all interrupt
+
+       BPXB 33 c0       ;xor ax,ax
+
+
+
+   (4) BPREG REG|SEG [conditions]
+
+       Break if the given register changes. You can use
+
+
+
+       BPREG cs
+
+
+
+       to get all code segment changes (jmp far,retf...). As well, you can
+
+       use something like
+
+
+
+       BPREG cs ax=0 es=#       ;# means PSP seg
+
+
+
+       to get the kernel of a shelled program.
+
+
+
+   (5) BPM [seg:]offset
+
+       Break if specified memory is accessed.
+
+
+
+       BPM 20
+
+
+
+       will stop at 'mov ax,[20]'.
+
+
+
+   (6) BPW SEG:OFFSET
+
+       Break-point if memory changes. Some opcode's changing memory
+
+       could only be found by repeatedly compare.
+
+
+
+   (7) BPIO port [conditions]
+
+
+
+   (8) BPKNL [count]
+
+       Break-point to find new program kernel.
+
+
+
+  The most important is: if you only use one break-point onetime,
+
+  you can change the break-point command 'BP???' to 'GO???' to run.
+
+  By using this one-time break-point, you need not to set any
+
+  break-point.
+
+
+
+  These break-point function make it more and more easy to track a
+
+  program. You need not to do any hard work!
+
+
+
+  TR is a real tracing, tracking, debug program. We have DEBUG,SYMDEB,
+
+  TD,CV,S-ICE, but they are all not such real tracing debug programs.
+
+  DEBUG & SYMDEB aren't, because I think a real debug software should
+
+  be full-screen. TD cannot process command line input. No mouse
+
+  clicks could replace a command line like 'F CS:DX,DX+CX 00'. In
+
+  DEBUG you can use 'L 100 0 0 1' to check floopy boot, and use
+
+  'L 400' or 'W 400' to load a program to memory or write memory to
+
+  file. In SYMDEB you could use '>' to save the unassemble result.
+
+  All these useful functions cannot be found in another debug program.
+
+  I think TD & CV are not standalone debug programs. They just debug
+
+  their C program. S-ICE is great! But it looks like that 386CPU's
+
+  debug function is for S-ICE, and that S-ICE is just a demo of this
+
+  function. Only TR does what you think, rises 9 great new ideals in
+
+  tracing technology, for the first time make TRACING an easy job.
+
+  TR is a real tracing debug program!
+
+
+
+  All the time I work hard to make TR perfect. TR makes progress
+
+  everyday. Please contact with me, you can get the latest version.
+
+
+
+                My name : Liu Taotao
+
+                Address : AnYang Henan, P.R. China
+
+                Tele    : 0372 3932916 2273
+
+                Email   : liutt@iname.com
+
+                          liutt@371.net
+
+                HomePage: http://tr.kstar.com
+
+                http://www.netease.com/~ayliutt
+
+                ICQ UIN : 3434573
+
+
+
+                                1998.3.3
+
+---------------------------------------------------------------------
+
+                        Preface
+
+        1. If you use TR to trace a program having Turbo Debug infor-
+
+mation, you can use 'g _main' to begin.
+
+        2. TR supports 32bit registers. Refer to the R32 command.
+
+        3. After TR terminates, all int vectors hooked by user program
+
+will be restored and all memory freed.
+
+        4. TR can auto use XMS to free more conventional memory.
+
+        5. All numeric input is hexadecimal.
+
+
+
+TR needs 80386 CPU or above to run. TR can run under simple DOS,
+
+Windows or Windows 95/98 dos box ( will be a little slower ), with
+
+himem.sys or emm386.exe or any other XMS/EMS memory manager programs.
+
+TR can work with Soft-ICE active. TR can only trace DOS programs running
+
+in real mode. TR knows nothing about Protected Mode or Windows programs.
+
+If you want to trace Dos Protected Mode program(DPMI),16bit NE,32bit PE
+
+Windows programs, try TR for Win95 at
+
+        http://trw.yeah.net            
+
+
+
+---------------------------------------------------------------------
+
+                TR's Screen
+
+EAX=00003000  EBX=00000000  ECX=00000000  EDX=00002755  SP=007E
+
+EBP=00000000  ESI=00000000  EDI=00000000  FS=0000  GS=0000
+
+DS=2640  ES=2640  SS=2785  CS=2650  IP=000A  o d I s z a p c t
+
+2640:0000  CD 20 FF 9F 00 9A F0 FE-1D F0 1E 44 FD 07 6D 01  ............
+
+2640:0010  13 06 78 01 13 06 13 06-01 01 01 00 02 FF FF FF  ..x.........
+
+2650:0000  BA5527          MOV       DX,2755
+
+2650:0003  2E89168B02      MOV       [CS:DGROUP@],DX
+
+2650:0008  B430            MOV       AH,30
+
+2650:000A  CD21            INT       21 Get MS-DOS Version Number
+
+2650:000C  8B2E0200        MOV       BP,[0002]
+
+2650:0010  8B1E2C00        MOV       BX,[002C]
+
+2650:0014  8EDA            MOV       DS,DX
+
+2650:0016  A37D00          MOV       [007D],AX
+
+2650:0019  8C067B00        MOV       [__psp],ES
+
+2650:001D  891E7700        MOV       [__envseg],BX
+
+2650:0021  892E9100        MOV       [0091],BP
+
+2650:0025  E85101          CALL      0179
+
+2650:0028  A17700          MOV       AX,[0077]
+
+2650:002B  8EC0            MOV       ES,AX
+
+2650:002D  33C0            XOR       AX,AX
+
+Super Program Trace (test version), Written by Ld. 06/16/97
+
+Press '?' for Help
+
+r32
+
+
+
+ Welcome !!!   Tel:0372-3932916-2273   EMAIL: ayliutt@hotmail.com
+
+
+
+  This is TR's typical screen. It consists of a register area, memory area,
+
+code area, command line area and status line.
+
+
+
+1. register area
+
+The register area is at the top of the screen. The default mode is 16-bit
+
+register display. You can use 'R32' command to change to 32-bit register
+
+display mode.
+
+Use 'R' command to change the value of a register:
+
+         R AX 1234
+
+         R ebx 12C21A56
+
+         R ch 87
+
+         R dl ah
+
+         R ip ip+1
+
+         R fl z
+
+Use 'ODISZAPCT' to change the flag register. All changed registers are
+
+displayed in a different color.
+
+
+
+2. Memory area
+
+In the memory area, data is displayed in HEX and ASCII mode. You can use
+
+the 'E' command to edit data in this area, and use left,right,up,down,
+
+pgup,pgdown key to move cursor. The key <tab> changes between the HEX and
+
+ASCII area.
+
+Use 'WD num' the change memory area's lines.
+
+
+
+3. Code area
+
+The code area displays program code, assembly language, labels and
+
+comments. Auto commented are some frequently used interrupt functions.
+
+The built-in disassembler supports 386 opcodes.
+
+
+
+4. Command area
+
+Use this one to type TR commands in.
+
+If you want to do one command repeatedly, move to that line and press
+
+<enter>.
+
+
+
+5. Status line
+
+Displays some status information.
+
+
+
+6. Other
+
+You can use <F4> to display user's screen, VIEW command to view file,
+
+STACK command to view the stack information, VLOG command to view log
+
+information, etc.
+
+--------------------------------------------------------------------------
+
+                        KEYS
+
+        <F8>    one step, same as command 'T'
+
+        <F10>   one procedure, same as 'P'
+
+        <F4>    user screen, same as 'RS'
+
+        <F6>    command area <-> code area
+
+        <F7>    if cursor in code area, run to here
+
+        <F5>    zoom current area
+
+        <F9>    set break-point
+
+        Ctrl+D  pause program's run. Attention: TR will only stop at user
+
+                program's code, not at system code. So sometimes TR will
+
+                not return in time after you press <Ctrl+D>.
+
+--------------------------------------------------------------------------
+
+                Symbols
+
+<$>:
+
+        In TR's command, you can use '$' to mean current CS:IP.
+
+
+
+<*>:
+
+        means current opcode's process memory address. If current opcode
+
+        is 'mov ax,[di]', then '*' means DS:DI and
+
+                D *
+
+        is just same as
+
+                D ds:di
+
+
+
+<@>:
+
+        get address. if
+
+                1234:5678 11 22 33 44
+
+        then '@1234:5678' means 4433:2211. If TR just enter a CALL FAR or
+
+        INT, you can use 'G @ss:sp' to go back.
+
+
+
+<#>:
+
+        means current PSP. For example:
+
+                D #:0
+
+
+
+<;>:
+
+        In a command line, all characters after ';' are of no use.
+
+
+
+AUTORUN.TR
+
+        Every time TR starts, TR will do 'autorun.tr' automatically. Insert
+
+        your always-use commands in this file, such as 'R32', 'AUTO
+
+        INT1 on' etc.
+
+---------------------------------------------------------------------------
+
+                Change TR's settings
+
+
+
+COLOR [01 02 03 04 05 06 07 08 09 10]
+
+        If run without parameter, this will display TR's current color set.
+
+        There must be 9 parameters. They mean:
+
+                1.register area         register color
+
+                2.register area         register value color
+
+                3.register area         changed register
+
+                4.code area             normal code
+
+                5.code area             current CS:IP
+
+                6.code area             label or comment
+
+                7.code area             break point
+
+                8.command area          normal command
+
+                9.command area          comment
+
+                10.status line
+
+        for example:    color 7 b e 7 e 2 4 17 36 76
+
+
+
+MSG [x y]
+
+        display message window. Used in TR's demo. All next lines are
+
+        message until blank. X,Y is the position of message windows,
+
+        -1 means up-right corner, -2 center.
+
+
+
+VER
+
+        version info.
+
+
+
+R32
+
+        switch register area between 32-bit mode and 16-bit mode.
+
+
+
+REDRAW
+
+        Redraw screen.
+
+
+
+WD [lines]
+
+        set lines of memory area.
+
+------------------------------------------------------------------------
+
+                I/O Commands
+
+
+
+A [address]
+
+  assembly. You can use 'BEGIN:' in 'A' command to define a label!
+
+        A cs:0
+
+                start:          ;define label
+
+                mov ax,bx       ;any asm code
+
+                                ;return to command mode
+
+
+
+D [address|range] [>filename]]
+
+        display data in hex and ASCII mode, '>' to write output to file.
+
+                D cs:ip
+
+                D *
+
+                D 1234:5678>myfile.txt
+
+                D cs:0lffff>file
+
+                D >file
+
+E [[ptr] bytes]
+
+        edit data. Command 'E' with no parameter will move cursor to
+
+        memory area. Then you can use direction keys to move cursor, <tab>
+
+        from HEX to ASCII mode. Default segment is DS.
+
+                E cs:0 12 23 45 'abc'
+
+                E b800:200 36 24
+
+                E 234 'def',0d,0a,'$'
+
+
+
+F range bytes
+
+        Fill memory with data.
+
+                F cs:0,ffff 12 23 45 'abc'
+
+                F b800:0L200 36 24
+
+                F 234 'def',0d,0a,'$'
+
+
+
+L [[SEG]:OFFSET] [FILENAME]
+
+        Load a file to memory.
+
+                N c:\autoexec.bat
+
+                L 100
+
+                L DS:300 MYFILE.BIN
+
+
+
+L [SEG]:OFFSET DRIVE STARTSECTER SECTERS
+
+        Load sectors from disk.
+
+
+
+N [filename]
+
+        Set or display current filename. Refers: W,L,RELOAD.
+
+
+
+RELOAD [filename]
+
+        reload file, reset all register, memory, interrupt vector.
+
+
+
+U [address|range] [>filename]]
+
+        unassemble, use '>' to write output to a file.
+
+                u cs:ip
+
+                u $
+
+                u 1234:5678>myfile
+
+                u cs:0lffff>file
+
+                u >file
+
+
+
+W
+
+W [SEG]:OFFSET
+
+W [SEG]:OFFSET filename
+
+W [SEG]:OFFSET length filename
+
+  write memory to file, filelength BX:CX or <length. Default segment
+
+  DS, default address DS:100. Example:
+
+                N test.com
+
+                W 200
+
+                W es:300 myfile.com
+
+                W cs:ip dx test.com
+
+
+
+
+
+W [SEG]:OFFSET DRIVE STARTSECTER SECTERS
+
+        Write sectors to disk.
+
+
+
+WREG filename
+
+        write register area to file.
+
+
+
+WMEM filename
+
+        write memory area to file.
+
+
+
+WCOD filename
+
+        write code area to file.
+
+
+
+WCMD filename
+
+        write command area to file.
+
+
+
+---------------------------------------------------------------------------
+
+                RUNTIME commands
+
+DELAY [time]
+
+        Use this in a batch file to delay. You'd better add 'DELAY 0'
+
+        at the end of the batch file to restore the delay status.
+
+
+
+DO filename                     *new idea*
+
+        do a batch command file. You can insert all commands for TR in
+
+        a file and DO it. If a command line begins with ' ', it will not
+
+        be displayed in command area.
+
+
+
+KEY num
+
+        use in batch file to simulate keyin. The given key num is what
+
+        returned by 'MOV AX,0\INT 16'. For example:
+
+                KEY 1C0D        ;means <enter>
+
+---------------------------------------------------------------------------
+
+                Other commands
+
+all assemble opcode
+
+        TR supports all assembly opcodes as a command.
+
+
+
+define label or procedure name
+
+        A string followed by a ':' defines a label or procedure name.
+
+
+
+.
+
+        means 'U cs:ip' or 'U $'.
+
+
+
+? [expression]
+
+        Help.
+
+                ? ax
+
+                ? cx+dx
+
+                ? #
+
+                ? @0:21*4
+
+                ? $+5
+
+
+
+?
+
+        Gives a listing of commands. Useful if you can't remember
+
+        this list. :)
+
+
+
+CMT [SEG:]OFFSET COMMENT_STRING         *new idea*
+
+        make a comment. All comments and label names will be saved in
+
+        'filename.cmt'. For example:
+
+                cmt cs:200 'This is my comment string'
+
+                PROC1:
+
+
+
+LABEL [SEG:]OFFSET LABEL_NAME      *new idea*
+
+        define label or procedure name. for example:
+
+                LABEL cs:200 file_open
+
+
+
+LOG [ON|OFF]                    *new idea*
+
+        Saves the log (or not.) If LOG ON, TR will save the CS:IP
+
+        executed and you can use VLOG to view it.
+
+
+
+LOGS [ON|OFF]                    *new idea*
+
+        Saves the log (or not.) If LOGS ON, TR will save the CS:IP
+
+        executed to the file 'log.dat'.
+
+
+
+LOGPRO [0|1|2|f]                    *new idea*
+
+----------------
+
+  This function can log all key opcodes during a program run. You can
+
+  analyse it later. Especially useful to compare a GOOD running
+
+  path with a ERROR running path.
+
+
+
+  Each parameter means:
+
+        0:      do not LOG
+
+        1:      only LOG 'CALL' and 'RET'
+
+        2:      only LOG 'CALL', 'RET', conditional jmp, 'JMP FAR'
+
+                Note: Only true condition jmp will be logged.
+
+        f:      LOG all opcode
+
+
+
+  All log data will write to file 'LOGPRO.DAT'. Each log consists
+
+  of 16 bytes, with the following structure:
+
+
+
+    position   size    what
+
+        0       DW      IP
+
+        2       DW      CS
+
+        4       DW      SP
+
+        6       DB      ?
+
+        7       DB      ?
+
+        8       8 byte  hex opcodes
+
+
+
+  Then run 'LOGPRO.EXE' under DOS command prompt. This will read
+
+  'LOGPRO.DAT' and create 'LOGPRO.TXT'. 'LOGPRO.TXT' is a file
+
+  in ASM format. This is the key opcodes.
+
+
+
+M RANGE [SEG]:OFFSET
+
+        memory copy.
+
+                M $L200 8000:100
+
+        will copy memory from CS:IP length200 to 8000:100. and
+
+                M DS:0,800 ES:200
+
+        will copy memory from DS:0 to DS:800 to ES:200.
+
+
+
+Q
+
+        quit TR. You can use <Alt+X> for this as well.
+
+
+
+R REG [num]
+
+        Change value of register.
+
+                R ax 1234
+
+                R ebx 12321456
+
+                R ch 87
+
+                R dl ah
+
+                R fl z
+
+
+
+RS
+
+        Restore user screen. Hot key: <F4>. Any key to return.
+
+
+
+S range bytes
+
+        search data in memory.
+
+                s cs:0,ffff 12 34 45
+
+                s ds:200l100 23
+
+
+
+SYM [ON|OFF]
+
+        if the loaded file has symbol information, it can be displayed.
+
+
+
+SYMBOLS
+
+        display all symbols.
+
+
+
+VLOG
+
+        view log infomation. See command: LOG
+
+
+
+VIEW filename.ext
+
+        view file.
+
+
+
+STACK                   *new idea*
+
+        view how many CALL's were needed to get here.
+
+
+
+---------------------------------------------------------------------
+
+                TRACING commands
+
+G
+
+G [seg:]offset
+
+G conditions                    *new idea*
+
+        run program. 'GO' is ok too.
+
+        Attention: 'int 3' will not stop this GO.
+
+
+
+GO???                   *new idea*
+
+        one-time break point. Any break-point setting command can be
+
+        used as a one-time break-point:
+
+                GOREG CS
+
+                GOINT 21 AH=30
+
+                GOW ES:DI
+
+                GOXB CD 13 AH=2
+
+T
+
+        step. Hotkey: <F8>
+
+
+
+GG [[SEG:]OFFSET]
+
+        run unconditionally. TR insert a 'call far' in user program's code
+
+        and just run it.
+
+        You can press <Ctrl+d> and wait TR to return.
+
+
+
+P
+
+        step one procedure.
+
+
+
+PP
+
+        go until next opcode. same as 'G $+length of this code'.
+
+
+
+PRET
+
+        go until return.
+
+
+
+TT
+
+        run one step use INT1.
+
+
+
+AUTOINT1 [ON|OFF]
+
+        If ON, TR will use int1 automatically to run an unknown code.
+
+
+
+INT1 [ON|OFF]
+
+        If ON, TR will run all opcode use INT1.
+
+
+
+AUTOJMP [ON|OFF]                        *new idea*
+
+  Many protectors use lots of JMP codes to make the decryptor of their
+
+  protection unreadable. In most situations, you can only see some JMPs in
+
+  the code window. At the target address, in general, you can't see the
+
+  correct disassemble opcode because the protect programs likely insert
+
+  some DATA in front of that address, so, it's difficult to understand
+
+  these programs. With the Automatic Jump feature, TR displays the correct
+
+  code at the JMP address in code window instead of displaying a "JMP
+
+  xxxx". This way you can see the correct codes sequence but not lots of
+
+  jumps: the code is easy to read.
+
+  Default is AUTOJMP ON.
+
+
+
+---------------------------------------------------------------------
+
+                Break-Point commands
+
+If you use this break-point only one time, change command from 'BP??' to
+
+'GO??'.
+
+
+
+BL
+
+        list break-points. You can set max 8 break-points.
+
+
+
+BC [num]
+
+        clear specified break-point or all break-points.
+
+
+
+BD [num]
+
+        disable specified break-point or all break-points.
+
+
+
+BE [num]
+
+        enable specified break-point or all break-points.
+
+
+
+BPW segment:offset                      *new idea*
+
+  Monitor if memory has changed. TR will check if the memory
+
+  word has changed after each step.
+
+
+
+BP [seg:]offset                 *new idea*
+
+        go until CS:IP=SEG:OFFSET or IP=OFFSET.
+
+
+
+BP conditions                           *new idea*
+
+        break-point if condition is true.
+
+                bp ax=1234
+
+                bp ax=0 bx=0 cx=0
+
+                bp ah=3 dx=80
+
+
+
+BPREG REG|SEG [conditions]
+
+       Break-point if the given register changes. You can use
+
+
+
+       BPREG cs
+
+
+
+       to get all code segment changes (jmp far,retf...). Also you can
+
+       use something like
+
+
+
+       BPREG cs ax=0 es=#       ;# means PSP seg
+
+
+
+       to get the kernel of a shelled program.
+
+
+
+BPXB bytes [conditions]
+
+       Break-point if ??? code is encountered. For example, "MOV AX,????"
+
+       in HEX code is "B8????", so you can use
+
+
+
+       BPXB b8
+
+
+
+       to break on all "mov ax,????" opcodes. Or:
+
+
+
+       BPXB cd          ;breaks on all interrupts
+
+       BPXB 33 c0       ;breaks on xor ax,ax
+
+
+
+BPINT intnum [conditions]
+
+        interrupt breakpoint.
+
+                BPINT 21 AH=30
+
+                BPINT 13 AX=201 CH>30 DX=1
+
+
+
+BPKNL [count]                   *new idea*
+
+        break point if AX=BX=SI=DI=BP=DS=ES=<PSP> and IP=0 or IP=100 or CS
+
+        just changed.
+
+---------------------------------------------------------------------
+
+                other commands
+
+EXE1
+
+EXE2
+
+WEXE1
+
+WEXE2
+
+GETKNL [count]
+
+                Refer next "how to make EXE"
+
+---------------------------------------------------------------------
+
+
+
+                How to Make a EXE file from Memory
+
+
+
+Sometimes we trace a shelled program. Not only we want to trace to the
+
+real entrypoint of the program, but also we want to make a new EXE file
+
+of the unprotected code.
+
+TR can do this. For COM files, it is very easy. We use the 'W' command
+
+to write memory to a file directly. The next is about making an EXE file.
+
+
+
+1. make EXE by manual
+
+---------------------
+
+
+
+First, if we want to write memory to a EXE file, we need to know how
+
+long the file is. TR uses the 'EXE1' command to clear memory and the
+
+'RELOAD' command to reload. After that, the changed memory area will be
+
+what we should write.
+
+
+
+Second, trace the program using TR's various commands. In general, we can
+
+get the real entrypoint by
+
+        goreg cs ax=0 bx=0      ;means break when cs changed and ax=bx=0
+
+or
+
+        goknl   ;this is one-time breakpoint means ...see readme
+
+sometimes. Use 'WEXE1' command to save the memory image to 'MEM1.DAT'.
+
+
+
+Third, we need to reload the program to a different memory area in order to
+
+build the relocations of an EXE file. Use 'EXE2' to skeese some memory and
+
+clear it, then 'RELOAD'.
+
+
+
+Fourth, trace the program as in the second step. 'WEXE2' saves to 'MEM2.DAT'.
+
+
+
+Fifth, use the 'Q' command to quit tr session. Run 'mkexe.exe' in TR's
+
+software package, which will read file 'MEM1.DAT' AND 'MEM2.DAT' to build
+
+an EXE file called 'MEM.EXE'. This is everything! You can try it!
+
+
+
+2. Make EXE automatically
+
+-------------------------
+
+After loading the program in TR, use the command:
+
+        GETKNL [count]
+
+where 'count' means how many shells TR should unpack. TR will run this
+
+command automatically:
+
+        exe1
+
+        reload
+
+        goknl count
+
+        wexe1
+
+        exe2
+
+        reload
+
+        goknl count
+
+        wexe2
+
+        q
+
+
+
+This will make 'mem1.dat' and 'mem2.dat'. Then we use
+
+        mkexe [orgfile.exe]
+
+in DOS command prompt to make 'MEM.EXE'. This is the unpacked file!
+
+
+
+I coded an apart 'mkexe.exe' out of TR instead of including it in TR
+
+because I want to give users a chance to improve it. If you're interested
+
+in 'mkexe', you can ask me to get mkexe's source (C++).
+
+
+
+'mem1.dat' and 'mem2.dat' include a 0x20 length file header:
+
+      offset  size  content
+
+        00    word  0xac,0xbc is flag
+
+        02    word  PSP+0x10, segment of program code in memory
+
+                    This should be different in 'MEM1.DAT' & 'MEM2.DAT'
+
+                    to get relocations.
+
+        04    word  CS-PSP-0x10, offset of code segment, the same
+
+        06    word  IP, the same
+
+        08    word  SS-PSP-0x10, offset of stack segment, the same
+
+        0a    word  SP, the same
+
+        0c    word  program memory block length(10h)
+
+              dw 09h dup(0)
+
+
+
+Do no imagine EXE file made is the same as origin, It is impossible.
+
+They are functional same. If the entrypoint you find is not correct, you
+
+can add some code to restore all registers yourself.
+
+
+
+The new EXE file may not run if the original file had an OVERLAY, or if
+
+it checks itself. 'MKEXE' can add some code to modify the environment
+
+block to fool the program. Usage:
+
+        MKEXE orgfile.exe
+
+Do not add a path in orgfile. You must put new 'mem.exe' and origin EXE file
+
+together in one directory to run it.
+
+
+
+--------------the end--------
+

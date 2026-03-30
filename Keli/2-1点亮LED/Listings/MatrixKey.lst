@@ -1,0 +1,178 @@
+C51 COMPILER V9.60.7.0   MATRIXKEY                                                         08/22/2025 09:15:25 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MATRIXKEY
+OBJECT MODULE PLACED IN .\Objects\MatrixKey.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE MatrixKey.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Lis
+                    -tings\MatrixKey.lst) PREPRINT(.\Listings\MatrixKey.i) OBJECT(.\Objects\MatrixKey.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          #include "Delay.h"
+   3          #include "MatrixKey.h"
+   4          
+   5          #define ROW 4
+   6          #define COL 4
+   7          
+   8          /**
+   9           * @brief 矩阵键盘扫描函数
+  10           * @return 按键值 (0表示无按键)
+  11          */
+  12          unsigned char MatrixKey() {
+  13   1          static const unsigned char KeyMap[4][4] = {
+  14   1              {KEY_1, KEY_4, KEY_7, KEY_16},   // 第0行
+  15   1              {KEY_2, KEY_5, KEY_8, KEY_15},   // 第1行
+  16   1              {KEY_3, KEY_6, KEY_9, KEY_14},   // 第2行
+  17   1              {KEY_10, KEY_11, KEY_12, KEY_13} // 第3行
+  18   1          };
+  19   1          
+  20   1          unsigned char i, j;
+  21   1          for(i = 0; i < ROW; ++i) {
+  22   2              P1 = 0xFF;
+  23   2              P1 &= ~(1 << (3 - i));
+  24   2              
+  25   2              for(j = 0; j < COL; ++j) {
+  26   3                  if(!(P1 & (1 << (j + 4)))) {
+  27   4                      Delay(5);
+  28   4                      while(!(P1 & (1 << (j + 4))));
+  29   4                      return KeyMap[i][j];
+  30   4                  }
+  31   3              }
+  32   2          }
+  33   1          
+  34   1          return 0;
+  35   1      }
+C51 COMPILER V9.60.7.0   MATRIXKEY                                                         08/22/2025 09:15:25 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION MatrixKey (BEGIN)
+                                           ; SOURCE LINE # 12
+                                           ; SOURCE LINE # 21
+0000 E4                CLR     A
+0001 F500        R     MOV     i,A
+0003         ?C0001:
+                                           ; SOURCE LINE # 22
+0003 7590FF            MOV     P1,#0FFH
+                                           ; SOURCE LINE # 23
+0006 C3                CLR     C
+0007 7403              MOV     A,#03H
+0009 9500        R     SUBB    A,i
+000B FF                MOV     R7,A
+000C F8                MOV     R0,A
+000D 7401              MOV     A,#01H
+000F 08                INC     R0
+0010 8002              SJMP    ?C0012
+0012         ?C0011:
+0012 C3                CLR     C
+0013 33                RLC     A
+0014         ?C0012:
+0014 D8FC              DJNZ    R0,?C0011
+0016 F4                CPL     A
+0017 5290              ANL     P1,A
+                                           ; SOURCE LINE # 25
+0019 E4                CLR     A
+001A F500        R     MOV     j,A
+001C         ?C0004:
+                                           ; SOURCE LINE # 26
+001C E500        R     MOV     A,j
+001E 2404              ADD     A,#04H
+0020 FF                MOV     R7,A
+0021 7E00              MOV     R6,#00H
+0023 7401              MOV     A,#01H
+0025 A807              MOV     R0,AR7
+0027 08                INC     R0
+0028 8005              SJMP    ?C0014
+002A         ?C0013:
+002A C3                CLR     C
+002B 33                RLC     A
+002C CE                XCH     A,R6
+002D 33                RLC     A
+002E CE                XCH     A,R6
+002F         ?C0014:
+002F D8F9              DJNZ    R0,?C0013
+0031 FF                MOV     R7,A
+0032 AD90              MOV     R5,P1
+0034 EF                MOV     A,R7
+0035 5D                ANL     A,R5
+0036 7030              JNZ     ?C0006
+                                           ; SOURCE LINE # 27
+0038 7F05              MOV     R7,#05H
+003A FE                MOV     R6,A
+003B 120000      E     LCALL   _Delay
+003E         ?C0008:
+                                           ; SOURCE LINE # 28
+003E E500        R     MOV     A,j
+0040 2404              ADD     A,#04H
+0042 FF                MOV     R7,A
+C51 COMPILER V9.60.7.0   MATRIXKEY                                                         08/22/2025 09:15:25 PAGE 3   
+
+0043 7E00              MOV     R6,#00H
+0045 7401              MOV     A,#01H
+0047 A807              MOV     R0,AR7
+0049 08                INC     R0
+004A 8005              SJMP    ?C0016
+004C         ?C0015:
+004C C3                CLR     C
+004D 33                RLC     A
+004E CE                XCH     A,R6
+004F 33                RLC     A
+0050 CE                XCH     A,R6
+0051         ?C0016:
+0051 D8F9              DJNZ    R0,?C0015
+0053 FF                MOV     R7,A
+0054 AD90              MOV     R5,P1
+0056 EF                MOV     A,R7
+0057 5D                ANL     A,R5
+0058 60E4              JZ      ?C0008
+                                           ; SOURCE LINE # 29
+005A E500        R     MOV     A,i
+005C 25E0              ADD     A,ACC
+005E 25E0              ADD     A,ACC
+0060 2400        R     ADD     A,#LOW KeyMap
+0062 2500        R     ADD     A,j
+0064 F8                MOV     R0,A
+0065 E6                MOV     A,@R0
+0066 FF                MOV     R7,A
+0067 22                RET     
+                                           ; SOURCE LINE # 30
+                                           ; SOURCE LINE # 31
+0068         ?C0006:
+0068 0500        R     INC     j
+006A E500        R     MOV     A,j
+006C C3                CLR     C
+006D 9404              SUBB    A,#04H
+006F 40AB              JC      ?C0004
+                                           ; SOURCE LINE # 32
+0071         ?C0003:
+0071 0500        R     INC     i
+0073 E500        R     MOV     A,i
+0075 C3                CLR     C
+0076 9404              SUBB    A,#04H
+0078 4089              JC      ?C0001
+007A         ?C0002:
+                                           ; SOURCE LINE # 34
+007A 7F00              MOV     R7,#00H
+                                           ; SOURCE LINE # 35
+007C         ?C0010:
+007C 22                RET     
+             ; FUNCTION MatrixKey (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    125    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.60.7.0   MATRIXKEY                                                         08/22/2025 09:15:25 PAGE 4   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

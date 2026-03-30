@@ -1,0 +1,87 @@
+C51 COMPILER V9.60.7.0   DELAY                                                             03/02/2026 20:35:44 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DELAY
+OBJECT MODULE PLACED IN .\Objects\Delay.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Delay.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listing
+                    -s\Delay.lst) PREPRINT(.\Listings\Delay.i) OBJECT(.\Objects\Delay.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <INTRINS.H>
+   3          
+   4          /**
+   5           * @brief 毫秒级延时函数
+   6           * @param xms 延时毫秒数
+   7           */
+   8          void Delay(unsigned int xms)    //@11.0592MHz
+   9          {
+  10   1              unsigned char data i, j;
+  11   1      
+  12   1              while(xms--)
+  13   1              {       
+  14   2                      _nop_();
+  15   2                      i = 2;
+  16   2                      j = 199;
+  17   2                      do
+  18   2                      {
+  19   3                              while (--j);
+  20   3                      } while (--i);
+  21   2              }
+  22   1      }
+C51 COMPILER V9.60.7.0   DELAY                                                             03/02/2026 20:35:44 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _Delay (BEGIN)
+                                           ; SOURCE LINE # 8
+;---- Variable 'xms' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 9
+0000         ?C0001:
+                                           ; SOURCE LINE # 12
+0000 EF                MOV     A,R7
+0001 1F                DEC     R7
+0002 AC06              MOV     R4,AR6
+0004 7001              JNZ     ?C0009
+0006 1E                DEC     R6
+0007         ?C0009:
+0007 4C                ORL     A,R4
+0008 600B              JZ      ?C0008
+                                           ; SOURCE LINE # 13
+                                           ; SOURCE LINE # 14
+000A 00                NOP     
+                                           ; SOURCE LINE # 15
+;---- Variable 'i' assigned to Register 'R5' ----
+000B 7D02              MOV     R5,#02H
+                                           ; SOURCE LINE # 16
+;---- Variable 'j' assigned to Register 'R4' ----
+000D 7CC7              MOV     R4,#0C7H
+                                           ; SOURCE LINE # 18
+000F         ?C0006:
+                                           ; SOURCE LINE # 19
+000F DCFE              DJNZ    R4,?C0006
+                                           ; SOURCE LINE # 20
+0011 DDFC              DJNZ    R5,?C0006
+                                           ; SOURCE LINE # 21
+0013 80EB              SJMP    ?C0001
+                                           ; SOURCE LINE # 22
+0015         ?C0008:
+0015 22                RET     
+             ; FUNCTION _Delay (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     22    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

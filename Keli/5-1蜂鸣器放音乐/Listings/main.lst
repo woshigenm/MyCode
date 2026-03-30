@@ -1,0 +1,849 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "timer0.h"
+   3          #include "Delay.h"
+   4          
+   5          #define SPEED 600
+   6          #define BASE_DELAY (SPEED / 4)
+   7          
+   8          #define L1      0
+   9          #define L1_ 1
+  10          #define L2      2
+  11          #define L2_ 3
+  12          #define L3      4
+  13          #define L4      5
+  14          #define L4_ 6
+  15          #define L5      7
+  16          #define L5_     8
+  17          #define L6      9
+  18          #define L6_ 10
+  19          #define L7      11
+  20          
+  21          #define M1      12
+  22          #define M1_ 13
+  23          #define M2      14
+  24          #define M2_ 15
+  25          #define M3      16
+  26          #define M4      17
+  27          #define M4_ 18
+  28          #define M5      19
+  29          #define M5_     20
+  30          #define M6      21
+  31          #define M6_ 22
+  32          #define M7      23
+  33          
+  34          #define H1      24
+  35          #define H1_ 25
+  36          #define H2      26
+  37          #define H2_ 27
+  38          #define H3      28
+  39          #define H4      29
+  40          #define H4_ 30
+  41          #define H5      31
+  42          #define H5_     32
+  43          #define H6      33
+  44          #define H6_ 34
+  45          #define H7      35
+  46          
+  47          #define SILENCE 36
+  48          
+  49          // 音符时值宏定义
+  50          #define WHOLE_NOTE       16  // 全音符 (16个时间单位)
+  51          #define HALF_NOTE        8   // 二分音符
+  52          #define QUARTER_NOTE     4   // 四分音符
+  53          #define EIGHTH_NOTE      2   // 八分音符
+  54          #define SIXTEENTH_NOTE   1   // 十六分音符
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 2   
+
+  55          
+  56          // 附点音符宏定义
+  57          #define DOTTED_HALF_NOTE     (HALF_NOTE + QUARTER_NOTE)      // 附点二分音符
+  58          #define DOTTED_QUARTER_NOTE  (QUARTER_NOTE + EIGHTH_NOTE)    // 附点四分音符
+  59          
+  60          // 三连音宏定义
+  61          #define TRIPLET_QUARTER     (QUARTER_NOTE * 2 / 3)  // 四分音符三连音
+  62          #define TRIPLET_EIGHTH      (EIGHTH_NOTE * 2 / 3)   // 八分音符三连音
+  63          
+  64          #define SLUR 0x80  // 圆滑线标志
+  65          #define END_MARKER 0xFF
+  66          
+  67          #define FIRST_ROW  1
+  68          #define SECOND_ROW 2
+  69          
+  70          // D调频率表 (严格遵循原始宏定义结构)
+  71          unsigned int code FreqTable[] = {
+  72              // 低音区 (D3 ~ B3)
+  73              63879,   // L1: D3 (293.66Hz)
+  74              63589,   // L1_: D#3 (311.13Hz)
+  75              64118,   // L2: E3 (329.63Hz)
+  76              63786,   // L2_: F3 (349.23Hz)
+  77              64321,   // L3: F#3 (369.99Hz)
+  78              64438,   // L4: G3 (392.00Hz)
+  79              63879,   // L4_: G#3 (415.30Hz)
+  80              64635,   // L5: A3 (440.00Hz)
+  81              63961,   // L5_: A#3 (466.16Hz)
+  82              64792,   // L6: B3 (493.88Hz)
+  83              64382,   // L6_: C4 (523.25Hz) - 跨区
+  84              64491,   // L7: C#4 (554.37Hz) - 跨区
+  85              
+  86              // 中音区 (D4 ~ B4)
+  87              64542,   // M1: D4 (293.66Hz)
+  88              64590,   // M1_: D#4 (311.13Hz)
+  89              64678,   // M2: E4 (329.63Hz)
+  90              64718,   // M2_: F4 (349.23Hz)
+  91              64756,   // M3: F#4 (369.99Hz)
+  92              64792,   // M4: G4 (392.00Hz)
+  93              64826,   // M4_: G#4 (415.30Hz)
+  94              64858,   // M5: A4 (440.00Hz)
+  95              64888,   // M5_: A#4 (466.16Hz)
+  96              64916,   // M6: B4 (493.88Hz)
+  97              64943,   // M6_: C5 (523.25Hz) - 跨区
+  98              64968,   // M7: C#5 (554.37Hz) - 跨区
+  99              
+ 100              // 高音区 (D5 ~ B5)
+ 101              64992,   // H1: D5 (587.33Hz)
+ 102              65015,   // H1_: D#5 (622.25Hz)
+ 103              65036,   // H2: E5 (659.26Hz)
+ 104              65056,   // H2_: F5 (698.46Hz)
+ 105              65075,   // H3: F#5 (739.99Hz)
+ 106              65093,   // H4: G5 (783.99Hz)
+ 107              65110,   // H4_: G#5 (830.61Hz)
+ 108              65126,   // H5: A5 (880.00Hz)
+ 109              65141,   // H5_: A#5 (932.33Hz)
+ 110              65155,   // H6: B5 (987.77Hz) - 新增
+ 111              65168,   // H6_: C6 (1046.50Hz) - 新增
+ 112              65181,   // H7: C#6 (1108.73Hz) - 新增
+ 113              
+ 114              // 休止符
+ 115              0        // SILENCE
+ 116          };
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 3   
+
+ 117          
+ 118          typedef struct
+ 119          {
+ 120              unsigned char noteIndex;  // 音符索引
+ 121              unsigned char duration;   // 时值（包含可能的标志位）
+ 122          } ScaleNote;
+ 123          
+ 124          code ScaleNote Song[] = {
+ 125              //1
+ 126                  {SILENCE, QUARTER_NOTE},
+ 127                  {SILENCE, QUARTER_NOTE},
+ 128                  {SILENCE, QUARTER_NOTE},
+ 129                  {SILENCE, SIXTEENTH_NOTE},
+ 130                  {M1,SIXTEENTH_NOTE},
+ 131                  {M1,SIXTEENTH_NOTE},
+ 132                  {M1,SIXTEENTH_NOTE},
+ 133                  
+ 134                  //2
+ 135                  {M3, EIGHTH_NOTE},
+ 136                  {M5, EIGHTH_NOTE},
+ 137                  {M5, EIGHTH_NOTE},
+ 138                  {M5, SIXTEENTH_NOTE},
+ 139                  {M3, SIXTEENTH_NOTE},
+ 140                  {M6,EIGHTH_NOTE},
+ 141                  {M5,EIGHTH_NOTE},
+ 142                  {M5,EIGHTH_NOTE},
+ 143                  {M1,SIXTEENTH_NOTE},
+ 144                  {M1,SIXTEENTH_NOTE},
+ 145                  
+ 146                  //3
+ 147                  {H1,SIXTEENTH_NOTE},
+ 148                  {H1,EIGHTH_NOTE},
+ 149                  {H1,SIXTEENTH_NOTE},
+ 150                  {H1,SIXTEENTH_NOTE},
+ 151                  {H1,SIXTEENTH_NOTE},
+ 152                  {M6,SIXTEENTH_NOTE | SLUR},
+ 153                  {M5,SIXTEENTH_NOTE},
+ 154                  {M5,QUARTER_NOTE},
+ 155                  {SILENCE, EIGHTH_NOTE},
+ 156                  {M1, SIXTEENTH_NOTE},
+ 157                  {M1, SIXTEENTH_NOTE},
+ 158                  
+ 159                  //4
+ 160                  {H1,SIXTEENTH_NOTE},
+ 161                  {H1,SIXTEENTH_NOTE},
+ 162                  {H1,SIXTEENTH_NOTE},
+ 163                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 164                  {M6,SIXTEENTH_NOTE},
+ 165                  {H1,SIXTEENTH_NOTE},
+ 166                  {M6,SIXTEENTH_NOTE},
+ 167                  {M5,EIGHTH_NOTE},
+ 168                  {M3, EIGHTH_NOTE},
+ 169                  {M1,EIGHTH_NOTE},
+ 170                  {M3, EIGHTH_NOTE},
+ 171                  
+ 172                  //5
+ 173                  {M3, SIXTEENTH_NOTE},
+ 174                  {M3, SIXTEENTH_NOTE},
+ 175                  {M3, SIXTEENTH_NOTE},
+ 176                  {M2, SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 177                  {M1, EIGHTH_NOTE},
+ 178                  {M3, SIXTEENTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 4   
+
+ 179                  
+ 180                  {M2, QUARTER_NOTE},
+ 181                  {M1, EIGHTH_NOTE},
+ 182                  {M1, SIXTEENTH_NOTE},
+ 183                  {M2, SIXTEENTH_NOTE},
+ 184                  
+ 185                  //6
+ 186                  {M3, EIGHTH_NOTE},
+ 187                  {M5, SIXTEENTH_NOTE | SLUR},
+ 188                  {M3, SIXTEENTH_NOTE},
+ 189                  {M5, EIGHTH_NOTE},
+ 190                  {M5, SIXTEENTH_NOTE},
+ 191                  {M3, SIXTEENTH_NOTE},
+ 192                  {M6, EIGHTH_NOTE},
+ 193                  {M5, EIGHTH_NOTE},
+ 194                  {M3, EIGHTH_NOTE},
+ 195                  {M1, SIXTEENTH_NOTE},
+ 196                  {M1, SIXTEENTH_NOTE},
+ 197          
+ 198                  //7
+ 199                  {H1,SIXTEENTH_NOTE},
+ 200                  {H1,EIGHTH_NOTE},
+ 201                  {H1,SIXTEENTH_NOTE},
+ 202                  {H1,SIXTEENTH_NOTE},
+ 203                  {H1,SIXTEENTH_NOTE},
+ 204                  {M6,SIXTEENTH_NOTE | SLUR},
+ 205                  {M5,SIXTEENTH_NOTE},
+ 206                  {M5,QUARTER_NOTE},
+ 207                  {SILENCE,EIGHTH_NOTE},
+ 208                  {M1,SIXTEENTH_NOTE},
+ 209                  {M1,SIXTEENTH_NOTE},
+ 210                  
+ 211                  //8
+ 212                  {M6,SIXTEENTH_NOTE},
+ 213                  {H1,SIXTEENTH_NOTE},
+ 214                  {M6,SIXTEENTH_NOTE},
+ 215                  {H1,SIXTEENTH_NOTE},
+ 216                  {M6,EIGHTH_NOTE},
+ 217                  {M6,SIXTEENTH_NOTE},
+ 218                  {M5,SIXTEENTH_NOTE},
+ 219                  {H2,SIXTEENTH_NOTE},
+ 220                  {H3,SIXTEENTH_NOTE},
+ 221                  {H2,SIXTEENTH_NOTE | SLUR},
+ 222                  {H1,SIXTEENTH_NOTE},
+ 223                  {H1,QUARTER_NOTE},
+ 224                  
+ 225                  //9
+ 226                  {M2,SIXTEENTH_NOTE},
+ 227                  {M3,SIXTEENTH_NOTE},
+ 228                  {M2,SIXTEENTH_NOTE},
+ 229                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 230                  {M2,EIGHTH_NOTE},
+ 231                  {M1,QUARTER_NOTE},
+ 232                  {M5,EIGHTH_NOTE},
+ 233                  {M6,SIXTEENTH_NOTE},
+ 234                  {H3,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 235                  
+ 236                  //10
+ 237                  {M5,EIGHTH_NOTE},
+ 238                  {M6,SIXTEENTH_NOTE},
+ 239                  {H2,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 240                  {M5,EIGHTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 5   
+
+ 241                  {M6,SIXTEENTH_NOTE},
+ 242                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 243                  
+ 244                  //11
+ 245                  {H1,SIXTEENTH_NOTE},
+ 246                  {H1,SIXTEENTH_NOTE},
+ 247                  {M6,SIXTEENTH_NOTE},
+ 248                  {H1,EIGHTH_NOTE},
+ 249                  {H2,EIGHTH_NOTE},
+ 250                  {H1,QUARTER_NOTE},
+ 251                  {M5,EIGHTH_NOTE},
+ 252                  {M6,SIXTEENTH_NOTE},
+ 253                  {H1,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 254                  
+ 255                  //12
+ 256                  {H2,EIGHTH_NOTE},
+ 257                  {M6,SIXTEENTH_NOTE},
+ 258                  {H1,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 259                  {SILENCE,SIXTEENTH_NOTE},
+ 260                  {M5,EIGHTH_NOTE},
+ 261                  {M6,SIXTEENTH_NOTE},
+ 262                  
+ 263                  //13
+ 264                  {H3,SIXTEENTH_NOTE},
+ 265                  {H3,SIXTEENTH_NOTE},
+ 266                  {H2,SIXTEENTH_NOTE},
+ 267                  {H1,SIXTEENTH_NOTE},
+ 268                  {H1,SIXTEENTH_NOTE},
+ 269                  {M6,SIXTEENTH_NOTE},
+ 270                  {H3,SIXTEENTH_NOTE},
+ 271                  {H2,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 272                  {H3,EIGHTH_NOTE},
+ 273                  {H3,SIXTEENTH_NOTE},
+ 274                  {H3,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 275                  
+ 276                  //14
+ 277                  {H2,EIGHTH_NOTE},
+ 278                  {H1,SIXTEENTH_NOTE},
+ 279                  {H2,SIXTEENTH_NOTE | SLUR},
+ 280                  {H3, QUARTER_NOTE},
+ 281                  {M5,EIGHTH_NOTE},
+ 282                  {M6,SIXTEENTH_NOTE},
+ 283                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 284                  
+ 285                  //15
+ 286                  {H1,SIXTEENTH_NOTE},
+ 287                  {H1,SIXTEENTH_NOTE},
+ 288                  {M6,SIXTEENTH_NOTE},
+ 289                  {H1,EIGHTH_NOTE},
+ 290                  {H2,EIGHTH_NOTE},
+ 291                  {H1, QUARTER_NOTE + QUARTER_NOTE},
+ 292                  
+ 293                  //16
+ 294                  {SILENCE,EIGHTH_NOTE},
+ 295                  {M6,SIXTEENTH_NOTE},
+ 296                  {H1,SIXTEENTH_NOTE},
+ 297                  {H1,SIXTEENTH_NOTE},
+ 298                  {H1,SIXTEENTH_NOTE},
+ 299                  {H1,SIXTEENTH_NOTE},
+ 300                  {M6,SIXTEENTH_NOTE},
+ 301                  {H3,EIGHTH_NOTE},
+ 302                  {H2,EIGHTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 6   
+
+ 303                  {H1,QUARTER_NOTE},
+ 304                  
+ 305                  //17
+ 306                  {M2,SIXTEENTH_NOTE},
+ 307                  {M3,SIXTEENTH_NOTE},
+ 308                  {M2,SIXTEENTH_NOTE},
+ 309                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 310                  {M2,EIGHTH_NOTE},
+ 311                  {M1, QUARTER_NOTE + QUARTER_NOTE},
+ 312                  //A END
+ 313          
+ 314          //1
+ 315                  {SILENCE, QUARTER_NOTE},
+ 316                  {SILENCE, QUARTER_NOTE},
+ 317                  {SILENCE, QUARTER_NOTE},
+ 318                  {SILENCE, SIXTEENTH_NOTE},
+ 319                  {M1,SIXTEENTH_NOTE},
+ 320                  {M1,SIXTEENTH_NOTE},
+ 321                  {M1,SIXTEENTH_NOTE},
+ 322                  
+ 323                  //2
+ 324                  {M3, EIGHTH_NOTE},
+ 325                  {M5, EIGHTH_NOTE},
+ 326                  {M5, EIGHTH_NOTE},
+ 327                  {M5, SIXTEENTH_NOTE},
+ 328                  {M3, SIXTEENTH_NOTE},
+ 329                  {M6,EIGHTH_NOTE},
+ 330                  {M5,EIGHTH_NOTE},
+ 331                  {M5,EIGHTH_NOTE},
+ 332                  {M1,SIXTEENTH_NOTE},
+ 333                  {M1,SIXTEENTH_NOTE},
+ 334                  
+ 335                  //3
+ 336                  {H1,SIXTEENTH_NOTE},
+ 337                  {H1,EIGHTH_NOTE},
+ 338                  {H1,SIXTEENTH_NOTE},
+ 339                  {H1,SIXTEENTH_NOTE},
+ 340                  {H1,SIXTEENTH_NOTE},
+ 341                  {M6,SIXTEENTH_NOTE | SLUR},
+ 342                  {M5,SIXTEENTH_NOTE},
+ 343                  {M5,QUARTER_NOTE},
+ 344                  {SILENCE, EIGHTH_NOTE},
+ 345                  {M1, SIXTEENTH_NOTE},
+ 346                  {M1, SIXTEENTH_NOTE},
+ 347                  
+ 348                  //4
+ 349                  {H1,SIXTEENTH_NOTE},
+ 350                  {H1,SIXTEENTH_NOTE},
+ 351                  {H1,SIXTEENTH_NOTE},
+ 352                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 353                  {M6,SIXTEENTH_NOTE},
+ 354                  {H1,SIXTEENTH_NOTE},
+ 355                  {M6,SIXTEENTH_NOTE},
+ 356                  {M5,EIGHTH_NOTE},
+ 357                  {M3, EIGHTH_NOTE},
+ 358                  {M1,EIGHTH_NOTE},
+ 359                  {M3, EIGHTH_NOTE},
+ 360                  
+ 361                  //5
+ 362                  {M3, SIXTEENTH_NOTE},
+ 363                  {M3, SIXTEENTH_NOTE},
+ 364                  {M3, SIXTEENTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 7   
+
+ 365                  {M2, SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 366                  {M1, EIGHTH_NOTE},
+ 367                  {M3, SIXTEENTH_NOTE},
+ 368                  
+ 369                  {M2, QUARTER_NOTE},
+ 370                  {M1, EIGHTH_NOTE},
+ 371                  {M1, SIXTEENTH_NOTE},
+ 372                  {M2, SIXTEENTH_NOTE},
+ 373                  
+ 374                  //6
+ 375                  {M3, EIGHTH_NOTE},
+ 376                  {M5, SIXTEENTH_NOTE | SLUR},
+ 377                  {M3, SIXTEENTH_NOTE},
+ 378                  {M5, EIGHTH_NOTE},
+ 379                  {M5, SIXTEENTH_NOTE},
+ 380                  {M3, SIXTEENTH_NOTE},
+ 381                  {M6, EIGHTH_NOTE},
+ 382                  {M5, EIGHTH_NOTE},
+ 383                  {M3, EIGHTH_NOTE},
+ 384                  {M1, SIXTEENTH_NOTE},
+ 385                  {M1, SIXTEENTH_NOTE},
+ 386                  
+ 387                  //7
+ 388                  {H1,SIXTEENTH_NOTE},
+ 389                  {H1,EIGHTH_NOTE},
+ 390                  {H1,SIXTEENTH_NOTE},
+ 391                  {H1,SIXTEENTH_NOTE},
+ 392                  {H1,SIXTEENTH_NOTE},
+ 393                  {M6,SIXTEENTH_NOTE | SLUR},
+ 394                  {M5,SIXTEENTH_NOTE},
+ 395                  {M5,QUARTER_NOTE},
+ 396                  {SILENCE,EIGHTH_NOTE},
+ 397                  {M1,SIXTEENTH_NOTE},
+ 398                  {M1,SIXTEENTH_NOTE},
+ 399                  
+ 400                  //8
+ 401                  {M6,SIXTEENTH_NOTE},
+ 402                  {H1,SIXTEENTH_NOTE},
+ 403                  {M6,SIXTEENTH_NOTE},
+ 404                  {H1,SIXTEENTH_NOTE},
+ 405                  {M6,EIGHTH_NOTE},
+ 406                  {M6,SIXTEENTH_NOTE},
+ 407                  {M5,SIXTEENTH_NOTE},
+ 408                  {H2,SIXTEENTH_NOTE},
+ 409                  {H3,SIXTEENTH_NOTE},
+ 410                  {H2,SIXTEENTH_NOTE | SLUR},
+ 411                  {H1,SIXTEENTH_NOTE},
+ 412                  {H1,QUARTER_NOTE},
+ 413                  
+ 414                  //9
+ 415                  {M2,SIXTEENTH_NOTE},
+ 416                  {M3,SIXTEENTH_NOTE},
+ 417                  {M2,SIXTEENTH_NOTE},
+ 418                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 419                  {M2,EIGHTH_NOTE},
+ 420                  {M1,QUARTER_NOTE},
+ 421                  {M5,EIGHTH_NOTE},
+ 422                  {M6,SIXTEENTH_NOTE},
+ 423                  {H3,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 424                  
+ 425                  //10
+ 426                  {M5,EIGHTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 8   
+
+ 427                  {M6,SIXTEENTH_NOTE},
+ 428                  {H2,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 429                  {M5,EIGHTH_NOTE},
+ 430                  {M6,SIXTEENTH_NOTE},
+ 431                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 432                  
+ 433                  //11
+ 434                  {H1,SIXTEENTH_NOTE},
+ 435                  {H1,SIXTEENTH_NOTE},
+ 436                  {M6,SIXTEENTH_NOTE},
+ 437                  {H1,EIGHTH_NOTE},
+ 438                  {H2,EIGHTH_NOTE},
+ 439                  {H1,QUARTER_NOTE},
+ 440                  {M5,EIGHTH_NOTE},
+ 441                  {M6,SIXTEENTH_NOTE},
+ 442                  {H1,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 443                  
+ 444                  //12
+ 445                  {H2,EIGHTH_NOTE},
+ 446                  {M6,SIXTEENTH_NOTE},
+ 447                  {H1,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 448                  {SILENCE,SIXTEENTH_NOTE},
+ 449                  {M5,EIGHTH_NOTE},
+ 450                  {M6,SIXTEENTH_NOTE},
+ 451                  
+ 452                  //13
+ 453                  {H3,SIXTEENTH_NOTE},
+ 454                  {H3,SIXTEENTH_NOTE},
+ 455                  {H2,SIXTEENTH_NOTE},
+ 456                  {H1,SIXTEENTH_NOTE},
+ 457                  {H1,SIXTEENTH_NOTE},
+ 458                  {M6,SIXTEENTH_NOTE},
+ 459                  {H3,SIXTEENTH_NOTE},
+ 460                  {H2,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 461                  {H3,EIGHTH_NOTE},
+ 462                  {H3,SIXTEENTH_NOTE},
+ 463                  {H3,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 464                  
+ 465                  //14
+ 466                  {H2,EIGHTH_NOTE},
+ 467                  {H1,SIXTEENTH_NOTE},
+ 468                  {H2,SIXTEENTH_NOTE | SLUR},
+ 469                  {H3, QUARTER_NOTE},
+ 470                  {M5,EIGHTH_NOTE},
+ 471                  {M6,SIXTEENTH_NOTE},
+ 472                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 473                  
+ 474                  //15
+ 475                  {H1,SIXTEENTH_NOTE},
+ 476                  {H1,SIXTEENTH_NOTE},
+ 477                  {M6,SIXTEENTH_NOTE},
+ 478                  {H1,EIGHTH_NOTE},
+ 479                  {H2,EIGHTH_NOTE},
+ 480                  {H1, QUARTER_NOTE + QUARTER_NOTE},
+ 481                  
+ 482                  //16
+ 483                  {SILENCE,EIGHTH_NOTE},
+ 484                  {M6,SIXTEENTH_NOTE},
+ 485                  {H1,SIXTEENTH_NOTE},
+ 486                  {H1,SIXTEENTH_NOTE},
+ 487                  {H1,SIXTEENTH_NOTE},
+ 488                  {H1,SIXTEENTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 9   
+
+ 489                  {M6,SIXTEENTH_NOTE},
+ 490                  {H3,EIGHTH_NOTE},
+ 491                  {H2,EIGHTH_NOTE},
+ 492                  {H1,QUARTER_NOTE},
+ 493                  
+ 494                  //17
+ 495                  {M2,SIXTEENTH_NOTE},
+ 496                  {M3,SIXTEENTH_NOTE},
+ 497                  {M2,SIXTEENTH_NOTE},
+ 498                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 499                  {M2,EIGHTH_NOTE},
+ 500                  {M1, QUARTER_NOTE + QUARTER_NOTE},
+ 501                  //A END
+ 502          
+ 503          //1
+ 504                  {SILENCE, QUARTER_NOTE},
+ 505                  {SILENCE, QUARTER_NOTE},
+ 506                  {SILENCE, QUARTER_NOTE},
+ 507                  {SILENCE, SIXTEENTH_NOTE},
+ 508                  {M1,SIXTEENTH_NOTE},
+ 509                  {M1,SIXTEENTH_NOTE},
+ 510                  {M1,SIXTEENTH_NOTE},
+ 511                  
+ 512                  //2
+ 513                  {M3, EIGHTH_NOTE},
+ 514                  {M5, EIGHTH_NOTE},
+ 515                  {M5, EIGHTH_NOTE},
+ 516                  {M5, SIXTEENTH_NOTE},
+ 517                  {M3, SIXTEENTH_NOTE},
+ 518                  {M6,EIGHTH_NOTE},
+ 519                  {M5,EIGHTH_NOTE},
+ 520                  {M5,EIGHTH_NOTE},
+ 521                  {M1,SIXTEENTH_NOTE},
+ 522                  {M1,SIXTEENTH_NOTE},
+ 523                  
+ 524                  //3
+ 525                  {H1,SIXTEENTH_NOTE},
+ 526                  {H1,EIGHTH_NOTE},
+ 527                  {H1,SIXTEENTH_NOTE},
+ 528                  {H1,SIXTEENTH_NOTE},
+ 529                  {H1,SIXTEENTH_NOTE},
+ 530                  {M6,SIXTEENTH_NOTE | SLUR},
+ 531                  {M5,SIXTEENTH_NOTE},
+ 532                  {M5,QUARTER_NOTE},
+ 533                  {SILENCE, EIGHTH_NOTE},
+ 534                  {M1, SIXTEENTH_NOTE},
+ 535                  {M1, SIXTEENTH_NOTE},
+ 536                  
+ 537                  //4
+ 538                  {H1,SIXTEENTH_NOTE},
+ 539                  {H1,SIXTEENTH_NOTE},
+ 540                  {H1,SIXTEENTH_NOTE},
+ 541                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 542                  {M6,SIXTEENTH_NOTE},
+ 543                  {H1,SIXTEENTH_NOTE},
+ 544                  {M6,SIXTEENTH_NOTE},
+ 545                  {M5,EIGHTH_NOTE},
+ 546                  {M3, EIGHTH_NOTE},
+ 547                  {M1,EIGHTH_NOTE},
+ 548                  {M3, EIGHTH_NOTE},
+ 549                  
+ 550                  //5
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 10  
+
+ 551                  {M3, SIXTEENTH_NOTE},
+ 552                  {M3, SIXTEENTH_NOTE},
+ 553                  {M3, SIXTEENTH_NOTE},
+ 554                  {M2, SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 555                  {M1, EIGHTH_NOTE},
+ 556                  {M3, SIXTEENTH_NOTE},
+ 557                  
+ 558                  {M2, QUARTER_NOTE},
+ 559                  {M1, EIGHTH_NOTE},
+ 560                  {M1, SIXTEENTH_NOTE},
+ 561                  {M2, SIXTEENTH_NOTE},
+ 562                  
+ 563                  //6
+ 564                  {M3, EIGHTH_NOTE},
+ 565                  {M5, SIXTEENTH_NOTE | SLUR},
+ 566                  {M3, SIXTEENTH_NOTE},
+ 567                  {M5, EIGHTH_NOTE},
+ 568                  {M5, SIXTEENTH_NOTE},
+ 569                  {M3, SIXTEENTH_NOTE},
+ 570                  {M6, EIGHTH_NOTE},
+ 571                  {M5, EIGHTH_NOTE},
+ 572                  {M3, EIGHTH_NOTE},
+ 573                  {M1, SIXTEENTH_NOTE},
+ 574                  {M1, SIXTEENTH_NOTE},
+ 575                  
+ 576                  //7
+ 577                  {H1,SIXTEENTH_NOTE},
+ 578                  {H1,EIGHTH_NOTE},
+ 579                  {H1,SIXTEENTH_NOTE},
+ 580                  {H1,SIXTEENTH_NOTE},
+ 581                  {H1,SIXTEENTH_NOTE},
+ 582                  {M6,SIXTEENTH_NOTE | SLUR},
+ 583                  {M5,SIXTEENTH_NOTE},
+ 584                  {M5,QUARTER_NOTE},
+ 585                  {SILENCE,EIGHTH_NOTE},
+ 586                  {M1,SIXTEENTH_NOTE},
+ 587                  {M1,SIXTEENTH_NOTE},
+ 588                  
+ 589                  //8
+ 590                  {M6,SIXTEENTH_NOTE},
+ 591                  {H1,SIXTEENTH_NOTE},
+ 592                  {M6,SIXTEENTH_NOTE},
+ 593                  {H1,SIXTEENTH_NOTE},
+ 594                  {M6,EIGHTH_NOTE},
+ 595                  {M6,SIXTEENTH_NOTE},
+ 596                  {M5,SIXTEENTH_NOTE},
+ 597                  {H2,SIXTEENTH_NOTE},
+ 598                  {H3,SIXTEENTH_NOTE},
+ 599                  {H2,SIXTEENTH_NOTE | SLUR},
+ 600                  {H1,SIXTEENTH_NOTE},
+ 601                  {H1,QUARTER_NOTE},
+ 602                  
+ 603                  //9
+ 604                  {M2,SIXTEENTH_NOTE},
+ 605                  {M3,SIXTEENTH_NOTE},
+ 606                  {M2,SIXTEENTH_NOTE},
+ 607                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 608                  {M2,EIGHTH_NOTE},
+ 609                  {M1,QUARTER_NOTE},
+ 610                  {M5,EIGHTH_NOTE},
+ 611                  {M6,SIXTEENTH_NOTE},
+ 612                  {H3,SIXTEENTH_NOTE + QUARTER_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 11  
+
+ 613                  
+ 614                  //10
+ 615                  {M5,EIGHTH_NOTE},
+ 616                  {M6,SIXTEENTH_NOTE},
+ 617                  {H2,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 618                  {M5,EIGHTH_NOTE},
+ 619                  {M6,SIXTEENTH_NOTE},
+ 620                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 621                  
+ 622                  //11
+ 623                  {H1,SIXTEENTH_NOTE},
+ 624                  {H1,SIXTEENTH_NOTE},
+ 625                  {M6,SIXTEENTH_NOTE},
+ 626                  {H1,EIGHTH_NOTE},
+ 627                  {H2,EIGHTH_NOTE},
+ 628                  {H1,QUARTER_NOTE},
+ 629                  {M5,EIGHTH_NOTE},
+ 630                  {M6,SIXTEENTH_NOTE},
+ 631                  {H1,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 632                  
+ 633                  //12
+ 634                  {H2,EIGHTH_NOTE},
+ 635                  {M6,SIXTEENTH_NOTE},
+ 636                  {H1,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 637                  {SILENCE,SIXTEENTH_NOTE},
+ 638                  {M5,EIGHTH_NOTE},
+ 639                  {M6,SIXTEENTH_NOTE},
+ 640                  
+ 641                  //13
+ 642                  {H3,SIXTEENTH_NOTE},
+ 643                  {H3,SIXTEENTH_NOTE},
+ 644                  {H2,SIXTEENTH_NOTE},
+ 645                  {H1,SIXTEENTH_NOTE},
+ 646                  {H1,SIXTEENTH_NOTE},
+ 647                  {M6,SIXTEENTH_NOTE},
+ 648                  {H3,SIXTEENTH_NOTE},
+ 649                  {H2,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 650                  {H3,EIGHTH_NOTE},
+ 651                  {H3,SIXTEENTH_NOTE},
+ 652                  {H3,SIXTEENTH_NOTE + QUARTER_NOTE},
+ 653                  
+ 654                  //14
+ 655                  {H2,EIGHTH_NOTE},
+ 656                  {H1,SIXTEENTH_NOTE},
+ 657                  {H2,SIXTEENTH_NOTE | SLUR},
+ 658                  {H3, QUARTER_NOTE},
+ 659                  {M5,EIGHTH_NOTE},
+ 660                  {M6,SIXTEENTH_NOTE},
+ 661                  {H1,SIXTEENTH_NOTE + SIXTEENTH_NOTE},
+ 662                  
+ 663                  //15
+ 664                  {H1,SIXTEENTH_NOTE},
+ 665                  {H1,SIXTEENTH_NOTE},
+ 666                  {M6,SIXTEENTH_NOTE},
+ 667                  {H1,EIGHTH_NOTE},
+ 668                  {H2,EIGHTH_NOTE},
+ 669                  {H1, QUARTER_NOTE + QUARTER_NOTE},
+ 670                  
+ 671                  //16
+ 672                  {SILENCE,EIGHTH_NOTE},
+ 673                  {M6,SIXTEENTH_NOTE},
+ 674                  {H1,SIXTEENTH_NOTE},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 12  
+
+ 675                  {H1,SIXTEENTH_NOTE},
+ 676                  {H1,SIXTEENTH_NOTE},
+ 677                  {H1,SIXTEENTH_NOTE},
+ 678                  {M6,SIXTEENTH_NOTE},
+ 679                  {H3,EIGHTH_NOTE},
+ 680                  {H2,EIGHTH_NOTE},
+ 681                  {H1,QUARTER_NOTE},
+ 682                  
+ 683                  //17
+ 684                  {M2,SIXTEENTH_NOTE},
+ 685                  {M3,SIXTEENTH_NOTE},
+ 686                  {M2,SIXTEENTH_NOTE},
+ 687                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 688                  {M2,EIGHTH_NOTE},
+ 689                  {M1, QUARTER_NOTE + QUARTER_NOTE},
+ 690                  //A END
+ 691                  
+ 692                  //18 B
+ 693                  {SILENCE,EIGHTH_NOTE},
+ 694                  {M6,SIXTEENTH_NOTE},
+ 695                  {H1,SIXTEENTH_NOTE},
+ 696                  {H1,SIXTEENTH_NOTE},
+ 697                  {H1,SIXTEENTH_NOTE},
+ 698                  {H1,SIXTEENTH_NOTE},
+ 699                  {M6,SIXTEENTH_NOTE},
+ 700                  {H3,EIGHTH_NOTE},
+ 701                  {H2,EIGHTH_NOTE},
+ 702                  {H1,QUARTER_NOTE},
+ 703                  
+ 704                  //19
+ 705                  {M2,SIXTEENTH_NOTE},
+ 706                  {M3,SIXTEENTH_NOTE},
+ 707                  {M2,SIXTEENTH_NOTE},
+ 708                  {M5,SIXTEENTH_NOTE + EIGHTH_NOTE},
+ 709                  {M2,EIGHTH_NOTE},
+ 710                  {M1,QUARTER_NOTE + QUARTER_NOTE},
+ 711                  
+ 712                  //20
+ 713                  {SILENCE,EIGHTH_NOTE},
+ 714                  {M6,SIXTEENTH_NOTE},
+ 715                  {H1,SIXTEENTH_NOTE},
+ 716                  {H1,SIXTEENTH_NOTE},
+ 717                  {H1,SIXTEENTH_NOTE},
+ 718                  {H1,SIXTEENTH_NOTE},
+ 719                  {M6,SIXTEENTH_NOTE},
+ 720                  {H3,EIGHTH_NOTE},
+ 721                  {H2,EIGHTH_NOTE},
+ 722                  {H1,QUARTER_NOTE},
+ 723                  
+ 724                  //21
+ 725                  {M2,SIXTEENTH_NOTE},
+ 726                  {M3,SIXTEENTH_NOTE},
+ 727                  {M2,EIGHTH_NOTE},
+ 728                  {M5,EIGHTH_NOTE | SLUR},
+ 729                  {M6,SIXTEENTH_NOTE| SLUR},
+ 730                  {M5,SIXTEENTH_NOTE| SLUR},
+ 731                  {H1,EIGHTH_NOTE| SLUR},
+ 732                  {H2,SIXTEENTH_NOTE| SLUR},
+ 733                  {H1,SIXTEENTH_NOTE| SLUR},
+ 734                  {H3,EIGHTH_NOTE| SLUR},
+ 735                  {H4,SIXTEENTH_NOTE| SLUR},
+ 736                  {H3,SIXTEENTH_NOTE| SLUR},
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 13  
+
+ 737                  
+ 738                  //22
+ 739                  {H5,QUARTER_NOTE + QUARTER_NOTE},
+ 740                  {SILENCE,EIGHTH_NOTE},
+ 741                  {M5,EIGHTH_NOTE},
+ 742                  {H3,EIGHTH_NOTE},
+ 743                  {H5,SIXTEENTH_NOTE},
+ 744                  
+ 745                  //23
+ 746                  {H1, QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE},
+ 747                  // 结束标记
+ 748              {END_MARKER, 0} // 315
+ 749          };
+ 750          
+ 751          sbit beep = P2^5;
+ 752          unsigned char KeyNum = 0;
+ 753          unsigned char FreqSelect = 0;
+ 754          
+ 755          void main()
+ 756          {
+ 757   1              unsigned int currentIndex = 0; // 当前音符索引
+ 758   1              ScaleNote * currentNote = Song;
+ 759   1              
+ 760   1              Timer0_Init();
+ 761   1              while(1)
+ 762   1              {
+ 763   2                      if(currentNote->noteIndex != END_MARKER)
+ 764   2                      {
+ 765   3                              if(currentNote->noteIndex != SILENCE) {
+ 766   4                                      FreqSelect = currentNote->noteIndex;
+ 767   4                      TR0 = 1; // 启动定时器
+ 768   4                  }
+ 769   3                  
+ 770   3                  // 音符持续时间
+ 771   3                  Delay(BASE_DELAY  * (currentNote->duration & 0x7F));
+ 772   3                  
+ 773   3                  // 处理圆滑线标志
+ 774   3                  if(!(currentNote->duration & SLUR)) {
+ 775   4                      TR0 = 0; // 停止定时器
+ 776   4                      beep = 0; // 确保蜂鸣器关闭
+ 777   4                      Delay(5); // 音符间停顿
+ 778   4                                      TR0 = 1;
+ 779   4                  }
+ 780   3                              
+ 781   3                              currentNote++;
+ 782   3                      }else
+ 783   2                      {       
+ 784   3                              TR0 = 0;
+ 785   3                              beep = 0;
+ 786   3                      }
+ 787   2              }
+ 788   1      }
+ 789          
+ 790          void Timer0_Rountine() interrupt 1
+ 791          {
+ 792   1              if(FreqTable[FreqSelect])
+ 793   1              {
+ 794   2                      TH0 = FreqTable[FreqSelect]  / 256;
+ 795   2                      TL0 = FreqTable[FreqSelect] % 256;
+ 796   2              
+ 797   2                      beep = !beep;
+ 798   2              }
+C51 COMPILER V9.60.7.0   MAIN                                                              03/02/2026 20:33:17 PAGE 14  
+
+ 799   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    187    ----
+   CONSTANT SIZE    =   1082    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

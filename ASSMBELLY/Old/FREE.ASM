@@ -1,0 +1,721 @@
+ASSUME CS:CODE, DS:DATA, SS:STACK
+
+DATA SEGMENT
+	BOOT_SECTOR DB 510 DUP(0)
+				 DB 055H, 0AAH
+	MAIN_SECTOR DB 3 * 512 DUP(0)
+DATA ENDS
+
+STACK SEGMENT
+	DB 128 DUP(0)
+STACK ENDS
+
+CODE SEGMENT
+START:
+	MOV AX, STACK
+	MOV SS, AX
+	MOV SP, 128
+	
+	MOV AX, DATA
+	MOV DS, AX
+	
+	CALL COPY_BOOT
+	
+	MOV AX, 4C00H
+	INT 21H
+	
+;==========================================================================================	
+MAIN:
+	JMP NEAR PTR INIT_ENV ; 2
+	ALIGN_TO_16 DB (16 - (($ - MAIN) MOD 16)) DUP(0)
+	STACKS DB 128 DUP(0)
+	EXIT_STATUS DB 0
+INIT_ENV:
+	MOV AX, 07E1H
+	MOV SS, AX
+	MOV SP, 128
+	
+	MOV AX, 07E0H
+	MOV DS, AX ; 07E0:0
+MAIN_S:
+	MOV BYTE PTR DS:[EXIT_STATUS - MAIN], 0
+	
+	CALL CLEAR_SCREEN
+	
+	CALL PRINT_HELLO
+	
+	CALL HANDLE_INPUT
+	
+	CMP AL, '1'
+	JE CALL_RESET
+	CMP AL, '2'
+	JE CALL_STARTUP
+	CMP AL, '3'
+	JE CALL_CLOCK
+	CMP AL, '4'
+	JE CALL_SETCLOCK
+	
+	JMP SHORT MAIN_S
+
+INPUT_ERROR:
+		CALL CALL_INPUT_ERROR
+	JMP SHORT MAIN_S
+
+;========================================================================================
+CALL_SETCLOCK:
+	CALL SETCLOCK
+	JMP NEAR PTR MAIN_S
+
+;========================================================================================
+SETCLOCK:
+	JMP SHORT SETCLOCK_S
+	CLOCK_STRING DB 'PLEASE INPUT TIME:', 0	
+	CLOCK_OFFSET DW 32H, 9H, 8H, 7H, 4H, 2H, 0H
+SETCLOCK_S:
+	PUSH BX
+	PUSH CX
+	PUSH DX
+	PUSH SI
+	
+	CALL CLEAR_SCREEN
+	
+	MOV DX, 0000H
+	MOV CL, 7H
+	LEA SI, DS:[CLOCK_STRING - MAIN]
+	CALL PRINT
+	
+	CALL INPUT_TIME
+	
+	CLI
+	MOV  AL, 80H
+	OUT 70H, AL
+	
+	MOV CX, 7
+	XOR BX, BX
+SETCLOCK_LOOP:
+		MOV AL, DS:[CLOCK_OFFSET - MAIN + BX]
+		
+		OUT 70H, AL
+		MOV AX, DS:[STRING_BUFFER - MAIN + BX]
+		
+		CALL REBCD
+		
+		OUT 71H, AL
+		
+		ADD BX, 2H
+	LOOP SETCLOCK_LOOP
+	
+	MOV AL, 0
+	OUT 70H, AL
+	STI
+	
+	CALL CLEAR_BUFFER
+	
+	POP SI
+	POP DX
+	POP CX
+	POP BX
+	RET
+
+REBCD:
+	PUSH CX
+	
+	MOV CL, 4
+	
+	SUB AH, 30H
+	SUB AL, 30H
+	
+	SHL AL, CL
+	ADD AL, AH
+	
+	POP CX
+	RET
+	
+;========================================================================================
+INPUT_TIME:
+	PUSH CX
+	PUSH BX
+	PUSH DX
+	
+	MOV CL, 7	
+	MOV DX, 0012H
+	
+	LEA BX, DS:[STRING_BUFFER - MAIN]
+	MOV SI, BX
+INPUT_TIME_LOOP:
+		MOV AH, 0H
+		INT 16H
+		
+		CMP AH, 01CH
+		JE INPUT_TIME_OVER
+		CMP AH, 0EH
+		JE TIME_HANDLE_BACK
+		
+		CMP AL, '0'
+		JB INPUT_TIME_LOOP
+		CMP AL, '9'
+		JA INPUT_TIME_LOOP
+		
+		CMP BX, DS:[BUFFER_LENGTH - MAIN]
+		JE INPUT_TIME_OVER
+		CALL CHARPUSH
+	JMP SHORT INPUT_TIME_LOOP
+	
+INPUT_TIME_OVER:
+	POP DX
+	POP CX
+	POP BX
+	RET
+	
+TIME_HANDLE_BACK:
+		CMP BX, SI
+		JE INPUT_TIME_OVER
+		CALL CHARPOP
+	JMP SHORT INPUT_TIME_LOOP
+
+;========================================================================================
+CALL_RESET:
+		CALL CLEAR_SCREEN
+		CALL RESET
+	JMP NEAR PTR MAIN_S
+	
+;========================================================================================
+RESET:
+	MOV AX, 0FFFFH
+	PUSH AX
+	MOV AX, 0H
+	PUSH AX
+	
+	RETF
+	
+	RET
+
+;========================================================================================	
+CALL_STARTUP:
+		CALL CLEAR_SCREEN
+		CALL STARTUP
+	JMP NEAR PTR MAIN_S
+	
+;========================================================================================	
+STARTUP:
+	MOV BX, 0H
+	PUSH BX
+	MOV BX, 07C00H
+	PUSH BX
+	
+	MOV AH, 2H
+	MOV AL, 1H
+	MOV CH, 0H
+	MOV CL, 1H
+	MOV DH, 0H
+	MOV DL, 80H
+	INT 13H
+	
+	RETF
+	
+	RET
+	
+;========================================================================================
+CALL_CLOCK:
+	PUSH CX
+	PUSH DX
+	PUSH SI
+	
+	CALL NEW_INT9_INSTALL
+	
+	MOV DX, 0C0FH
+	LEA SI, DS:[TIME_STRING - MAIN]
+CALL_CLOCK_LOOP:
+		CALL CLOCK
+		MOV CL, DS:[TIME_COLOR - MAIN]
+		CALL PRINT
+		CALL DELAY
+		CMP BYTE PTR DS:[EXIT_STATUS - MAIN], 1H
+	JNE CALL_CLOCK_LOOP
+	
+	CALL RECOVER
+	
+	POP SI
+	POP DX
+	POP CX
+	JMP NEAR PTR MAIN_S
+
+;========================================================================================	
+CLOCK:
+	JMP SHORT CLOCK_S
+	TIME_STRING DB 'YYYY/MM/DD HH:MM:SS', 0
+	TIME_OFFSET DW 9,8,7,4,2,0
+	TIME_COLOR  DW 7
+CLOCK_S:
+	PUSH AX
+	PUSH BX
+	PUSH CX
+	PUSH SI
+	
+	MOV AL, 32h
+	OUT 70H, AL
+	IN AL, 71H
+	
+	CALL BCD
+	
+	MOV DS:[TIME_STRING - MAIN], AX
+	
+	XOR BX, BX
+	MOV SI, 2
+	MOV CX, 6
+CLOCK_LOOP:
+		MOV AL, DS:[TIME_OFFSET - MAIN + BX]
+		OUT 70H, AL
+		IN AL, 71H
+		
+		CALL BCD
+		
+		MOV DS:[TIME_STRING - MAIN + SI], AX
+		
+		ADD SI, 3H
+		ADD BX, 2H
+	LOOP CLOCK_LOOP
+	
+	POP SI
+	POP CX
+	POP BX
+	POP AX
+	RET
+
+;========================================================================================
+BCD:
+	PUSH CX
+	
+	MOV CL, 4H
+	XOR AH, AH
+	SHL AX, CL
+	SHR AL, CL
+	
+	ADD AH, 30H
+	ADD AL, 30H
+	
+	XCHG AH, AL
+	
+	POP CX
+	RET
+
+;========================================================================================
+DELAY:
+	PUSH AX
+	PUSH DX
+	
+	MOV AX, 0FFFFH
+	MOV DX, 0000H
+	
+	CLC
+DELAY_LOOP:
+	SUB AX, 1
+	SBB DX, 0
+	CMP BYTE PTR DS:[EXIT_STATUS - MAIN], 1
+	JE DELAY_OVER
+	CMP AX, 0
+	JNE DELAY_LOOP
+	CMP DX, 0
+	JNE DELAY_LOOP
+	
+DELAY_OVER:
+	POP DX
+	POP AX
+	RET
+	
+;========================================================================================	
+NEW_INT9:
+	PUSH AX
+	
+	IN AL, 60H
+	
+	PUSHF
+	CALL DWORD PTR DS:[OLD_INT9 - MAIN]
+	
+	CMP AL, 03BH
+	JE CHANGE_COLOR
+	CMP AL, 01H
+	JE EXIT
+	
+NEW_INT9_OVER:
+	POP AX
+	IRET
+	
+CHANGE_COLOR:
+	INC WORD PTR DS:[TIME_COLOR - MAIN]
+JMP SHORT NEW_INT9_OVER
+
+EXIT:
+		MOV BYTE PTR DS:[EXIT_STATUS - MAIN], 1H
+		MOV WORD PTR DS:[TIME_COLOR - MAIN], 7H
+	JMP SHORT NEW_INT9_OVER
+
+NEW_INT9_END: NOP
+
+;========================================================================================	
+NEW_INT9_INSTALL:
+	JMP SHORT NEW_INT9_INSTALL_S
+	OLD_INT9 DW 0, 0
+NEW_INT9_INSTALL_S:
+	PUSH AX
+	PUSH ES
+	PUSH DI
+	PUSH SI
+	
+	MOV AX, 0
+	MOV ES, AX
+	MOV DI, 200H
+	
+	MOV SI, OFFSET NEW_INT9 - OFFSET MAIN
+	
+	PUSH ES:[4 * 9]
+	POP DS:[OLD_INT9 - MAIN] ; IP
+	PUSH ES:[4 * 9 + 2]
+	POP DS:[OLD_INT9 - MAIN + 2H] ; CS
+	
+	CLD
+	MOV CX, OFFSET NEW_INT9_END - OFFSET NEW_INT9
+	REP MOVSB
+	
+	CLI
+	MOV WORD PTR ES:[4 * 9], 200H ; IP
+	MOV WORD PTR ES:[4 * 9 + 2], 0H ; CS
+	STI
+	
+	POP SI
+	POP DI
+	POP ES
+	POP AX
+	RET
+	
+;========================================================================================
+RECOVER:
+	PUSH AX
+	PUSH ES
+	
+	MOV AX, 0
+	MOV ES, AX
+	
+	CLI
+	PUSH DS:[OLD_INT9 - MAIN] ; IP
+	POP ES:[4 * 9]
+	PUSH DS:[OLD_INT9 - MAIN + 2] ; CS
+	POP ES:[4 * 9 + 2]
+	STI
+	
+	POP ES
+	POP AX
+	RET
+	
+;========================================================================================
+CALL_INPUT_ERROR:	
+	JMP SHORT INPUT_ERROR_S
+	ERROR_STRING1 DB 'INVALID INPUT. PLEASE INPUT(1-4)', 0
+	ERROR_STRING2 DB 'PRESS ANY KEY TO RETURN MENU.', 0
+	ERROR_TABLE   DW ERROR_STRING1 - MAIN, ERROR_STRING2 - MAIN 
+INPUT_ERROR_S:
+	PUSH AX
+	PUSH BX
+	PUSH CX
+	PUSH DX
+	PUSH SI
+	
+	CALL CLEAR_SCREEN
+	
+	LEA BX, DS:[ERROR_TABLE - MAIN]
+	
+	MOV DX, 0000H
+	MOV CX, 2
+INPUT_ERROR_LOOP:
+		PUSH CX
+			
+		MOV CL, 4
+		MOV SI, DS:[BX]
+		CALL PRINT
+		
+		ADD BX, 2
+		INC DH
+		POP CX
+	LOOP INPUT_ERROR_LOOP
+		
+	MOV AH, 0
+	INT 16H
+	
+	POP SI
+	POP DX
+	POP CX
+	POP BX
+	POP AX
+	RET
+
+;========================================================================================
+CLEAR_BUFFER:
+	PUSH AX
+	PUSH CX
+	PUSH ES
+	PUSH DI
+	
+	MOV AX, DS
+	MOV ES, AX
+	
+	XOR AX, AX
+	
+	LEA DI, DS:[STRING_BUFFER - MAIN]
+	
+	CLD
+	MOV CX, DS:[BUFFER_LENGTH - MAIN]
+	SHR CX, 1
+	REP STOSW
+	
+	POP DI
+	POP ES
+	POP CX
+	POP AX
+	RET
+
+;========================================================================================
+HANDLE_INPUT:
+	JMP SHORT HANDLE_INPUT_S
+	STRING_BUFFER DB 24 DUP(0)
+	BUFFER_LENGTH DW 24
+HANDLE_INPUT_S:
+	PUSH CX
+	PUSH BX
+	PUSH DX
+	
+	MOV CL, 7	
+	MOV DX, 0412H
+		
+	LEA BX, DS:[STRING_BUFFER - MAIN]
+	MOV SI, BX
+HANDLE_INPUT_LOOP:
+		MOV AH, 0H
+		INT 16H
+		
+		CMP AH, 01CH
+		JE HANDLE_INPUT_OVER
+		CMP AH, 0EH
+		JE HANDLE_BACK
+		
+		CMP AL, '1'
+		JB HANDLE_INPUT_LOOP
+		CMP AL, '4'
+		JA HANDLE_INPUT_LOOP
+		
+		CMP BX, DS:[BUFFER_LENGTH - MAIN]
+		JE HANDLE_INPUT_OVER
+		CALL CHARPUSH
+	JMP SHORT HANDLE_INPUT_LOOP
+	
+HANDLE_INPUT_OVER:
+	MOV AL, DS:[STRING_BUFFER - MAIN]
+	
+	CALL CLEAR_BUFFER
+	
+	POP DX
+	POP CX
+	POP BX
+	RET
+	
+HANDLE_BACK:
+		CMP BX, SI
+		JE HANDLE_INPUT_OVER
+		CALL CHARPOP
+	JMP SHORT HANDLE_INPUT_LOOP
+
+;========================================================================================
+CHARPUSH:
+	MOV DS:[BX], AL
+	INC BX
+	CALL PRINT
+	RET
+	
+;========================================================================================
+CHARPOP:
+	DEC BX
+	MOV BYTE PTR DS:[BX], ' '
+	CALL PRINT
+	MOV BYTE PTR DS:[BX], 0
+	RET
+	
+;========================================================================================	
+CLEAR_SCREEN:
+	PUSH AX
+	PUSH CX
+	PUSH ES
+	PUSH DI
+	
+	MOV AX, 0B800H
+	MOV ES, AX
+	
+	XOR DI, DI
+	
+	MOV AX, 0700H
+	
+	CLD
+	MOV CX, 2000
+	REP STOSW
+	
+	POP DI
+	POP ES
+	POP CX
+	POP AX
+	RET
+
+;========================================================================================
+PRINT_HELLO:
+	JMP SHORT PRINT_HELLO_S
+	STRING1 DB '1) RESET PC', 0
+	STRING2 DB '2) START SYSTEM', 0
+	STRING3 DB '3) CLOCK', 0
+	STRING4 DB '4) SET CLOCK', 0
+	STRING5 DB 'PLEASE INPUT(1-4):', 0
+	STRING_OFFSET DW STRING1 - MAIN, STRING2 - MAIN
+				  DW STRING3 - MAIN, STRING4 - MAIN
+				  DW STRING5 - MAIN
+	STRING_COUNTS DW 5
+PRINT_HELLO_S:
+	PUSH BX
+	PUSH CX
+	PUSH DX
+	PUSH SI
+	
+	MOV DX, 0000H
+	
+	XOR BX, BX
+	
+	MOV CX, DS:[STRING_COUNTS - MAIN]
+PRINT_HELLO_LOOP:
+		PUSH CX
+		
+		MOV SI, DS:[STRING_OFFSET - MAIN + BX]
+		MOV CL, 7
+		CALL PRINT
+		
+		ADD BX, 2
+		
+		INC DH
+		POP CX
+	LOOP PRINT_HELLO_LOOP
+	
+	POP SI
+	POP DX
+	POP CX
+	POP BX
+	RET
+
+; DH:DL CL DS:SI
+;========================================================================================
+PRINT:
+	PUSH AX
+	PUSH BX
+	PUSH DX
+	PUSH SI
+	PUSH ES
+	
+	MOV BX, 0B800H
+	MOV ES, BX
+	
+	MOV AL, 160
+	MUL DH
+	
+	MOV BX, AX
+
+	XOR DH, DH
+	ADD DL, DL
+	
+	ADD BX, DX
+	
+	MOV DH, CL
+PRINT_LOOP:
+		MOV DL, DS:[SI]
+		CMP DL, 0H
+		JE PRINT_OVER
+		
+		MOV ES:[BX], DX
+		
+		ADD BX, 2H
+		INC SI
+	JMP SHORT PRINT_LOOP
+
+PRINT_OVER:	
+	POP ES
+	POP SI
+	POP DX
+	POP BX
+	POP AX
+	RET
+	
+MAIN_END: NOP
+
+;========================================================================================
+BOOT:
+	MOV BX, 0
+	PUSH BX
+	MOV BX, 07E00H
+	PUSH BX
+	
+	MOV AH, 2H
+	MOV AL, 3H
+	MOV CH, 0H
+	MOV CL, 2H
+	MOV DH, 0H
+	MOV DL, 0H
+	INT 13H
+	
+	RETF
+	
+	RET
+
+BOOT_END: NOP
+	
+COPY_BOOT:
+	PUSH AX
+	PUSH CX
+	PUSH ES
+	PUSH DI
+	PUSH DS
+	PUSH SI
+	
+	MOV AX, DATA
+	MOV ES, AX
+	LEA DI, [BOOT_SECTOR]
+	
+	MOV AX, CS
+	MOV DS, AX
+	MOV SI, BOOT 
+	
+	CLD
+	MOV CX, OFFSET BOOT_END - OFFSET BOOT
+	REP MOVSB
+	
+	MOV AX, DATA
+	MOV ES, AX
+	LEA DI, [MAIN_SECTOR]
+	
+	MOV AX, CS
+	MOV DS, AX
+	MOV SI, MAIN
+	
+	CLD
+	MOV CX, OFFSET MAIN_END  - OFFSET MAIN
+	REP MOVSB
+	
+	MOV AH, 3H
+	MOV AL, 4H
+	MOV CH, 0H
+	MOV CL, 1H
+	MOV DH, 0H
+	MOV DL, 0H
+	INT 13H
+	
+	POP SI
+	POP DS
+	POP DI
+	POP ES
+	POP CX
+	POP AX
+	RET
+	
+CODE ENDS
+END START

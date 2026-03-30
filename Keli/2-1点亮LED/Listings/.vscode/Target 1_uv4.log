@@ -1,0 +1,16 @@
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWSIGNEDNUM?LCD1602
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWHEXNUM?LCD1602
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SHOWBINNUM?LCD1602
+
+Program Size: data=73.0 xdata=0 code=2214
+creating hex file from ".\Objects\LED"...
+".\Objects\LED" - 0 Error(s), 3 Warning(s).
+Build Time Elapsed:  00:00:00

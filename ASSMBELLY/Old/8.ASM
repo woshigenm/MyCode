@@ -1,0 +1,31 @@
+assume cs:code
+
+code segment
+	
+	DW 0123H,0456H,0789H,0ABCH,0DEFH,0FEDH,0CBAH,0987H
+	DW 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	
+START:
+	MOV AX, CS
+	MOV SS, AX
+	MOV SP, 30H
+
+	MOV BX, 0H
+	MOV CX, 8H
+  S:PUSH CS:[BX] 
+	ADD BX, 02H
+	LOOP S
+	
+	MOV CX, 8H
+	MOV BX, 0H
+	MOV SP, 10H
+  SO:POP CS:[BX] 
+	ADD BX, 02H
+	LOOP SO
+	
+	MOV AX, 4C00H
+    INT 21H
+
+code ends
+
+end START

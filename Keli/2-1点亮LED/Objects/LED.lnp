@@ -1,0 +1,11 @@
+".\Objects\main.obj",
+".\Objects\LCD1602.obj",
+".\Objects\timer0.obj",
+".\Objects\Buzzer.obj",
+".\Objects\Delay.obj",
+".\Objects\MatrixKey.obj",
+".\Objects\Nixie.obj",
+".\Objects\Key.obj" 
+TO ".\Objects\LED" 
+PRINT(".\Listings\LED.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

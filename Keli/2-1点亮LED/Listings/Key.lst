@@ -1,0 +1,148 @@
+C51 COMPILER V9.60.7.0   KEY                                                               08/22/2025 09:13:49 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\Key.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listings\
+                    -Key.lst) PREPRINT(.\Listings\Key.i) OBJECT(.\Objects\Key.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          
+   4          #define ROW 4
+   5          
+   6          unsigned char Key(void)
+   7          {
+   8   1              unsigned char i;
+   9   1              for(i = 0; i < ROW; ++i)
+  10   1              {
+  11   2                      if(!(P3 & (1 << i)))
+  12   2                      {
+  13   3                              Delay(5);
+  14   3                              if(!(P3 & (1 << i)))
+  15   3                              {
+  16   4                                      while(!(P3 & (1 << i)));
+  17   4                                      return i + 1;
+  18   4                              }
+  19   3                      }
+  20   2              }
+  21   1              
+  22   1              return 0;
+  23   1      }
+C51 COMPILER V9.60.7.0   KEY                                                               08/22/2025 09:13:49 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION Key (BEGIN)
+                                           ; SOURCE LINE # 6
+                                           ; SOURCE LINE # 7
+                                           ; SOURCE LINE # 9
+0000 E4                CLR     A
+0001 F500        R     MOV     i,A
+0003         ?C0001:
+                                           ; SOURCE LINE # 10
+                                           ; SOURCE LINE # 11
+0003 7E00              MOV     R6,#00H
+0005 7401              MOV     A,#01H
+0007 A800        R     MOV     R0,i
+0009 08                INC     R0
+000A 8005              SJMP    ?C0010
+000C         ?C0009:
+000C C3                CLR     C
+000D 33                RLC     A
+000E CE                XCH     A,R6
+000F 33                RLC     A
+0010 CE                XCH     A,R6
+0011         ?C0010:
+0011 D8F9              DJNZ    R0,?C0009
+0013 FF                MOV     R7,A
+0014 ADB0              MOV     R5,P3
+0016 EF                MOV     A,R7
+0017 5D                ANL     A,R5
+0018 7039              JNZ     ?C0003
+                                           ; SOURCE LINE # 12
+                                           ; SOURCE LINE # 13
+001A 7F05              MOV     R7,#05H
+001C FE                MOV     R6,A
+001D 120000      E     LCALL   _Delay
+                                           ; SOURCE LINE # 14
+0020 7E00              MOV     R6,#00H
+0022 7401              MOV     A,#01H
+0024 A800        R     MOV     R0,i
+0026 08                INC     R0
+0027 8005              SJMP    ?C0012
+0029         ?C0011:
+0029 C3                CLR     C
+002A 33                RLC     A
+002B CE                XCH     A,R6
+002C 33                RLC     A
+002D CE                XCH     A,R6
+002E         ?C0012:
+002E D8F9              DJNZ    R0,?C0011
+0030 FF                MOV     R7,A
+0031 ADB0              MOV     R5,P3
+0033 EF                MOV     A,R7
+0034 5D                ANL     A,R5
+0035 701C              JNZ     ?C0003
+                                           ; SOURCE LINE # 15
+0037         ?C0006:
+                                           ; SOURCE LINE # 16
+0037 7E00              MOV     R6,#00H
+0039 7401              MOV     A,#01H
+003B A800        R     MOV     R0,i
+003D 08                INC     R0
+003E 8005              SJMP    ?C0014
+C51 COMPILER V9.60.7.0   KEY                                                               08/22/2025 09:13:49 PAGE 3   
+
+0040         ?C0013:
+0040 C3                CLR     C
+0041 33                RLC     A
+0042 CE                XCH     A,R6
+0043 33                RLC     A
+0044 CE                XCH     A,R6
+0045         ?C0014:
+0045 D8F9              DJNZ    R0,?C0013
+0047 FF                MOV     R7,A
+0048 ADB0              MOV     R5,P3
+004A EF                MOV     A,R7
+004B 5D                ANL     A,R5
+004C 60E9              JZ      ?C0006
+                                           ; SOURCE LINE # 17
+004E E500        R     MOV     A,i
+0050 04                INC     A
+0051 FF                MOV     R7,A
+0052 22                RET     
+                                           ; SOURCE LINE # 18
+                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 20
+0053         ?C0003:
+0053 0500        R     INC     i
+0055 E500        R     MOV     A,i
+0057 C3                CLR     C
+0058 9404              SUBB    A,#04H
+005A 40A7              JC      ?C0001
+005C         ?C0002:
+                                           ; SOURCE LINE # 22
+005C 7F00              MOV     R7,#00H
+                                           ; SOURCE LINE # 23
+005E         ?C0008:
+005E 22                RET     
+             ; FUNCTION Key (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     95    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,461 @@
+//C#调
+unsigned int code FreqTable[] = {
+	63486, 63589, 63693, 63786, 63879, 63961, 64043, 64118, 64189, 64258, 64321, 64382,
+	64438, 64491, 64542, 64590, 64635, 64678, 64718, 64756, 64792, 64826, 64858, 64888,
+	64916, 64943, 64968, 64992, 65015, 65036, 65056, 65075, 65093, 65110, 65126, 65141,
+	0  // 休止符
+};
+
+code ScaleNote Song[] = {
+    // === A段 START ===
+    {SILENCE, QUARTER_NOTE},  // 0
+    {M5,      EIGHTH_NOTE},   // 1
+    {M5,      EIGHTH_NOTE},   // 2
+    {M5,      EIGHTH_NOTE},   // 3
+    {M5,      EIGHTH_NOTE},   // 4
+    {M5,      EIGHTH_NOTE},   // 5
+    {M6,      EIGHTH_NOTE},   // 6
+    
+    //2
+    {M5,     QUARTER_NOTE + DOTTED_QUARTER_NOTE}, // 7
+    {M5,     SIXTEENTH_NOTE},                     // 8
+    {H2,     EIGHTH_NOTE},                        // 9
+    {H2,     SIXTEENTH_NOTE},                     // 10
+    {M7,     SIXTEENTH_NOTE + SIXTEENTH_NOTE},     // 11
+    {M5,     DOTTED_QUARTER_NOTE},                // 12
+    
+    //3
+    {H1,     QUARTER_NOTE + QUARTER_NOTE}, // 13
+    {M7,     EIGHTH_NOTE},                 // 14
+    {H1,     SIXTEENTH_NOTE},              // 15
+    {M5,     SIXTEENTH_NOTE + EIGHTH_NOTE}, // 16
+    {M3,     EIGHTH_NOTE},                 // 17
+    
+    //4
+    {M6,     QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 18
+    
+    //5
+    {SILENCE, QUARTER_NOTE}, // 19
+    {M5,      EIGHTH_NOTE},  // 20
+    {M5,      EIGHTH_NOTE},  // 21
+    {M5,      EIGHTH_NOTE},  // 22
+    {M5,      SIXTEENTH_NOTE}, // 23
+    {M5,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 24
+    {M6,      EIGHTH_NOTE},  // 25
+    
+    //6
+    {M5,     QUARTER_NOTE + DOTTED_QUARTER_NOTE}, // 26
+    {M5,     SIXTEENTH_NOTE},                     // 27
+    {H2,     EIGHTH_NOTE},                        // 28
+    {H2,     SIXTEENTH_NOTE},                     // 29
+    {M7,     SIXTEENTH_NOTE + SIXTEENTH_NOTE},     // 30
+    {M5,     DOTTED_QUARTER_NOTE},                // 31
+    
+    //7
+    {H1,     QUARTER_NOTE + QUARTER_NOTE}, // 32
+    {M7,     EIGHTH_NOTE},                 // 33
+    {H1,     SIXTEENTH_NOTE},              // 34
+    {M5,     SIXTEENTH_NOTE + EIGHTH_NOTE}, // 35
+    {M3,     EIGHTH_NOTE},                 // 36
+    
+    //8
+    {M6,     QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 37
+    // === A段 END ===
+    
+    // === B段 START ===
+    {SILENCE, QUARTER_NOTE}, // 38
+    {M6,      EIGHTH_NOTE},  // 39
+    {M6,      SIXTEENTH_NOTE}, // 40
+    {M6,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 41
+    {M6,      SIXTEENTH_NOTE}, // 42
+    {M7,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 43
+    {H1,      DOTTED_QUARTER_NOTE}, // 44
+    
+    //10
+    {H1,      EIGHTH_NOTE},  // 45
+    {M7,      EIGHTH_NOTE},   // 46
+    {M6,      SIXTEENTH_NOTE}, // 47
+    {M5,      EIGHTH_NOTE},   // 48
+    {M6,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 49
+    
+    //11
+    {M7,      EIGHTH_NOTE},   // 50
+    {M7,      SIXTEENTH_NOTE}, // 51
+    {H3,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 52
+    {M6,      EIGHTH_NOTE + EIGHTH_NOTE}, // 53
+    {M5,      EIGHTH_NOTE},   // 54
+    
+    //12
+    {M6,      SIXTEENTH_NOTE}, // 55
+    {M7,      DOTTED_QUARTER_NOTE}, // 56
+    {SILENCE, EIGHTH_NOTE},    // 57
+    {H1,      SIXTEENTH_NOTE}, // 58
+    {H1,      SIXTEENTH_NOTE}, // 59
+    {M7,      EIGHTH_NOTE + DOTTED_HALF_NOTE}, // 60
+    
+    //13
+    {SILENCE, QUARTER_NOTE}, // 61
+    {M6,      EIGHTH_NOTE},  // 62
+    {M6,      SIXTEENTH_NOTE}, // 63
+    {M6,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 64
+    {M6,      SIXTEENTH_NOTE}, // 65
+    {M7,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 66
+    {H1,      DOTTED_QUARTER_NOTE}, // 67
+    
+    //14
+    {H1,      EIGHTH_NOTE},  // 68
+    {M7,      EIGHTH_NOTE},   // 69
+    {M6,      SIXTEENTH_NOTE}, // 70
+    {M5,      EIGHTH_NOTE},   // 71
+    {M6,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 72
+    
+    //15
+    {SILENCE, QUARTER_NOTE}, // 73
+    {M7,      EIGHTH_NOTE},  // 74
+    {M7,      SIXTEENTH_NOTE}, // 75
+    {H3,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 76
+    {M7,      SIXTEENTH_NOTE}, // 77
+    {M6,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 78
+    {M5,      EIGHTH_NOTE},   // 79
+    
+    //16
+    {M6,      SIXTEENTH_NOTE}, // 80
+    {H1,      EIGHTH_NOTE + QUARTER_NOTE}, // 81
+    {M3,      SIXTEENTH_NOTE}, // 82
+    {H2,      QUARTER_NOTE + QUARTER_NOTE}, // 83
+    // === B段 END ===
+    
+    // === C段 START ===
+    {H3,      QUARTER_NOTE + QUARTER_NOTE}, // 84
+    {H5,      QUARTER_NOTE + QUARTER_NOTE}, // 85
+    
+    //18
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 86
+    {H3,      TRIPLET_EIGHTH}, // 87
+    {H4,      TRIPLET_EIGHTH}, // 88
+    {H5,      TRIPLET_EIGHTH}, // 89
+    
+    //19
+    {H6,      EIGHTH_NOTE},   // 90
+    {H5,      SIXTEENTH_NOTE}, // 91
+    {H1,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 92
+    {M6,      SIXTEENTH_NOTE}, // 93
+    {H1,      SIXTEENTH_NOTE}, // 94
+    {M6,      SIXTEENTH_NOTE}, // 95
+    {H3,      SIXTEENTH_NOTE}, // 96
+    
+    //20
+    {H3,      QUARTER_NOTE + EIGHTH_NOTE}, // 97
+    {M6,      SIXTEENTH_NOTE}, // 98
+    {H1,      SIXTEENTH_NOTE}, // 99
+    {H2,      QUARTER_NOTE + QUARTER_NOTE}, // 100
+    
+    //21
+    {H3,      QUARTER_NOTE + QUARTER_NOTE}, // 101
+    {H5,      QUARTER_NOTE + QUARTER_NOTE}, // 102
+    
+    //22
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 103
+    {H3,      TRIPLET_EIGHTH}, // 104
+    {H4,      TRIPLET_EIGHTH}, // 105
+    {H5,      TRIPLET_EIGHTH}, // 106
+    
+    //23
+    {H6,      EIGHTH_NOTE},   // 107
+    {H5,      SIXTEENTH_NOTE}, // 108
+    {H1,      SIXTEENTH_NOTE + QUARTER_NOTE}, // 109
+    {H1,      QUARTER_NOTE},  // 110
+    {H3,      SIXTEENTH_NOTE}, // 111
+    {H2,      SIXTEENTH_NOTE}, // 112
+    {H1,      SIXTEENTH_NOTE}, // 113
+    {H2,      SIXTEENTH_NOTE}, // 114
+    
+    //24
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 115
+    // === C段 END ===
+    
+    // === D段 START ===
+    {SILENCE, QUARTER_NOTE}, // 116
+    {SILENCE, EIGHTH_NOTE},  // 117
+    {M5,      EIGHTH_NOTE},  // 118
+    {M5,      QUARTER_NOTE}, // 119
+    {M5,      SIXTEENTH_NOTE}, // 120
+    {M5,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 121
+    {M6,      EIGHTH_NOTE},  // 122
+    
+    //26
+    {M5,      QUARTER_NOTE + DOTTED_QUARTER_NOTE}, // 123
+    {M5,      SIXTEENTH_NOTE}, // 124
+    {H2,      EIGHTH_NOTE},    // 125
+    {H2,      SIXTEENTH_NOTE}, // 126
+    {M7,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 127
+    {M5,      DOTTED_QUARTER_NOTE}, // 128
+    
+    //27
+    {H1,      QUARTER_NOTE + QUARTER_NOTE}, // 129
+    {M7,      EIGHTH_NOTE},   // 130
+    {H1,      SIXTEENTH_NOTE}, // 131
+    {M5,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 132
+    {M3,      EIGHTH_NOTE},   // 133
+    
+    //28
+    {M6,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 134
+    {SILENCE, EIGHTH_NOTE},  // 135
+    {M6,      EIGHTH_NOTE},  // 136
+    
+    //29
+    {M5,      QUARTER_NOTE}, // 137
+    {SILENCE, EIGHTH_NOTE},  // 138
+    {M5,      EIGHTH_NOTE},  // 139
+    {M5,      EIGHTH_NOTE},  // 140
+    {M5,      SIXTEENTH_NOTE}, // 141
+    {M5,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 142
+    {M6,      EIGHTH_NOTE},  // 143
+    
+    //30
+    {M5,      QUARTER_NOTE + DOTTED_QUARTER_NOTE}, // 144
+    {M5,      SIXTEENTH_NOTE}, // 145
+    {H2,      EIGHTH_NOTE},    // 146
+    {H2,      SIXTEENTH_NOTE}, // 147
+    {M7,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 148
+    {M5,      DOTTED_QUARTER_NOTE}, // 149
+    
+    //31
+    {H1,      QUARTER_NOTE + QUARTER_NOTE}, // 150
+    {M7,      EIGHTH_NOTE},   // 151
+    {H1,      SIXTEENTH_NOTE}, // 152
+    {M5,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 153
+    {M3,      EIGHTH_NOTE},   // 154
+    
+    //32
+    {M6,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 155
+    // === D段 END ===
+    
+    // === B段重复 START ===
+    {SILENCE, QUARTER_NOTE}, // 156
+    {M6,      EIGHTH_NOTE},  // 157
+    {M6,      SIXTEENTH_NOTE}, // 158
+    {M6,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 159
+    {M6,      SIXTEENTH_NOTE}, // 160
+    {M7,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 161
+    {H1,      DOTTED_QUARTER_NOTE}, // 162
+    
+    //10
+    {H1,      EIGHTH_NOTE},  // 163
+    {M7,      EIGHTH_NOTE},   // 164
+    {M6,      SIXTEENTH_NOTE}, // 165
+    {M5,      EIGHTH_NOTE},   // 166
+    {M6,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 167
+    
+    //11
+    {M7,      EIGHTH_NOTE},   // 168
+    {M7,      SIXTEENTH_NOTE}, // 169
+    {H3,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 170
+    {M6,      EIGHTH_NOTE + EIGHTH_NOTE}, // 171
+    {M5,      EIGHTH_NOTE},   // 172
+    
+    //12
+    {M6,      SIXTEENTH_NOTE}, // 173
+    {M7,      DOTTED_QUARTER_NOTE}, // 174
+    {SILENCE, EIGHTH_NOTE},    // 175
+    {H1,      SIXTEENTH_NOTE}, // 176
+    {H1,      SIXTEENTH_NOTE}, // 177
+    {M7,      EIGHTH_NOTE + DOTTED_HALF_NOTE}, // 178
+    
+    //13
+    {SILENCE, QUARTER_NOTE}, // 179
+    {M6,      EIGHTH_NOTE},  // 180
+    {M6,      SIXTEENTH_NOTE}, // 181
+    {M6,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 182
+    {M6,      SIXTEENTH_NOTE}, // 183
+    {M7,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 184
+    {H1,      DOTTED_QUARTER_NOTE}, // 185
+    
+    //14
+    {H1,      EIGHTH_NOTE},  // 186
+    {M7,      EIGHTH_NOTE},   // 187
+    {M6,      SIXTEENTH_NOTE}, // 188
+    {M5,      EIGHTH_NOTE},   // 189
+    {M6,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 190
+    
+    //15
+    {SILENCE, QUARTER_NOTE}, // 191
+    {M7,      EIGHTH_NOTE},  // 192
+    {M7,      SIXTEENTH_NOTE}, // 193
+    {H3,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 194
+    {M7,      SIXTEENTH_NOTE}, // 195
+    {M6,      SIXTEENTH_NOTE + EIGHTH_NOTE}, // 196
+    {M5,      EIGHTH_NOTE},   // 197
+    
+    //16
+    {M6,      SIXTEENTH_NOTE}, // 198
+    {H1,      EIGHTH_NOTE + QUARTER_NOTE}, // 199
+    {M3,      SIXTEENTH_NOTE}, // 200
+    {H2,      QUARTER_NOTE + QUARTER_NOTE}, // 201
+    // === B段重复 END ===
+    
+    // === C段重复 START ===
+    {H3,      QUARTER_NOTE + QUARTER_NOTE}, // 202
+    {H5,      QUARTER_NOTE + QUARTER_NOTE}, // 203
+    
+    //18
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 204
+    {H3,      TRIPLET_EIGHTH}, // 205
+    {H4,      TRIPLET_EIGHTH}, // 206
+    {H5,      TRIPLET_EIGHTH}, // 207
+    
+    //19
+    {H6,      EIGHTH_NOTE},   // 208
+    {H5,      SIXTEENTH_NOTE}, // 209
+    {H1,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 210
+    {M6,      SIXTEENTH_NOTE}, // 211
+    {H1,      SIXTEENTH_NOTE}, // 212
+    {M6,      SIXTEENTH_NOTE}, // 213
+    {H3,      SIXTEENTH_NOTE}, // 214
+    
+    //20
+    {H3,      QUARTER_NOTE + EIGHTH_NOTE}, // 215
+    {M6,      SIXTEENTH_NOTE}, // 216
+    {H1,      SIXTEENTH_NOTE}, // 217
+    {H2,      QUARTER_NOTE + QUARTER_NOTE}, // 218
+    
+    //21
+    {H3,      QUARTER_NOTE + QUARTER_NOTE}, // 219
+    {H5,      QUARTER_NOTE + QUARTER_NOTE}, // 220
+    
+    //22
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 221
+    {H3,      TRIPLET_EIGHTH}, // 222
+    {H4,      TRIPLET_EIGHTH}, // 223
+    {H5,      TRIPLET_EIGHTH}, // 224
+    
+    //23
+    {H6,      EIGHTH_NOTE},   // 225
+    {H5,      SIXTEENTH_NOTE}, // 226
+    {H1,      SIXTEENTH_NOTE + QUARTER_NOTE}, // 227
+    {H1,      QUARTER_NOTE},  // 228
+    {H3,      SIXTEENTH_NOTE}, // 229
+    {H2,      SIXTEENTH_NOTE}, // 230
+    {H1,      SIXTEENTH_NOTE}, // 231
+    {H2,      SIXTEENTH_NOTE}, // 232
+    
+    //24
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 233
+    // === C段重复 END ===
+    
+    // === E段 START ===
+    {SILENCE, QUARTER_NOTE}, // 234
+    {SILENCE, SIXTEENTH_NOTE}, // 235
+    {M5,      SIXTEENTH_NOTE}, // 236
+    {H2,      SIXTEENTH_NOTE}, // 237
+    {H1,      SIXTEENTH_NOTE}, // 238
+    {H2,      EIGHTH_NOTE},   // 239
+    {H1,      SIXTEENTH_NOTE}, // 240
+    {H2,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 241
+    {H3,      DOTTED_QUARTER_NOTE}, // 242
+    
+    //34
+    {M6,      EIGHTH_NOTE},   // 243
+    {M6,      EIGHTH_NOTE + EIGHTH_NOTE}, // 244
+    {H1,      EIGHTH_NOTE + QUARTER_NOTE}, // 245
+    {H3,      SIXTEENTH_NOTE}, // 246
+    {H2,      SIXTEENTH_NOTE}, // 247
+    {H1,      SIXTEENTH_NOTE}, // 248
+    {H2,      SIXTEENTH_NOTE}, // 249
+    
+    //35
+    {H2,      EIGHTH_NOTE},   // 250
+    {H3,      EIGHTH_NOTE},   // 251
+    {SILENCE, SIXTEENTH_NOTE}, // 252
+    {M3,      SIXTEENTH_NOTE}, // 253
+    {H2,      SIXTEENTH_NOTE}, // 254
+    {H1,      SIXTEENTH_NOTE}, // 255
+    {H2,      EIGHTH_NOTE},   // 256
+    {H1,      SIXTEENTH_NOTE}, // 257
+    {H2,      SIXTEENTH_NOTE + SIXTEENTH_NOTE}, // 258
+    {H3,      DOTTED_QUARTER_NOTE}, // 259
+    
+    //36
+    {H6,      DOTTED_HALF_NOTE}, // 260
+    {H6,      EIGHTH_NOTE},    // 261
+    {H5,      QUARTER_NOTE},  // 262
+    {H2,      EIGHTH_NOTE},   // 263
+    {H3,      SIXTEENTH_NOTE}, // 264
+    {M6,      SIXTEENTH_NOTE | SLUR}, // 265
+    
+    //37
+    {M6,      EIGHTH_NOTE},   // 266
+    {M6,      QUARTER_NOTE},  // 267
+    {M6,      EIGHTH_NOTE},   // 268
+    {M5,      QUARTER_NOTE},  // 269
+    {H3,      SIXTEENTH_NOTE}, // 270
+    {H2,      SIXTEENTH_NOTE}, // 271
+    {H1,      SIXTEENTH_NOTE}, // 272
+    {H2,      SIXTEENTH_NOTE | SLUR}, // 273
+    
+    //38
+    {H2,      EIGHTH_NOTE},   // 274
+    {H3,      EIGHTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 275
+    {M6,      SIXTEENTH_NOTE}, // 276
+    {H1,      SIXTEENTH_NOTE}, // 277
+    {M6,      SIXTEENTH_NOTE}, // 278
+    {H1,      SIXTEENTH_NOTE | SLUR}, // 279
+    
+    //39
+    {H1,      SIXTEENTH_NOTE}, // 280
+    {M6,      SIXTEENTH_NOTE}, // 281
+    {M5,      EIGHTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 282
+    // === E段 END ===
+    
+    // === C段再次重复 START ===
+    {H3,      QUARTER_NOTE + QUARTER_NOTE}, // 283
+    {H5,      QUARTER_NOTE + QUARTER_NOTE}, // 284
+    
+    //18
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 285
+    {H3,      TRIPLET_EIGHTH}, // 286
+    {H4,      TRIPLET_EIGHTH}, // 287
+    {H5,      TRIPLET_EIGHTH}, // 288
+    
+    //19
+    {H6,      EIGHTH_NOTE},   // 289
+    {H5,      SIXTEENTH_NOTE}, // 290
+    {H1,      SIXTEENTH_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 291
+    {M6,      SIXTEENTH_NOTE}, // 292
+    {H1,      SIXTEENTH_NOTE}, // 293
+    {M6,      SIXTEENTH_NOTE}, // 294
+    {H3,      SIXTEENTH_NOTE}, // 295
+    
+    //20
+    {H3,      QUARTER_NOTE + EIGHTH_NOTE}, // 296
+    {M6,      SIXTEENTH_NOTE}, // 297
+    {H1,      SIXTEENTH_NOTE}, // 298
+    {H2,      QUARTER_NOTE + QUARTER_NOTE}, // 299
+    
+    //21
+    {H3,      QUARTER_NOTE + QUARTER_NOTE}, // 300
+    {H5,      QUARTER_NOTE + QUARTER_NOTE}, // 301
+    
+    //22
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 302
+    {H3,      TRIPLET_EIGHTH}, // 303
+    {H4,      TRIPLET_EIGHTH}, // 304
+    {H5,      TRIPLET_EIGHTH}, // 305
+    
+    //23
+    {H6,      EIGHTH_NOTE},   // 306
+    {H5,      SIXTEENTH_NOTE}, // 307
+    {H1,      SIXTEENTH_NOTE + QUARTER_NOTE}, // 308
+    {H1,      QUARTER_NOTE},  // 309
+    {H3,      SIXTEENTH_NOTE}, // 310
+    {H2,      SIXTEENTH_NOTE}, // 311
+    {H1,      SIXTEENTH_NOTE}, // 312
+    {H2,      SIXTEENTH_NOTE}, // 313
+    
+    //24
+    {H1,      QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE + QUARTER_NOTE}, // 314
+    // === C段再次重复 END ===
+    
+    // 结束标记
+    {END_MARKER,    0} // 315
+};

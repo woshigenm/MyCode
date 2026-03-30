@@ -1,0 +1,45 @@
+ASSUME CS:CODE,SS:STACK
+
+STACK SEGMENT
+    DB 16 DUP(0)
+STACK ENDS
+
+CODE SEGMENT
+START:
+    MOV AX, STACK
+    MOV SS, AX
+    MOV SP, 16
+    
+    MOV AX, 0B800H
+    MOV ES, AX
+    
+    MOV AH, 'A'
+S:  
+    MOV ES:[160*12+40*2], AH
+    CALL DELAY
+    INC AH
+    CMP AH, 'Z'
+    JNA S
+    
+    MOV AX, 04C00H
+    INT 21H
+    
+DELAY:
+    PUSH AX
+    PUSH DX
+    
+    MOV DX, 0002H
+    MOV AX, 0000H    
+S1:
+    SUB AX, 1H
+    SBB DX, 0
+    CMP AX, 0
+    JNE S1
+    CMP DX, 0
+    JNE S1
+    POP DX
+    POP AX
+    RET
+     
+CODE ENDS
+END START

@@ -1,0 +1,45 @@
+C51 COMPILER V9.60.7.0   TTP229                                                            09/10/2025 21:36:12 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE TTP229
+OBJECT MODULE PLACED IN .\Objects\TTP229.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE TTP229.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\TT
+                    -P229.lst) OBJECT(.\Objects\TTP229.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          sbit TTP229_SCL = P1^0;
+   4          sbit TTP229_SDO = P1^1;
+   5          
+   6          unsigned char TTP229_ReadByte(void)
+   7          {
+   8   1              unsigned char Data = 0x00, i;
+   9   1              
+  10   1              for(i = 1; i <= 8; i++)
+  11   1              {
+  12   2                      TTP229_SCL = 0;
+  13   2                      if(!TTP229_SDO)
+  14   2                      {
+  15   3                              Data = i;
+  16   3                      }
+  17   2                      TTP229_SCL = 1;
+  18   2              }
+  19   1              
+  20   1              return Data;
+  21   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     18    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

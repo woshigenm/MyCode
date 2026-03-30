@@ -1,0 +1,300 @@
+; .\Objects\main.SRC generated from: main.c
+; COMPILER INVOKED BY:
+;        D:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE PRINT(.\Listings\main.lst) TABS(2) PREPRINT(.\Listings\main.i) SRC(.\Objects\main.SRC)
+
+$NOMOD51
+
+NAME	MAIN
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+AC	BIT	0D0H.6
+T0	BIT	0B0H.4
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+T2	BIT	090H.0
+IE	DATA	0A8H
+P0_0	BIT	080H.0
+P1_0	BIT	090H.0
+P0_1	BIT	080H.1
+P2_0	BIT	0A0H.0
+P1_1	BIT	090H.1
+P0_2	BIT	080H.2
+P3_0	BIT	0B0H.0
+P2_1	BIT	0A0H.1
+P1_2	BIT	090H.2
+P0_3	BIT	080H.3
+P3_1	BIT	0B0H.1
+P2_2	BIT	0A0H.2
+P1_3	BIT	090H.3
+P0_4	BIT	080H.4
+P3_2	BIT	0B0H.2
+P2_3	BIT	0A0H.3
+P1_4	BIT	090H.4
+P0_5	BIT	080H.5
+EXF2	BIT	0C8H.6
+RD	BIT	0B0H.7
+P3_3	BIT	0B0H.3
+P2_4	BIT	0A0H.4
+P1_5	BIT	090H.5
+P0_6	BIT	080H.6
+P3_4	BIT	0B0H.4
+P2_5	BIT	0A0H.5
+P1_6	BIT	090H.6
+P0_7	BIT	080H.7
+P3_5	BIT	0B0H.5
+ES	BIT	0A8H.4
+P2_6	BIT	0A0H.6
+P1_7	BIT	090H.7
+P3_6	BIT	0B0H.6
+P2_7	BIT	0A0H.7
+IP	DATA	0B8H
+P3_7	BIT	0B0H.7
+RI	BIT	098H.0
+CY	BIT	0D0H.7
+INT0	BIT	0B0H.2
+INT1	BIT	0B0H.3
+TI	BIT	098H.1
+RCAP2H	DATA	0CBH
+PS	BIT	0B8H.4
+SP	DATA	081H
+T2EX	BIT	090H.1
+OV	BIT	0D0H.2
+RCAP2L	DATA	0CAH
+C_T2	BIT	0C8H.1
+WR	BIT	0B0H.6
+RCLK	BIT	0C8H.5
+TCLK	BIT	0C8H.4
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+CP_RL2	BIT	0C8H.0
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+TF2	BIT	0C8H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+EX1	BIT	0A8H.2
+TB8	BIT	098H.3
+IT1	BIT	088H.2
+TH2	DATA	0CDH
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+TL2	DATA	0CCH
+PT0	BIT	0B8H.1
+RS0	BIT	0D0H.3
+PT1	BIT	0B8H.3
+RS1	BIT	0D0H.4
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+TR1	BIT	088H.6
+TR2	BIT	0C8H.2
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+EXEN2	BIT	0C8H.3
+REN	BIT	098H.4
+T2MOD	DATA	0C9H
+T2CON	DATA	0C8H
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+F1	BIT	0D0H.1
+PSW	DATA	0D0H
+?PR?main?MAIN        SEGMENT CODE 
+?DT?main?MAIN        SEGMENT DATA OVERLAYABLE 
+?PR?_delay_ms?MAIN   SEGMENT CODE 
+	EXTRN	CODE (?C_STARTUP)
+	PUBLIC	_delay_ms
+	PUBLIC	main
+
+	RSEG  ?DT?main?MAIN
+?main?BYTE:
+          i?040:   DS   1
+; #include <REGX52.H>
+; #include <INTRINS.H>
+; 
+; // Declare delay function
+; void delay_ms(unsigned int ms);
+; 
+; void main()
+
+	RSEG  ?PR?main?MAIN
+main:
+	USING	0
+			; SOURCE LINE # 7
+; {
+			; SOURCE LINE # 8
+?C0001:
+;     unsigned char i;
+;     
+;     while(1)  // Add loop to repeat the effect
+			; SOURCE LINE # 11
+;     {
+			; SOURCE LINE # 12
+; 				P2 = 0xff;  // Initialize to all low
+			; SOURCE LINE # 13
+	MOV  	P2,#0FFH
+; 			
+;         for(i = 0; i < 8; i++)
+			; SOURCE LINE # 15
+	CLR  	A
+	MOV  	i?040,A
+?C0003:
+;         {
+			; SOURCE LINE # 16
+;             P2 &= ~(1 << i);  // Common cathode: set current bit high
+			; SOURCE LINE # 17
+	MOV  	R7,i?040
+	MOV  	R0,AR7
+	MOV  	A,#01H
+	INC  	R0
+	SJMP 	?C0018
+?C0017:
+	CLR  	C
+	RLC  	A
+?C0018:
+	DJNZ 	R0,?C0017
+; 					
+;             delay_ms(100);  // Delay 500ms for clear visual observation
+			; SOURCE LINE # 19
+	LCALL	L?0023
+;         }
+			; SOURCE LINE # 20
+	INC  	i?040
+	MOV  	A,i?040
+	CLR  	C
+	SUBB 	A,#08H
+	JC   	?C0003
+?C0004:
+;         
+; 				P2 = 0xff;
+			; SOURCE LINE # 22
+	MOV  	P2,#0FFH
+; 				
+;         // Pause after all LEDs are on, then reset
+;         delay_ms(1000);
+			; SOURCE LINE # 25
+	MOV  	R7,#0E8H
+	MOV  	R6,#03H
+	LCALL	_delay_ms
+;         
+; 				for(i = 7; i >= 0; i--)
+			; SOURCE LINE # 27
+	MOV  	i?040,#07H
+?C0006:
+; 				{
+			; SOURCE LINE # 28
+;             P2 &= ~(1 << i);  // Common cathode: set current bit high
+			; SOURCE LINE # 29
+	MOV  	R7,i?040
+	MOV  	R0,AR7
+	MOV  	A,#01H
+	INC  	R0
+	SJMP 	?C0020
+?C0019:
+	CLR  	C
+	RLC  	A
+?C0020:
+	DJNZ 	R0,?C0019
+; 					
+;             delay_ms(100);  // Delay 500ms for clear visual observation
+			; SOURCE LINE # 31
+	LCALL	L?0023
+;         }
+			; SOURCE LINE # 32
+	DEC  	i?040
+	MOV  	A,i?040
+	CLR  	C
+	SUBB 	A,#00H
+	JNC  	?C0006
+?C0007:
+; 				
+; 				delay_ms(1000);
+			; SOURCE LINE # 34
+	MOV  	R7,#0E8H
+	MOV  	R6,#03H
+	LCALL	_delay_ms
+;     }
+			; SOURCE LINE # 35
+	SJMP 	?C0001
+; END OF main
+
+; }
+; 
+; // More accurate millisecond delay function (based on 12MHz crystal oscillator)
+; void delay_ms(unsigned int ms)
+
+	RSEG  ?PR?_delay_ms?MAIN
+L?0023:
+	USING	0
+	CPL  	A
+	ANL  	P2,A
+	MOV  	R7,#064H
+	MOV  	R6,#00H
+_delay_ms:
+	USING	0
+			; SOURCE LINE # 39
+;---- Variable 'ms?141' assigned to Register 'R6/R7' ----
+; {
+			; SOURCE LINE # 40
+;     unsigned int i, j;
+;     for(i = 0; i < ms; i++)
+			; SOURCE LINE # 42
+;---- Variable 'i?142' assigned to Register 'R4/R5' ----
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R4,A
+?C0010:
+	CLR  	C
+	MOV  	A,R5
+	SUBB 	A,R7
+	MOV  	A,R4
+	SUBB 	A,R6
+	JNC  	?C0016
+;         for(j = 0; j < 112; j++);  // Approximately 1ms delay
+			; SOURCE LINE # 43
+;---- Variable 'j?143' assigned to Register 'R2/R3' ----
+	CLR  	A
+	MOV  	R3,A
+	MOV  	R2,A
+?C0013:
+	INC  	R3
+	CJNE 	R3,#00H,?C0021
+	INC  	R2
+?C0021:
+	MOV  	A,R3
+	XRL  	A,#070H
+	ORL  	A,R2
+	JNZ  	?C0013
+?C0012:
+	INC  	R5
+	CJNE 	R5,#00H,?C0022
+	INC  	R4
+?C0022:
+	SJMP 	?C0010
+; }			; SOURCE LINE # 44
+?C0016:
+	RET  	
+; END OF _delay_ms
+
+	END

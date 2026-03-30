@@ -1,0 +1,9 @@
+".\Objects\main.obj",
+".\Objects\Delay.obj",
+".\Objects\Key.obj",
+".\Objects\LCD1602.obj",
+".\Objects\STARTUP.obj",
+".\Objects\AT24C02.obj",
+".\Objects\IIC.obj" 
+TO ".\Objects\7-3AT24C02" 
+PRINT(".\Listings\7-3AT24C02.m51") RAMSIZE(256) 

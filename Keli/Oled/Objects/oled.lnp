@@ -1,0 +1,7 @@
+".\Objects\STARTUP.obj",
+".\Objects\delay.obj",
+".\Objects\main.obj",
+".\Objects\oled.obj",
+".\Objects\spi.obj" 
+TO ".\Objects\oled" 
+PRINT(".\Listings\oled.m51") RAMSIZE(256) 

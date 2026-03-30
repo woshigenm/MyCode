@@ -1,0 +1,40 @@
+ASSUME CS:CODESG,SS:STACK,DS:DATA
+
+DATA SEGMENT
+    DW 0123H,0456H,0789H,0ABCH,0DEFH,0FEDH,0CBAH,0987H
+DATA ENDS
+
+STACK SEGMENT
+    DW 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+STACK ENDS
+
+CODESG SEGMENT
+
+START:
+    MOV AX, DATA
+    MOV DS, AX 
+
+    MOV AX, STACK
+    MOV SS, AX
+
+    MOV SP, 30h
+
+    MOV CX, 8
+    MOV BX,0
+    S:
+        PUSH DS:[BX]
+        ADD BX, 2
+    LOOP S 
+        
+    MOV BX, 0
+    MOV CX, 8
+    S0:
+        POP DS:[BX]
+        ADD BX, 2
+    LOOP S0
+              
+    MOV AX, 04C00H
+    INT 21
+
+CODESG ENDS
+END START

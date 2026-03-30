@@ -1,0 +1,22 @@
+[
+  {
+    "directory": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐",
+    "file": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\Delay.c",
+    "command": "c51 -I D:\\Keil_v5\\C51\\INC -I D:\\Keil_v5\\C51\\INC\\Microchip -D__C51__ -D__VSCODE_C51__ -Dreentrant= -Dcompact= -Dsmall= -Dlarge= -Ddata= -Didata= -Dpdata= -Dbdata= -Dxdata= -Dcode= -Dbit=char -Dsbit=char -Dsfr=char -Dsfr16=int -Dsfr32=int -Dinterrupt= -Dusing= -D_at_= -D_priority_= -D_task_=  -c \"c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\Delay.c\""
+  },
+  {
+    "directory": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐",
+    "file": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\timer0.c",
+    "command": "c51 -I D:\\Keil_v5\\C51\\INC -I D:\\Keil_v5\\C51\\INC\\Microchip -D__C51__ -D__VSCODE_C51__ -Dreentrant= -Dcompact= -Dsmall= -Dlarge= -Ddata= -Didata= -Dpdata= -Dbdata= -Dxdata= -Dcode= -Dbit=char -Dsbit=char -Dsfr=char -Dsfr16=int -Dsfr32=int -Dinterrupt= -Dusing= -D_at_= -D_priority_= -D_task_=  -c \"c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\timer0.c\""
+  },
+  {
+    "directory": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐",
+    "file": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\main.c",
+    "command": "c51 -I D:\\Keil_v5\\C51\\INC -I D:\\Keil_v5\\C51\\INC\\Microchip -D__C51__ -D__VSCODE_C51__ -Dreentrant= -Dcompact= -Dsmall= -Dlarge= -Ddata= -Didata= -Dpdata= -Dbdata= -Dxdata= -Dcode= -Dbit=char -Dsbit=char -Dsfr=char -Dsfr16=int -Dsfr32=int -Dinterrupt= -Dusing= -D_at_= -D_priority_= -D_task_=  -c \"c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\main.c\""
+  },
+  {
+    "directory": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐",
+    "file": "c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\LCD1602.c",
+    "command": "c51 -I D:\\Keil_v5\\C51\\INC -I D:\\Keil_v5\\C51\\INC\\Microchip -D__C51__ -D__VSCODE_C51__ -Dreentrant= -Dcompact= -Dsmall= -Dlarge= -Ddata= -Didata= -Dpdata= -Dbdata= -Dxdata= -Dcode= -Dbit=char -Dsbit=char -Dsfr=char -Dsfr16=int -Dsfr32=int -Dinterrupt= -Dusing= -D_at_= -D_priority_= -D_task_=  -c \"c:\\Users\\ASUS\\Desktop\\keil\\5-1蜂鸣器放音乐\\LCD1602.c\""
+  }
+]

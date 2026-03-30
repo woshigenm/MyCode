@@ -1,0 +1,6 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\MatrixLed.obj",
+".\Objects\Delay.obj" 
+TO ".\Objects\6-1µ„’ÛLED" 
+PRINT(".\Listings\6-1µ„’ÛLED.m51") RAMSIZE(256) 
