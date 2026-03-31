@@ -6,6 +6,7 @@ typedef int ElemType;
 typedef enum {
 	ERROR, OK
 } Status;
+
 typedef struct Node {
 	ElemType data;
 	struct Node * next;
@@ -27,11 +28,13 @@ void ListPrint(LinkList  L);
 Status DestroyList(LinkList * L);
 //右移单链表
 Status RightList(LinkList L, int n);
-
+//右移单链表
 void RotateK(Node* head, int k);
+//右移单链表
+Status Roate(LinkList L, int j);
 
 int main() {
-	int array1[] = {1, 2, 3, 4, 5, 6};
+	int array1[] = {1, 2, 3, 4};
 	int SIZE = sizeof(array1) / sizeof(array1[0]);
 	LinkList L1, L2;
 	InitList(&L1);
@@ -42,17 +45,42 @@ int main() {
 		ListInsert(L2, i + 1, array1[i]);
 	}
 
-	RightList(L1, 5);
+	Roate(L1, 5);
 	ListPrint(L1);
-
-	RotateK(L2, 5);
+	RightList(L2, 5);
 	ListPrint(L2);
 
+	
 	DestroyList(&L1);
 	DestroyList(&L2);
 	return 0;
 }
 
+//向右旋转
+Status Roate(LinkList L, int j) {
+	if (L == NULL || L->next == NULL)	return ERROR;
+	int n = 1;
+	Node * tail = L->next;
+	while (tail->next) {
+		tail = tail->next;
+		n++;
+	}
+
+	int movement = j % n;
+	if (movement == 0)	return OK;
+	movement = n - movement;
+	tail->next = L->next;
+
+	while (movement--) {
+		tail = tail->next;
+	}
+
+	L->next = tail->next;
+	tail->next = NULL;
+	return OK;
+}
+
+//向右旋转
 Status RightList(LinkList L, int n) {
 	if (L == NULL || L->next == NULL)	return ERROR;
 
@@ -60,7 +88,7 @@ Status RightList(LinkList L, int n) {
 	fast = L->next;
 	slow = L->next;
 	int len = n % ListLength(L);
-	if (len == 0) return OK;  // 重要：处理k为0或len倍数的情况
+	if (len == 0) return OK;
 	for (int i = 0; i < len && fast; ++i) {
 		fast = fast->next;
 	}
@@ -73,10 +101,10 @@ Status RightList(LinkList L, int n) {
 	fast->next = L->next;
 	L->next = slow->next;
 	slow->next = NULL;
-
 	return OK;
 }
 
+//向右旋转
 void RotateK(Node* head, int k) {
 	if (head == NULL || head->next == NULL) {
 		return;

@@ -6,56 +6,34 @@ typedef int ElemType;
 typedef enum {
 	OK, ERROR
 } Status;
+
 typedef struct Node {
 	ElemType data;
 	struct Node * next;
 } Node, *LinkList;
 
-//初始化单链表
 Status InitList(LinkList * L);
-//单链表位序取值
 Status GetElem(LinkList L, int i, ElemType * e);
-//单链表位序取结点
 Status GetElemAd(LinkList L, int i, Node ** e);
-//单链表查找 e 值
 Status LocateElem(LinkList L, ElemType e, Node ** ep);
-//单链表位序 i 插入 e 值， n 个元素 1 <= i <= n + 1, i = n + 1 时为尾插
 Status ListInsert(LinkList L, int i, ElemType e);
-//单链表位序 i 删除，返回删除值到e， n 个元素 1 <= i <= n
 Status ListDelete(LinkList L, int i, ElemType * e);
-//前插法建立链表
 Status CreateList_H(LinkList * L, int n);
-//后插法建立链表
 Status CreateList_R(LinkList * L, int n);
-//返回单链表长度
 int ListLength(LinkList L);
-//返回单链表是否为空表
 bool ListEmpty(LinkList L);
-//遍历单链表
 void ListPrint(LinkList  L);
-//查找cur_e 前驱结点，返回 pre_e
 Status PriorElem(LinkList L, ElemType cur_e, Node ** pre_e);
-//查找cur_e 的后驱结点，返回 next_e
 Status NextElem(LinkList L, ElemType cur_e, Node ** next_e);
-//重置线性表为空表
 Status ClearList(LinkList L);
-//销毁线性表
 Status DestroyList(LinkList * L);
-//在第i个结点之前插入以cur_e为值的结点
 Status PriorInsert(LinkList L, int i, ElemType cur_e);
-//在第i个结点之后插入以cur_e为值的结点
 Status NextInsert(LinkList L, int i, ElemType cur_e);
-//逆转单链表
 Status ReverseList(LinkList L);
-//合并两个单链表
 Status MergeList(LinkList L1, LinkList L2);
-//单链表向右旋转 k 个位置
 Status RightRotate(LinkList L, int n);
-//判断链表是否有环
 bool HasCycle(LinkList L);
-//返回环的入点
 Node * FindCycle(LinkList L);
-//解除环
 Status HandleCycle(LinkList L);
 
 // 辅助函数：打印测试结果
@@ -114,7 +92,6 @@ Status CreateCycleList(LinkList *L, int n, bool hasCycle) {
 	return OK;
 }
 
-//主测试函数
 int main() {
 	printf("=======================\n");
 	printf("链表功能全面测试\n");
@@ -664,7 +641,6 @@ void ListPrint(LinkList  L) {
 
 	Node * cur = L->next;
 	while (cur) {
-		//printf("%d -> %p\n", cur->data, cur);
 		printf("%d ", cur->data);
 		cur = cur->next;
 	}
@@ -695,7 +671,7 @@ Status PriorElem(LinkList L, ElemType cur_e, Node ** pre_e) {
 		pre = cur;
 		cur = cur->next;
 	}
-	if (!cur)	return ERROR;  // 未找到cur_e
+	if (NULL == cur)	return ERROR;
 	*pre_e = pre;
 	return OK;
 }
@@ -846,7 +822,6 @@ bool HasCycle(LinkList L) {
 	while (fast && fast->next) {
 		slow = slow->next;
 		fast = fast->next->next;
-		//fast = fast->next;
 		if (fast == slow)    return true;
 	}
 
@@ -860,18 +835,18 @@ Node * FindCycle(LinkList L) {
 	while (fast && fast->next) {
 		slow = slow->next;
 		fast = fast->next->next;
-		if (fast == slow)    break;
+		if (fast == slow) {
+			slow = L;
+			while (slow != fast) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+
+			return slow;
+		}
 	}
 
-	if (NULL == fast || NULL == fast->next) return NULL;
-
-	slow = L;
-	while (slow != fast) {
-		slow = slow->next;
-		fast = fast->next;
-	}
-
-	return slow;
+	return NULL;
 }
 
 //解除环
@@ -881,19 +856,18 @@ Status HandleCycle(LinkList L) {
 	while (fast && fast->next) {
 		slow = slow->next;
 		fast = fast->next->next;
-		if (fast == slow)    break;
+		if (fast == slow) {
+			slow = L;
+			while (slow->next != fast->next) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+
+			fast->next = NULL;
+			return OK;
+		}
 	}
 
-	if (NULL == fast || NULL == fast->next) return ERROR;
-
-	slow = L;
-	while (slow->next != fast->next) {
-		slow = slow->next;
-		fast = fast->next;
-	}
-
-	fast->next = NULL;
-
-	return OK;
+	return ERROR;
 }
 
