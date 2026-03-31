@@ -9,25 +9,86 @@ typedef enum {
 
 typedef struct Node {
 	ElemType data;
-	struct Node * rear;
+	struct Node * next;
 } Node, *LinkList;
 
+Status InitList(LinkList * L);
+Status ListInsert(LinkList L, int i, ElemType e);
+bool IsEmpty(LinkList L);
+Status ListDelete(LinkList L, int i, ElemType * e);
+int ListLength(LinkList L);
+void ListPrint(LinkList  L);
+Status ClearList(LinkList L);
+Status DestroyList(LinkList * L);
+
+int main() {
+	LinkList L;
+	ElemType e;
+
+	printf("测试1：初始化\n");
+	InitList(&L);
+	ListPrint(L);
+	printf("长度：%d\n\n", ListLength(L));
+
+	printf("测试2：插入\n");
+	ListInsert(L, 1, 10);
+	ListInsert(L, 2, 20);
+	ListInsert(L, 2, 15);
+	ListInsert(L, 4, 25);
+	printf("长度：%d\n", ListLength(L));
+	ListPrint(L);
+
+	printf("测试3：非法插入\n");
+	if (ListInsert(L, 10, 99) == ERROR)
+		printf("插入失败\n\n");
+
+	printf("测试4：删除\n");
+	ListDelete(L, 1, &e);
+	printf("删除：%d\n", e);
+	ListDelete(L, 3, &e);
+	printf("删除：%d\n", e);
+	ListDelete(L, 2, &e);
+	printf("删除：%d\n", e);
+	printf("长度：%d\n", ListLength(L));
+	ListPrint(L);
+
+	printf("测试5：非法删除\n");
+	if (ListDelete(L, 2, &e) == ERROR)
+		printf("删除失败\n\n");
+
+	printf("测试6：清空\n");
+	ListInsert(L, 1, 100);
+	ListInsert(L, 2, 200);
+	ListPrint(L);
+	ClearList(L);
+	ListPrint(L);
+	printf("长度：%d\n\n", ListLength(L));
+
+	printf("测试7：销毁\n");
+	DestroyList(&L);
+	if (NULL == L)
+		printf("销毁成功\n");
+
+	return 0;
+}
+
+//初始化循环单链表
 Status InitList(LinkList * L) {
-	if (L == NULL)	return ERROR;
+	if (NULL == L)	return ERROR;
 	*L = (LinkList)malloc(sizeof(Node));
-	if (*L == NULL)	return ERROR;
-	(*L)->rear = *L;
+	if (NULL == *L)	return ERROR;
+	(*L)->next = *L;
 	return OK;
 }
 
-//单链表位序 i 插入 e 值， n 个元素 1 <= i <= n + 1, i = n + 1 时为尾插
+//单链表位序 i 插入 e 值, n 个元素 1 <= i <= n + 1, i = n + 1 时为尾插
 Status ListInsert(LinkList L, int i, ElemType e) {
-	if (L == NULL)	return ERROR;
+	if (NULL == L)	return ERROR;
 
 	int j = 0;
 	Node * cur = L;
-	while (j < i - 1 && cur->rear != L) {
-		cur = cur->rear;
+	while (j < i - 1 && cur->next != L) {
+		cur = cur->next;
 		++j;
 	}
 
@@ -36,39 +97,41 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 	Node * NewNode = (Node *)malloc(sizeof(Node));
 	if (NULL == NewNode)	return ERROR;
 	NewNode->data = e;
-	NewNode->rear = cur->rear;
-	cur->rear = NewNode;
+	NewNode->next = cur->next;
+	cur->next = NewNode;
 	return OK;
 }
 
+//循环单链表是否为空
 bool IsEmpty(LinkList L) {
-	if (L == NULL)	return true;
-	return L->rear == L;
+	if (NULL == L)	return true;
+	return L->next == L;
 }
 
 //单链表位序 i 删除，返回删除值到e， n 个元素 1 <= i <= n
 Status ListDelete(LinkList L, int i, ElemType * e) {
-	if (L == NULL || IsEmpty(L))	return ERROR;
+	if (NULL == L || IsEmpty(L))	return ERROR;
 	int j = 0;
 	Node * cur = L;
-	while (j < i - 1 && cur->rear != L) {
-		cur = cur->rear;
+	while (j < i - 1 && cur->next != L) {
+		cur = cur->next;
 		++j;
 	}
-	if (cur->rear == L || j > i - 1)	return ERROR;
-	Node * p = cur->rear;
-	*e = p->data;
-	cur->rear = p->rear;
-	free(p);
+	if (cur->next == L || j > i - 1)	return ERROR;
+	Node * tmp = cur->next;
+	*e = tmp->data;
+	cur->next = tmp->next;
+	free(tmp);
 	return OK;
 }
 
+//返回循环单链表长度
 int ListLength(LinkList L) {
 	if (NULL == L)	return 0;
-	Node * cur = L->rear;
+	Node * cur = L->next;
 	int j = 0;
 	while (cur != L) {
-		cur = cur->rear;
+		cur = cur->next;
 		++j;
 	}
 	return j;
@@ -86,58 +149,37 @@ void ListPrint(LinkList  L) {
 		return;
 	}
 
-	Node * cur = L->rear;
+	Node * cur = L->next;
 	while (cur != L) {
-		printf("%d -> %p\n", cur->data, cur);
-		cur = cur->rear;
+		printf("%d \n", cur->data);
+		cur = cur->next;
 	}
 	putchar('\n');
 }
 
-Status DestroyList(LinkList * L) {
-	if (*L == NULL || L == NULL)	return ERROR;
-	Node * cur = (*L)->rear, *p;
-	while (cur->rear != *L) {
-		p = cur->rear;
+//清空循环单链表
+Status ClearList(LinkList L) {
+	if (NULL == L)	return ERROR;
+	Node * cur = L->next, *tmp;
+	while (cur != L) {
+		tmp = cur->next;
 		free(cur);
-		cur = p;
+		cur = tmp;
+	}
+	L->next = L;
+	return OK;
+}
+
+//销毁循环单链表
+Status DestroyList(LinkList * L) {
+	if (NULL == *L || NULL == L)	return ERROR;
+	Node * cur = (*L)->next, *tmp;
+	while (cur != *L) {
+		tmp = cur->next;
+		free(cur);
+		cur = tmp;
 	}
 	free(*L);
 	*L = NULL;
 	return OK;
-}
-
-int main() {
-	LinkList L;
-	ElemType e;
-
-	// 1. 初始化链表
-	if (InitList(&L) == OK) {
-		printf("链表初始化成功！\n");
-	}
-
-	// 2. 插入节点（测试头插、中间插、尾插）
-	ListInsert(L, 1, 10);  // 第1位插入10（头插）
-	ListInsert(L, 2, 20);  // 第2位插入20（尾插）
-	ListInsert(L, 2, 15);  // 第2位插入15（中间插）
-	printf("插入后链表长度：%d\n", ListLength(L));  // 预期：3
-	ListPrint(L);          // 预期：10 -> 15 -> 20
-
-	// 3. 删除节点（测试头删、中间删、尾删）
-	ListDelete(L, 1, &e);  // 删除第1位，e=10
-	printf("删除的值：%d\n", e);
-	ListDelete(L, 2, &e);  // 删除第2位（原20），e=20
-	printf("删除的值：%d\n", e);
-	printf("删除后链表长度：%d\n", ListLength(L));  // 预期：1
-	ListPrint(L);          // 预期：15
-
-	// 4. 测试删除不存在的位置
-	if (ListDelete(L, 2, &e) == ERROR) {
-		printf("删除失败：位置超出范围\n");
-	}
-
-	// 5. 清空后打印
-	ListDelete(L, 1, &e);
-	ListPrint(L);          // 预期：链表为空
-	return 0;
 }

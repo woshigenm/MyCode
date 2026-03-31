@@ -13,56 +13,14 @@ typedef struct QueueNode {
 	int front, rear;
 } QueueNode, SqQueue;
 
-Status InitQueue(SqQueue * Q) {
-	if (Q == NULL)	return ERROR;
-	Q->front = Q->rear = 0;
-	return OK;
-}
-
-bool IsEmpty(SqQueue * Q) {
-	return Q == NULL || Q->front == Q->rear;
-}
-
-bool IsFull(SqQueue * Q) {
-	return Q == NULL || (Q->rear + 1) % MAXSIZE == Q->front;
-}
-
-Status EnQueue(SqQueue * Q, Elemtype e) {
-	if (Q == NULL || IsFull(Q))	return ERROR;
-	Q->data[Q->rear] = e;
-	Q->rear = (Q->rear + 1) % MAXSIZE;
-	return OK;
-}
-
-Status DeQueue(SqQueue * Q, Elemtype * e) {
-	if (Q == NULL || IsEmpty(Q))	return ERROR;
-	*e = Q->data[Q->front];
-	Q->front = (Q->front + 1) % MAXSIZE;
-	return OK;
-}
-
-int QueueLength(SqQueue * Q) {
-	return Q == NULL ? 0 : (Q->rear - Q->front + MAXSIZE) % MAXSIZE;
-}
-
-void Print(SqQueue * Q) {
-	if (Q == NULL || IsEmpty(Q))	{
-		printf("队列为空\n");
-		return;
-	}
-
-	for (int i = 1, j = Q->front; i <= QueueLength(Q); i++, j = (j + 1) % MAXSIZE) {
-		printf("%d ", Q->data[j]);
-	}
-
-	putchar('\n');
-}
-
-Status GetFront(SqQueue * Q, Elemtype * e) {
-	if (Q == NULL)	return ERROR;
-	*e = Q->data[Q->front];
-	return OK;
-}
+Status InitQueue(SqQueue * Q);
+bool IsEmpty(SqQueue * Q);
+bool IsFull(SqQueue * Q);
+Status EnQueue(SqQueue * Q, Elemtype e);
+Status DeQueue(SqQueue * Q, Elemtype * e);
+int QueueLength(SqQueue * Q);
+void Print(SqQueue * Q);
+Status GetFront(SqQueue * Q, Elemtype * e);
 
 int main() {
 	SqQueue Q;
@@ -86,5 +44,69 @@ int main() {
 	printf("队列长度为: %d\n", QueueLength(&Q));
 	Print(&Q);
 	return 0;
+}
+
+//初始化循环队列
+Status InitQueue(SqQueue * Q) {
+	if (NULL == Q)	return ERROR;
+	Q->front = Q->rear = 0;
+	return OK;
+}
+
+//判断循环队列是否为空
+bool IsEmpty(SqQueue * Q) {
+	return NULL == Q || Q->front == Q->rear;
+}
+
+//判断循环队列是否为满
+bool IsFull(SqQueue * Q) {
+	return NULL == Q || (Q->rear + 1) % MAXSIZE == Q->front;
+}
+
+//循环队列入队
+Status EnQueue(SqQueue * Q, Elemtype e) {
+	if (NULL == Q || IsFull(Q))	return ERROR;
+	Q->data[Q->rear] = e;
+	Q->rear = (Q->rear + 1) % MAXSIZE;
+	return OK;
+}
+
+//循环队列出队
+Status DeQueue(SqQueue * Q, Elemtype * e) {
+	if (NULL == Q || IsEmpty(Q))	return ERROR;
+	*e = Q->data[Q->front];
+	Q->front = (Q->front + 1) % MAXSIZE;
+	return OK;
+}
+
+//返回循环队列长度
+int QueueLength(SqQueue * Q) {
+	return NULL == Q ? 0 : (Q->rear - Q->front + MAXSIZE) % MAXSIZE;
+}
+
+//打印循环队列元素
+void Print(SqQueue * Q) {
+	if (NULL == Q) {
+		printf("队列未初始化\n");
+		return;
+	}
+
+	if (IsEmpty(Q))	{
+		printf("队列为空\n");
+		return;
+	}
+
+	for (int j = Q->front; j != Q->rear; j = (j + 1) % MAXSIZE) {
+		printf("%d ", Q->data[j]);
+	}
+
+	putchar('\n');
+}
+
+//返回队头元素
+Status GetFront(SqQueue * Q, Elemtype * e) {
+	if (NULL == Q)	return ERROR;
+	*e = Q->data[Q->front];
+	return OK;
 }
 
