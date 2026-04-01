@@ -7,27 +7,23 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	char arr[SIZE];
 	gets(arr);
-	
+
 	int sum = 0;
-	
-	for(int i = 0; arr[i] != '\0'; i++)
-	{
-		if(arr[i] >= '0' && arr[i] <= '9')
-		{
+
+	for (int i = 0; arr[i] != '\0'; i++) {
+		if (arr[i] >= '0' && arr[i] <= '9') {
 			sum = sum * 10 + (arr[i] - '0');
 		}
-		
-		if(sum / 10000 != 0)
-		{
+
+		if (sum / 10000 != 0) {
 			break;
 		}
 	}
-	
+
 	printf("m = %d\n", sum);
-	
+
 	return 0;
 }

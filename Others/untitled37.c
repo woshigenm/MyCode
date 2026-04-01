@@ -3,13 +3,11 @@
 
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	float score;
 	scanf("%f", &score);
 
-	switch ((int)score / 10)
-	{
+	switch ((int)score / 10) {
 		case 1:
 		case 2:
 		case 3:

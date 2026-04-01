@@ -6,20 +6,17 @@
 
 #define FANXIAOCHAO 5
 
-int main()
-{
+int main() {
 	char input;
 	input = getchar();
-	
-	if((input >= 'A' && input <= 'Z' - FANXIAOCHAO) || (input >= 'a' && input <= 'z' - FANXIAOCHAO))
-	{
+
+	if ((input >= 'A' && input <= 'Z' - FANXIAOCHAO) || (input >= 'a' && input <= 'z' - FANXIAOCHAO)) {
 		input += FANXIAOCHAO;
-	}else if((input >= 'Z' - FANXIAOCHAO && input <= 'Z') || (input >= 'z' - FANXIAOCHAO && input <= 'z'))
-	{
+	} else if ((input >= 'Z' - FANXIAOCHAO && input <= 'Z') || (input >= 'z' - FANXIAOCHAO && input <= 'z')) {
 		input -= SIZE - FANXIAOCHAO;
 	}
-	
+
 	putchar(input);
-	
+
 	return 0;
 }

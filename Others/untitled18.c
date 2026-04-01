@@ -4,22 +4,18 @@
 
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	int n;
 	scanf("%d", &n);
-	
+
 	int i, j;
-	
+
 	int counter = 0;
-	
-	for(i = 1; i <= n; i++)
-	{
-		for(j = 0; j <= n; j++)
-		{
-			
-			if(i != j)
-			{
+
+	for (i = 1; i <= n; i++) {
+		for (j = 0; j <= n; j++) {
+
+			if (i != j) {
 				printf("%d ", i * 10 + j);
 				counter++;
 			}

@@ -54,13 +54,13 @@ void swap(int * x, int * y) {
 
 int gcd(int x, int y) {
 	//gcd(x, 0) = x
-	if(y == 0)	return x;
+	if (y == 0)	return x;
 	return (x % y) != 0 ? gcd(y, x % y) : y;
 }
 
 int gcd1(int x, int y) {
 	int z;
-	while(z = x % y) {
+	while (z = x % y) {
 		x = y;
 		y = z;
 	}
@@ -69,8 +69,8 @@ int gcd1(int x, int y) {
 }
 
 int gcd2(int x, int y) {
-	while(x != y) {
-		if(x > y) {
+	while (x != y) {
+		if (x > y) {
 			x = x - y;
 		} else {
 			y = x - y;
@@ -81,25 +81,25 @@ int gcd2(int x, int y) {
 }
 
 int gcd3(int x, int y) {
-	if(x < y)	swap(&x, &y);
+	if (x < y)	swap(&x, &y);
 	//gcd(x, 0) = x
-	if(y == 0)	return x;
+	if (y == 0)	return x;
 	//x为最大
 	return (x != y) ? gcd3(y, x - y) : x;
 }
 
 int gcd4(int x, int y) {
 	int i;
-	for(i = (x > y) ? y : x; i >= 1; i--) {
-		if(x % i == 0 && y % i == 0) {
+	for (i = (x > y) ? y : x; i >= 1; i--) {
+		if (x % i == 0 && y % i == 0) {
 			return i;
 		}
 	}
 }
 
 int lcm(int x, int y) {
-	for(int i = (x > y) ? x : y; i <= x * y; i++) {
-		if(i % x == 0 && i % y == 0) {
+	for (int i = (x > y) ? x : y; i <= x * y; i++) {
+		if (i % x == 0 && i % y == 0) {
 			return i;
 		}
 	}

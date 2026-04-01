@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	float i;
 	scanf("%f", &i);
 	float max, sum = i;
@@ -9,11 +8,9 @@ int main()
 
 	max = i;
 
-	while(i != -1.0)
-	{
+	while (i != -1.0) {
 		scanf("%f", &i);
-		if(i > max)
-		{
+		if (i > max) {
 			max = i;
 		}
 

@@ -8,19 +8,17 @@
 int main() {
 	int i, j;
 	int k = 10;
-	
+
 	printf("100到200的回文数有");
-	for(i = 100; i <= 200; i++) {
+	for (i = 100; i <= 200; i++) {
 		int m = i;
 		int sum = 0;
-		while(m)
-		{
+		while (m) {
 			sum = sum * 10 + m % 10;
 			m /= 10;
 		}
-		
-		if(sum == i)
-		{
+
+		if (sum == i) {
 			printf("%d ", i);
 		}
 	}

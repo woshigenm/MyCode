@@ -50,12 +50,12 @@ void test_2() {
 
 		if (x == array[mid])
 			break;
-		
+
 		if (x < array[mid])
 			high = mid - 1;
 	}
-	
-	if(low > high)
+
+	if (low > high)
 		printf("-1\n");
 	else
 		printf("%d\n", mid);

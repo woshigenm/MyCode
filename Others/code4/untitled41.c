@@ -4,30 +4,25 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	int i, j, sum, k = 0;
 
 	int array[SIZE];
 
-	for(i = 1; i <= 200; i++)
-	{
+	for (i = 1; i <= 200; i++) {
 		sum = 0;
 		j = i;
-		while(j)
-		{
+		while (j) {
 			sum += j % 10;
 			j /= 10;
 		}
 
-		if(sum == 10)
-		{
+		if (sum == 10) {
 			array[k++] = i;
 		}
 	}
 
-	for(i = 0; i < k; i++)
-	{
+	for (i = 0; i < k; i++) {
 		printf("%d ", array[i]);
 	}
 

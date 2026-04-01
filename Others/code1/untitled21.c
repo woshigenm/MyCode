@@ -2,29 +2,24 @@
 
 #define ON 0
 
-int main()
-{
+int main() {
 	int array[] = {-1, 1, 2, 23, 45, 123, 456, 512, 345};
 
 	int size = sizeof(array) / sizeof(array[0]);
 
 	int i, j, k;
-	for(i = 0; i < size - 1; i++)
-	{
+	for (i = 0; i < size - 1; i++) {
 		k = i;
-		for(j = i + 1; j < size; j++)
-		{
-			#if ON == 1
-			if(array[j] > array[k])
-			{
+		for (j = i + 1; j < size; j++) {
+#if ON == 1
+			if (array[j] > array[k]) {
 				k = j;
 			}
-			#else
-			if(array[j] < array[k])
-			{
+#else
+			if (array[j] < array[k]) {
 				k = j;
 			}
-			#endif
+#endif
 		}
 
 		int tmp = array[i];
@@ -32,8 +27,7 @@ int main()
 		array[k] = tmp;
 	}
 
-	for(i = 0; i < size; i++)
-	{
+	for (i = 0; i < size; i++) {
 		printf("%d ", array[i]);
 	}
 
@@ -47,44 +41,37 @@ int main()
 
 	scanf("%d", &target);
 
-	while(start <= end)
-	{
+	while (start <= end) {
 		mid = (start + end) / 2;
 
-		if(array[mid] == target)
-		{
+		if (array[mid] == target) {
 			break;
 		}
 
 
-		if(array[mid] > target)
-		{
+		if (array[mid] > target) {
 
 
-			#if ON == 1
+#if ON == 1
 			start = mid + 1;
-			#else
+#else
 			end = mid - 1;
-			#endif
+#endif
 		}
 
-		if(array[mid] < target)
-		{
-			#if ON == 1
+		if (array[mid] < target) {
+#if ON == 1
 			end = mid - 1;
-			#else
+#else
 			start = mid + 1;
-			#endif
+#endif
 
 		}
 	}
 
-	if(start > end)
-	{
+	if (start > end) {
 		printf("没找到\n");
-	}
-	else
-	{
+	} else {
 		printf("%d找到了在%d\n", target, mid);
 	}
 	return 0;

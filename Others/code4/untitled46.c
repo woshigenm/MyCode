@@ -5,14 +5,14 @@ int main() {
 	int input;
 	scanf("%d", &input);
 
-	if(input > 999) {
+	if (input > 999) {
 		printf("不是水仙花数\n");
 	} else {
 		int a = input / 100;
 		int b = input / 10 % 10;
 		int c = input % 10;
 
-		if(a * a * a + b * b * b + c * c * c == input) {
+		if (a * a * a + b * b * b + c * c * c == input) {
 			printf("是水仙花数\n");
 		} else {
 			printf("不是水仙花数\n");

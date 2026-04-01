@@ -15,11 +15,11 @@ void InitQueue(Queue * q) {
 }
 
 int isEmpty(Queue * q) {
-	if(q->front == 0 && q->rear == 0) {
+	if (q->front == 0 && q->rear == 0) {
 		return 0;
 	}
 
-	if(q->front == q->rear) {
+	if (q->front == q->rear) {
 		return 1;
 	}
 
@@ -27,7 +27,7 @@ int isEmpty(Queue * q) {
 }
 
 ElemType deQueue(Queue * q) {
-	if(isEmpty(q)) {
+	if (isEmpty(q)) {
 		printf("The Queue Is NULL\n");
 		return 0;
 	}
@@ -38,7 +38,7 @@ ElemType deQueue(Queue * q) {
 }
 
 int getHead(Queue * q, ElemType * e) {
-	if(isEmpty(q)) {
+	if (isEmpty(q)) {
 		printf("The Queue Is NULL\n");
 		return 0;
 	}
@@ -48,10 +48,10 @@ int getHead(Queue * q, ElemType * e) {
 }
 
 int queueFull(Queue * q) {
-	if(q->front > 0) {
+	if (q->front > 0) {
 		int step = q->front;
 
-		for(int i = q->front; i < q->rear; ++i) {
+		for (int i = q->front; i < q->rear; ++i) {
 			q->data[i - step] = q->data[i];
 		}
 
@@ -66,8 +66,8 @@ int queueFull(Queue * q) {
 }
 
 ElemType eqQueue(Queue * q, ElemType e) {
-	if(q->rear >= MAXSIZE) {
-		if(!queueFull(q)) {
+	if (q->rear >= MAXSIZE) {
+		if (!queueFull(q)) {
 			return 0;
 		}
 	}
@@ -79,12 +79,12 @@ ElemType eqQueue(Queue * q, ElemType e) {
 }
 
 void PrintElem(Queue *q) {
-	if(isEmpty(q)) {
+	if (isEmpty(q)) {
 		printf("The Queue Is NULL\n");
 		return;
 	}
 
-	for(int i = q->front; i < q->rear; i++) {
+	for (int i = q->front; i < q->rear; i++) {
 		printf("%d ", q->data[i]);
 	}
 
@@ -95,7 +95,7 @@ int main() {
 	Queue queue;
 	Queue *q = &queue;
 	InitQueue(q);
-	for(int i = 1; i <= MAXSIZE; i++) {
+	for (int i = 1; i <= MAXSIZE; i++) {
 		eqQueue(q, i);
 	}
 	printf("%d\n", deQueue(q));

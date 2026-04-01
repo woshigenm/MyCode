@@ -5,8 +5,7 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	char array[SIZE];
 	gets(array);
 	char x;
@@ -14,10 +13,8 @@ int main()
 
 	int i, j = 0;
 
-	for(i = 0; array[i] != '\0'; i++)
-	{
-		if(array[i] != x)
-		{
+	for (i = 0; array[i] != '\0'; i++) {
+		if (array[i] != x) {
 			array[j++] = array[i];
 		}
 	}

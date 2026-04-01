@@ -8,12 +8,12 @@
 void test_1() {
 	int i;
 
-	for(i = 100; i < 1000; i++) {
+	for (i = 100; i < 1000; i++) {
 		int j = i / 100;
 		int k = i / 10 % 10;
 		int m = i % 10;
 
-		if(j * j * j + k * k * k + m * m * m == i)
+		if (j * j * j + k * k * k + m * m * m == i)
 			printf("%d ", i);
 	}
 }
@@ -29,11 +29,11 @@ void test_1() {
 */
 void test_2() {
 	int i, j, k;
-	for(i = 5; i >= 1; i--) {
-		for(k = 5; k > i; k--)
+	for (i = 5; i >= 1; i--) {
+		for (k = 5; k > i; k--)
 			putchar(' ');
 
-		for(j = 2 * i - 1; j >= 1; j--)
+		for (j = 2 * i - 1; j >= 1; j--)
 			putchar('*');
 
 		putchar('\n');
@@ -41,6 +41,6 @@ void test_2() {
 }
 
 int main() {
-	
+
 	return 0;
 }

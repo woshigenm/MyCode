@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	char input[256];
 	gets(input);
 
@@ -10,8 +9,7 @@ int main()
 	int space = 0;
 	int others = 0;
 
-	for (int i = 0; input[i]; i++)
-	{
+	for (int i = 0; input[i]; i++) {
 		if ((input[i] >= 'a' && input[i] <= 'z') || (input[i] >= 'A' && input[i] <= 'Z'))
 			alpha++;
 		else if (input[i] >= '0' && input[i] <= '9')

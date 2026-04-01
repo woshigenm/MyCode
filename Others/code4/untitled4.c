@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	//从键盘输入某个分钟数，将其转换成用小时和分钟表示，并将表示结果输出。
 	int minute_all;
 	scanf("%d", &minute_all);

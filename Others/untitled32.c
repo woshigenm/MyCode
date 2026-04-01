@@ -3,14 +3,12 @@
 */
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	float sum = 0.0;
 	int tn = 1;
 	int an = 1;
 
-	while(1.0 / an >= 1E-6)
-	{
+	while (1.0 / an >= 1E-6) {
 		sum += 1.0 / an * tn;
 		tn = -tn;
 		an += 2;

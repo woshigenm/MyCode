@@ -15,18 +15,18 @@ void test_1() {
 	scanf("%f", &P);
 
 	float d;
-	if(P < 0) {
+	if (P < 0) {
 		printf("请输入正常的金额\n");
 	} else {
-		if(P < 100) {
+		if (P < 100) {
 			d = 0.0;
-		} else if(P < 200) {
+		} else if (P < 200) {
 			d = 0.05;
-		} else if(P < 500) {
+		} else if (P < 500) {
 			d = 0.10;
-		} else if(P < 1000) {
+		} else if (P < 1000) {
 			d = 0.15;
-		} else if(P >= 1000) {
+		} else if (P >= 1000) {
 			d = 0.20;
 		}
 
@@ -50,8 +50,8 @@ void test_1() {
 void test_2() {
 	int i, j;
 
-	for(i = 1; i <= 9; i++) {
-		for(j = 1; j <= i; j++) {
+	for (i = 1; i <= 9; i++) {
+		for (j = 1; j <= i; j++) {
 			printf("%d*%d=%d ", i, j, i * j);
 		}
 

@@ -5,16 +5,16 @@
 void Convert(long long int x, int n) {
 	int tmp = x % n;
 
-	if(x > 1) {
+	if (x > 1) {
 		Convert(x / n, n);
-	} else if(x == 0)	return;
+	} else if (x == 0)	return;
 
-	if(n == 16) {
-		if(tmp >= 10 && tmp <= 16)	putchar('A' - 10 + tmp);
+	if (n == 16) {
+		if (tmp >= 10 && tmp <= 16)	putchar('A' - 10 + tmp);
 		else	putchar('0' + tmp);
-	} else if(n == 2) {
+	} else if (n == 2) {
 		putchar(tmp ? '1' : '0');
-	} else if(n == 8) {
+	} else if (n == 8) {
 		putchar('0' + tmp);
 	}
 }
@@ -26,16 +26,16 @@ void fanshen() {
 	char new_str[SIZE];
 
 	int i;
-	for(i = 0; input != 0; i++, input /= n)
+	for (i = 0; input != 0; i++, input /= n)
 		new_str[i] = str[input % n];
 
 	new_str[i] = '\0';
 
 	strrev(new_str);
 
-	if(n == 16) {
+	if (n == 16) {
 		printf("0x%s\n", new_str);
-	} else if(n == 8) {
+	} else if (n == 8) {
 		printf("0%s\n", new_str);
 	} else {
 		printf("%s\n", new_str);
@@ -64,9 +64,9 @@ void test() {
 void fan(long long int input, int n) {
 	char str[SIZE] = {};
 	int i = 0;
-	while(input) {
+	while (input) {
 		int tmp = input % n;
-		if(tmp >= 10 && tmp <= 15) {
+		if (tmp >= 10 && tmp <= 15) {
 			str[i] = 'A' - 10 + tmp;
 		} else {
 			str[i] = '0' + tmp;
@@ -76,7 +76,7 @@ void fan(long long int input, int n) {
 		i++;
 	}
 
-	for(int j = i; j >= 0; j--) {
+	for (int j = i; j >= 0; j--) {
 		printf("%c", str[j]);
 	}
 

@@ -2,20 +2,17 @@
 
 #include <stdio.h>
 
-int leap_year(int year)
-{
-	if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+int leap_year(int year) {
+	if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
 		return 1;
 
 	return 0;
 }
-int main()
-{
+int main() {
 	int year, month;
 	scanf("%d%d", &year, &month);
 	int sum;
-	switch (month)
-	{
+	switch (month) {
 		case 4:
 		case 6:
 		case 9:

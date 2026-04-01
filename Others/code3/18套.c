@@ -16,9 +16,9 @@ void test_1() {
 	sum_ji = sum_o = 0;
 	count_o = count_ji = 0;
 
-	for(i = 0; i < 10; i++) {
+	for (i = 0; i < 10; i++) {
 		scanf("%d", &array[i]);
-		if(array[i] % 2 == 0) {
+		if (array[i] % 2 == 0) {
 			sum_o += array[i];
 			count_o++;
 		} else {
@@ -52,17 +52,17 @@ void test_1() {
 void test_2() {
 	int i, j, count;
 	count = 0;
-	for(i = 100; j <= 200; i++) {
-		for(j = 2; j < i; j++) {
-			if(i % j == 0) {
+	for (i = 100; j <= 200; i++) {
+		for (j = 2; j < i; j++) {
+			if (i % j == 0) {
 				break;
 			}
 		}
 
-		if(j >= i) {
+		if (j >= i) {
 			count++;
 			printf("%d ", i);
-			if(count % 5 == 0)
+			if (count % 5 == 0)
 				putchar('\n');
 		}
 	}

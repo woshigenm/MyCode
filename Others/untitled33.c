@@ -3,13 +3,11 @@
 
 #define SIZE 20
 
-int main()
-{
+int main() {
 	int array[SIZE] = {1, 1};
 	int sum = array[0] + array[1];
 
-	for(int i = 2; i < SIZE; i++)
-	{
+	for (int i = 2; i < SIZE; i++) {
 		array[i] = array[i - 1] + array[i - 2];
 		sum += array[i];
 	}

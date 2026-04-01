@@ -3,11 +3,10 @@
 void print(int x) {
 	int r;
 	r = x % 2;
-	if(x >= 2)
-	{
-		print(x / 2);	
+	if (x >= 2) {
+		print(x / 2);
 	}
-	
+
 	putchar(r == 0 ? '0' : '1');
 }
 
@@ -25,7 +24,7 @@ int main() {
 
 	int sum = 0;
 	int e = 1;
-	while(t != 0) {
+	while (t != 0) {
 		sum = sum + (t % 2) * e;
 		t /= 2;
 		e *= 10;
@@ -44,17 +43,17 @@ void fanxiaochao() {
 	int t = k;
 
 	int i = 0;
-	while(t != 0) {
-		if(t % 2 == 1) {
+	while (t != 0) {
+		if (t % 2 == 1) {
 			array[i] = 1;
 		}
 		i++;
 		t /= 2;
 	}
 
-	for(int j = i - 1, m = 1; j >= 0; j--, m++) {
+	for (int j = i - 1, m = 1; j >= 0; j--, m++) {
 		printf("%d", array[j]);
-		if(m % 4 == 0) {
+		if (m % 4 == 0) {
 			putchar(' ');
 		}
 	}

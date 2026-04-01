@@ -35,31 +35,27 @@ void test_1() {
 无效选票有 4 张
 */
 void test_2() {
-	int n,i,fan;
-	
+	int n, i, fan;
+
 	int array[4] = {};
 	printf("请输入总票数: ");
 	scanf("%d", &n);
-	
+
 	printf("请投票(1,2,3)每张票之间空格分隔: ");
-	for(i = 1; i<=n;i++)
-	{
+	for (i = 1; i <= n; i++) {
 		scanf("%d", &fan);
-		
-		if(fan > 3 || fan < 0)
-		{
+
+		if (fan > 3 || fan < 0) {
 			array[0]++;
-		}else
-		{
+		} else {
 			array[fan]++;
 		}
 	}
-	
-	for(i = 1; i < 4; i++)
-	{
+
+	for (i = 1; i < 4; i++) {
 		printf("%d 号候选人有 %d 张选票\n", i, array[i]);
 	}
-	
+
 	printf("无效选票有 %d 张\n", array[0]);
 }
 

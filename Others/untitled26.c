@@ -3,24 +3,19 @@
 输入输出形式如下。*/
 #include <stdio.h>
 
-int main()
-{
-	int i,j,sum;
-	
+int main() {
+	int i, j, sum;
+
 	printf("1000以内的完数有");
-	for(i = 1; i <= 1000; i++)
-	{
+	for (i = 1; i <= 1000; i++) {
 		sum = 0;
-		for(j = 1; j < i; j++)
-		{
-			if(i % j == 0)
-			{
+		for (j = 1; j < i; j++) {
+			if (i % j == 0) {
 				sum += j;
 			}
 		}
-		
-		if(sum == i)
-		{
+
+		if (sum == i) {
 			printf("%d ", i);
 		}
 	}

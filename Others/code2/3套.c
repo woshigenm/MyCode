@@ -97,13 +97,13 @@ int main() {
 	int year1, year2, t;
 	printf("请输入两个年份(空格分隔): ");
 	scanf("%d%d", &year1, &year2);
-	
+
 	if (year1 > year2) {
 		t = year1;
 		year1 = year2;
 		year2 = t;
 	}
-	
+
 	printf("%d 到 %d 之间的闰年为:\n", year1, year2);
 	int i;
 	for (i = year1; i <= year2; i++) {

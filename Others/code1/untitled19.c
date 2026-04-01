@@ -2,8 +2,7 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	char arr[SIZE];
 	gets(arr);
 
@@ -12,10 +11,8 @@ int main()
 	int str_a, str_e, str_i, str_o, str_u;
 	str_a = str_e = str_i = str_o = str_u = 0;
 
-	for(i = 0; arr[i] != '\0'; i++)
-	{
-		switch (arr[i])
-		{
+	for (i = 0; arr[i] != '\0'; i++) {
+		switch (arr[i]) {
 			case 'A':
 			case 'a':
 				str_a++;
@@ -37,9 +34,9 @@ int main()
 				str_u++;
 		}
 	}
-	
+
 	printf("%d %d %d %d %d\n", str_a, str_e, str_i, str_o, str_u);
-	
+
 	return 0;
 }
 

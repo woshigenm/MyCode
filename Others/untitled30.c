@@ -6,25 +6,21 @@
 
 #define SIZE 100
 
-int main()
-{
-	int gongji,muji,xiaoji;
-	
+int main() {
+	int gongji, muji, xiaoji;
+
 	int counter = 0;
-	for(gongji = 0; gongji <= SIZE / 5; gongji++)
-	{
-		for(muji = 0; muji <= SIZE / 3; muji++)
-		{
+	for (gongji = 0; gongji <= SIZE / 5; gongji++) {
+		for (muji = 0; muji <= SIZE / 3; muji++) {
 			xiaoji = SIZE - gongji - muji;
-			
-			if(15 * gongji + 9 * muji + xiaoji == 3 * SIZE)
-			{
+
+			if (15 * gongji + 9 * muji + xiaoji == 3 * SIZE) {
 				printf("公鸡有%d只,母鸡有%d只,小鸡有%d只\n", gongji, muji, xiaoji);
 				counter++;
 			}
 		}
 	}
-	
+
 	printf("共有%d种买法\n", counter);
 	return 0;
 }

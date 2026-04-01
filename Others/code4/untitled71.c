@@ -15,7 +15,7 @@ int main() {
 //			array[j + 1] = array[j];
 //			j--;
 //		}
-//		
+//
 //		array[j + 1] = t;
 //	}
 
@@ -26,15 +26,15 @@ int main() {
 void SelectSort(int array[]) {
 	int i, j, minindex;
 
-	for(i = 0; i < SIZE - 1; i++) {
+	for (i = 0; i < SIZE - 1; i++) {
 		minindex = i;
-		for(j = i + 1; j < SIZE; j++) {
-			if(array[j] > array[minindex]) {
+		for (j = i + 1; j < SIZE; j++) {
+			if (array[j] > array[minindex]) {
 				minindex = j;
 			}
 		}
 
-		if(minindex != j) {
+		if (minindex != j) {
 			swap(&array[i], &array[minindex]);
 		}
 	}

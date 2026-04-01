@@ -14,20 +14,20 @@ int main() {
 	int a = 0;
 
 	char Operate;
-	for(int i = 1; i <= m; ++i) {
-		while(getchar() != '\n');
+	for (int i = 1; i <= m; ++i) {
+		while (getchar() != '\n');
 		scanf("%c %d", &Operate, &an);
-		if(Operate == 'A') {
+		if (Operate == 'A') {
 			array[j++] = (an + a) % p;
 		}
 
-		if(Operate == 'Q') {
+		if (Operate == 'Q') {
 			int max = array[j - 1];
-			for(int f = j - 1; ; --f) {
-				if(array[f] > max)
+			for (int f = j - 1; ; --f) {
+				if (array[f] > max)
 					max = array[f];
 				an--;
-				if(!an)
+				if (!an)
 					break;
 			}
 

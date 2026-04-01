@@ -2,8 +2,7 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	char arr[SIZE];
 	gets(arr);
 
@@ -11,10 +10,8 @@ int main()
 
 	int case_xiao = 0;
 
-	for(i = 0; arr[i] != '\0'; i++)
-	{
-		if(arr[i] >= 'a' && arr[i] <= 'z')
-		{
+	for (i = 0; arr[i] != '\0'; i++) {
+		if (arr[i] >= 'a' && arr[i] <= 'z') {
 			case_xiao++;
 		}
 	}

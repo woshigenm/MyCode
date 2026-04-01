@@ -4,8 +4,7 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	char arr[SIZE];
 
 	gets(arr);
@@ -19,8 +18,8 @@ int main()
 //	}
 
 //	puts(arr);
-	
+
 	puts(strrev(arr));
-	
+
 	return 0;
 }

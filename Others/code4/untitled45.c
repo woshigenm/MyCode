@@ -1,13 +1,11 @@
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	float money, r;
 
 	scanf("%f", &money);
 
-	switch ((int)money / 500)
-	{
+	switch ((int)money / 500) {
 		case 1:
 			r = 0.05;
 			break;

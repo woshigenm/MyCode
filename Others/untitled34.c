@@ -3,19 +3,16 @@
 
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	int input;
 	scanf("%d", &input);
 
-	if(input < 0 || input > 99999)
-	{
+	if (input < 0 || input > 99999) {
 		printf("输入错误");
 		return 0;
 	}
 
-	if(input == 0)
-	{
+	if (input == 0) {
 		printf("1位数,各个位数和是0");
 		return 0;
 	}
@@ -24,8 +21,7 @@ int main()
 	int temp = input;
 
 	int count = 0;
-	while(temp)
-	{
+	while (temp) {
 		sum += temp % 10;
 		temp /= 10;
 		count++;

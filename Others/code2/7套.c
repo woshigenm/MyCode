@@ -10,7 +10,8 @@
 */
 void test_1() {
 	int year, month;
-	GO:printf("请输入年月(空格分隔): ");
+GO:
+	printf("请输入年月(空格分隔): ");
 	scanf("%d%d", &year, &month);
 
 	if (month > 12 || month < 0) {
@@ -63,16 +64,16 @@ void test_2() {
 	}
 }
 int main() {
-		int i, j, k;
-		for (i = 1; i <= 4; i++) {
-			for (j = 1; j <= 4; j++) {
-				for (k = 1; k <= 4; k++) {
-					if (i != j && i != k && j != k) {
-						int t = i * 100 + j * 10 + i;
-						printf("%d ", t);
-					}
+	int i, j, k;
+	for (i = 1; i <= 4; i++) {
+		for (j = 1; j <= 4; j++) {
+			for (k = 1; k <= 4; k++) {
+				if (i != j && i != k && j != k) {
+					int t = i * 100 + j * 10 + i;
+					printf("%d ", t);
 				}
 			}
+		}
 	}
 	return 0;
 }

@@ -2,28 +2,22 @@
 
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	int n;
 	scanf("%d", &n);
 
-	if(n <= 1)
-	{
+	if (n <= 1) {
 		printf("%d不是质数\n", n);
 		return 0;
 	}
 	int i;
-	for(i = 2; i <= n / i; i++)
-	{
-		if(n % i == 0)	break;
+	for (i = 2; i <= n / i; i++) {
+		if (n % i == 0)	break;
 	}
 
-	if(i > n / i)
-	{
+	if (i > n / i) {
 		printf("%d是质数\n", n);
-	}
-	else
-	{
+	} else {
 		printf("%d不是质数\n", n);
 	}
 	return 0;

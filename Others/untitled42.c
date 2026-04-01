@@ -4,17 +4,14 @@
 #define SIZE 128
 
 #define ALP(x) ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z'))
-int main()
-{
+int main() {
 	char array[SIZE];
 	gets(array);
 
 	int i, j = 0;
 
-	for(i = 0; array[i] != '\0'; i++)
-	{
-		if(ALP(array[i]))
-		{
+	for (i = 0; array[i] != '\0'; i++) {
+		if (ALP(array[i])) {
 			array[j++] = array[i];
 		}
 	}

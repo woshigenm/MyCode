@@ -115,6 +115,6 @@ void test_2_2() {
 }
 
 int main() {
-	
+
 	return 0;
 }

@@ -19,7 +19,7 @@ fan xiao chao @ qq .com
 */
 void test_2_1() {
 	char str[128];
-	
+
 	printf("请输入一个英语句子: ");
 	gets(str);
 
@@ -28,9 +28,9 @@ void test_2_1() {
 	count = 0;
 
 	int flag = 1;
-	for(i = 0; str[i] != '\0'; i++) {
-		if(str[i] != ' ') {
-			if(flag) count++;
+	for (i = 0; str[i] != '\0'; i++) {
+		if (str[i] != ' ') {
+			if (flag) count++;
 
 			flag = 0;
 		} else	flag = 1;
@@ -53,8 +53,8 @@ void test_2_2() {
 	int i, count;
 
 	count = 0;
-	for(i = 0; str[i] != '\0'; i++) {
-		if(str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
+	for (i = 0; str[i] != '\0'; i++) {
+		if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
 			count++;
 	}
 

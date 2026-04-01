@@ -114,10 +114,9 @@ void test_2_4() {
 		}
 	}
 
-	for (i = 31; i >= 0; i--)
-	{
+	for (i = 31; i >= 0; i--) {
 		printf("%d", array[i]);
-		if(i % 8 == 0)
+		if (i % 8 == 0)
 			putchar(' ');
 	}
 }

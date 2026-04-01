@@ -45,13 +45,13 @@ void QueueSort(Queue * queue);
 int QueueMax(Queue * queue, int target);
 
 int main() {
-	
+
 	return 0;
 }
 
 void QueuePush(Queue * queue, int data) {
 	QueueNode * Node = (QueueNode *)malloc(sizeof(QueueNode));
-	if(NULL == Node) {
+	if (NULL == Node) {
 		printf("PUSH FAILD\n");
 		return;
 	}
@@ -60,7 +60,7 @@ void QueuePush(Queue * queue, int data) {
 	Node->id = id++;
 	Node->next = NULL;
 
-	if(queue->head == NULL) {
+	if (queue->head == NULL) {
 		queue->head = queue->tail = Node;
 	} else {
 		queue->tail->next = Node;
@@ -86,17 +86,17 @@ void QueuePop(Queue * queue, int data) {
 
 	QueueNode * temp = queue->head->next;
 
-	if(queue->head->data == data) {
+	if (queue->head->data == data) {
 		free(queue->head);
 		queue->head = temp;
 		return;
 	}
 
-	while(NULL != Cur->next && Cur->next->data != data) {
+	while (NULL != Cur->next && Cur->next->data != data) {
 		Cur = Cur->next;
 	}
 
-	if(Cur->next == NULL) {
+	if (Cur->next == NULL) {
 		printf("Pop Failed\n");
 		return;
 	} else {
@@ -108,7 +108,7 @@ void QueuePop(Queue * queue, int data) {
 void QueueDestory(Queue * queue) {
 	QueueNode * Cur = queue->head;
 
-	while(Cur) {
+	while (Cur) {
 		QueueNode * next = Cur->next;
 		free(Cur);
 		Cur = next;
@@ -129,14 +129,14 @@ void QueueInit(Queue * queue) {
 //	}
 
 void QueueSelect(Queue * queue) {
-	if(QueueEmpty(queue)) {
+	if (QueueEmpty(queue)) {
 		printf("The Queue Is NULL\n");
 		return;
 	}
 
 	QueueNode * Cur = queue->head;
 
-	while(Cur) {
+	while (Cur) {
 		printf("[%d] %p -> %d\n", Cur->id, Cur, Cur->data);
 		Cur = Cur->next;
 	}
@@ -152,11 +152,11 @@ void swap(int * a, int * b) {
 
 int QueueMax(Queue * queue, int target) {
 	QueueNode * Cur = queue->head;
-	
+
 	int max = Cur->data;
 
-	while(Cur->next != NULL) {
-		if(Cur->data > max)
+	while (Cur->next != NULL) {
+		if (Cur->data > max)
 			max = Cur->data;
 		Cur = Cur->next;
 	}
@@ -165,25 +165,25 @@ int QueueMax(Queue * queue, int target) {
 }
 
 void QueueSort(Queue * queue) {
-	if(QueueEmpty(queue)) {
+	if (QueueEmpty(queue)) {
 		printf("The Queue Is NULL\n");
 		return;
 	}
 
-	if(QueueSize(queue) <= 1) {
+	if (QueueSize(queue) <= 1) {
 		return;
 	}
 
 	int flag;
-	for(QueueNode * i = queue->head; i != NULL; i = i->next) {
+	for (QueueNode * i = queue->head; i != NULL; i = i->next) {
 		flag = 0;
-		for(QueueNode * j = queue->head; j->next != NULL; j = j->next) {
-			if(j->data < j->next->data) {
+		for (QueueNode * j = queue->head; j->next != NULL; j = j->next) {
+			if (j->data < j->next->data) {
 				swap(&j->data, &j->next->data);
 				flag = 1;
 			}
 		}
-		if(!flag)	break;
+		if (!flag)	break;
 	}
 }
 

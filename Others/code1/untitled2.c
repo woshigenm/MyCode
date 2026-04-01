@@ -4,8 +4,7 @@
 
 #define SIZE 10
 
-int main()
-{
+int main() {
 	int n, m;
 	scanf("%d%d", &n, &m);
 
@@ -19,19 +18,17 @@ int main()
 	int special = 0;
 
 	i = 0;
-	while(special != (n - 1))
-	{
-		if(array[i % n] != 1) count++;
+	while (special != (n - 1)) {
+		if (array[i % n] != 1) count++;
 
-		if(count == m)
-		{
+		if (count == m) {
 			array[i % n] = 1;
 			special++;
 			count = 0;
 		}
 		i++;
 	}
-	for(i = 0; i < n; i++)	if(array[i] != 1) printf("%d是猴王\n", i + 1);
+	for (i = 0; i < n; i++)	if (array[i] != 1) printf("%d是猴王\n", i + 1);
 	free(array);
 	return 0;
 }

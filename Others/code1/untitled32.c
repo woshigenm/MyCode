@@ -3,8 +3,7 @@
 
 #define SIZE 128
 
-int main()
-{
+int main() {
 	char array[SIZE];
 
 	gets(array);
@@ -12,24 +11,20 @@ int main()
 	char * end;
 
 	end = array + strlen(array) - 1;
-	
+
 	int i;
-	for(i = 0; array[i] != '\0'; i++, end--)
-	{
-		if(array[i] != *end)
-		{
+	for (i = 0; array[i] != '\0'; i++, end--) {
+		if (array[i] != *end) {
 			break;
 		}
 	}
-	
-	if(array[i] == '\0')
-	{
+
+	if (array[i] == '\0') {
 		printf("yes\n");
-	}else
-	{
+	} else {
 		printf("no\n");
 	}
-	
+
 //	for(start = array; start < end ; start++, end--)
 //	{
 //			if(*start != *end)
@@ -37,7 +32,7 @@ int main()
 //				break;
 //			}
 //	}
-//	
+//
 //	if(start == end)
 //	{
 //		printf("yes\n");

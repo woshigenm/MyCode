@@ -14,16 +14,16 @@ void test_1() {
 	int x;
 	scanf("%d", &x);
 
-	if(x < 2) {
+	if (x < 2) {
 		printf("NO\n");
 	} else {
 		int i;
-		for(i = 2; i < x; i++) {
-			if(x % i == 0)
+		for (i = 2; i < x; i++) {
+			if (x % i == 0)
 				break;
 		}
 
-		if(i >= x) {
+		if (i >= x) {
 			printf("YES\n");
 		} else {
 			printf("NO\n");
@@ -46,15 +46,15 @@ void test_2() {
 	int i, j, k, t, count;
 
 	count = 0;
-	for(i = 0; i < 4; i++) {
-		for(j = 0; j < 4; j++) {
-			for(k = 0; k < 4; k++) {
-				if(i != j && i != k && j != k) {
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			for (k = 0; k < 4; k++) {
+				if (i != j && i != k && j != k) {
 					t = array[i] * 100 + array[j] * 10 + array[k];
 					count++;
 					printf("%d ", t);
 
-					if(count % 5 == 0)
+					if (count % 5 == 0)
 						putchar('\n');
 				}
 			}
@@ -65,6 +65,6 @@ void test_2() {
 }
 
 int main() {
-test_2();
+	test_2();
 	return 0;
 }

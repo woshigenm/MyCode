@@ -3,21 +3,17 @@
 */
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	int i;
-	
+
 	int k = 1;
-	for(i = 1; i <= 500; i++)
-	{
+	for (i = 1; i <= 500; i++) {
 		int m = i * i;
-		if(i / k > 0)
-		{
+		if (i / k > 0) {
 			k *= 10;
 		}
-		
-		if(m % k == i)
-		{
+
+		if (m % k == i) {
 			printf("%d ", i);
 		}
 	}

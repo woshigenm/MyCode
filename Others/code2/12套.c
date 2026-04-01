@@ -8,10 +8,10 @@
 void test_1() {
 	int i;
 	printf("满足个位与十位之和为10的数为\n");
-	for(i = 10; i <= 99; i++) {
+	for (i = 10; i <= 99; i++) {
 		int j = i / 10;
 		int k = i % 10;
-		if(j + k == 10) {
+		if (j + k == 10) {
 			printf("%d ", i);
 		}
 	}
@@ -26,13 +26,13 @@ void test_1() {
 void test_2_1() {
 	int i, j, t;
 	int array[10];
-	
-	printf("请输入十个数(空格分隔): ");
-	for(i = 0; i < 10; i++)	scanf("%d", &array[i]);
 
-	for(i = 1; i < 10; i++) {
-		for(j = 0; j < 10 - i; j++) {
-			if(array[j] < array[j + 1]) {
+	printf("请输入十个数(空格分隔): ");
+	for (i = 0; i < 10; i++)	scanf("%d", &array[i]);
+
+	for (i = 1; i < 10; i++) {
+		for (j = 0; j < 10 - i; j++) {
+			if (array[j] < array[j + 1]) {
 				t = array[j];
 				array[j] = array[j + 1];
 				array[j + 1] = t;
@@ -40,7 +40,7 @@ void test_2_1() {
 		}
 	}
 
-	for(i = 0; i < 10; i++) printf("%d ", array[i]);
+	for (i = 0; i < 10; i++) printf("%d ", array[i]);
 }
 
 /*
@@ -52,28 +52,28 @@ void test_2_1() {
 void test_2_2() {
 	int i, j, t;
 	int array[10];
-	
+
 	printf("请输入十个数(空格分隔): ");
-	for(i = 0; i < 10; i++)	scanf("%d", &array[i]);
+	for (i = 0; i < 10; i++)	scanf("%d", &array[i]);
 
 	int pos;
-	for(i = 0; i < 9; i++) {
+	for (i = 0; i < 9; i++) {
 		pos = i;
-		for(j = i + 1; j < 10; j++) {
-			if(array[j] > array[pos])	pos = j;
+		for (j = i + 1; j < 10; j++) {
+			if (array[j] > array[pos])	pos = j;
 		}
 
-		if(pos != i) {
+		if (pos != i) {
 			t = array[i];
 			array[i] = array[pos];
 			array[pos] = t;
 		}
 	}
 
-	for(i = 0; i < 10; i++) printf("%d ", array[i]);
+	for (i = 0; i < 10; i++) printf("%d ", array[i]);
 }
 
 int main() {
-	
+
 	return 0;
 }

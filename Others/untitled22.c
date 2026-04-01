@@ -12,7 +12,7 @@ int main() {
 	sum_all = fanxiachao;
 
 	int count = 0;
-	while(sum_all < 590.0) {
+	while (sum_all < 590.0) {
 		fanxiachao *= 0.75;
 		sum_all += fanxiachao * 2;
 		printf("%d -> 经过的路程 %.2f\n", count, sum_all);

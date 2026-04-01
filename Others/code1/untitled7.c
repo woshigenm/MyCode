@@ -1,18 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int add(int x, int a)
-{
-	if(x == 1)
-	{
+int add(int x, int a) {
+	if (x == 1) {
 		return a;
 	}
 
 	return add(x - 1, a) * 10 + a;
 }
 
-int main()
-{
+int main() {
 
 	int a, n, i;
 
@@ -23,8 +20,7 @@ int main()
 
 	int an, sum = 0;
 
-	for(i = 1; i < n; i++)
-	{
+	for (i = 1; i < n; i++) {
 		an = add(i, a);
 		printf("-%d ", an);
 		sum += -an;
@@ -40,8 +36,7 @@ int main()
 
 	an = 0;
 
-	for(i = 1; i < n; i++)
-	{
+	for (i = 1; i < n; i++) {
 		an = an * 10 + a;
 		printf("-%d ", an);
 		sum += -an;

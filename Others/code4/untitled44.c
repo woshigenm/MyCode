@@ -5,23 +5,21 @@
 
 #define SIZE 10
 
-int main()
-{
+int main() {
 	float array[SIZE];
 	int i;
 
-	for(i = 0; i < SIZE; i++)
+	for (i = 0; i < SIZE; i++)
 		scanf("%f", &array[i]);
 
 	float max, min, sum;
 	max = min = array[0];
 	sum = array[0];
 
-	for(i = 1; i < SIZE; i++)
-	{
-		if(array[i] > max)
+	for (i = 1; i < SIZE; i++) {
+		if (array[i] > max)
 			max = array[i];
-		if(array[i] < min)
+		if (array[i] < min)
 			min = array[i];
 		sum += array[i];
 	}

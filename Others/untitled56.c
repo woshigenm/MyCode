@@ -4,33 +4,26 @@
 
 void swap(int * a, int * b);
 
-int main()
-{
+int main() {
 	int array[SIZE][SIZE];
 	int arr[SIZE][SIZE];
 
 	int a, b;
 
-	for(a = 0; a < SIZE; a++)
-	{
-		for(b = 0; b < SIZE; b++)
-		{
+	for (a = 0; a < SIZE; a++) {
+		for (b = 0; b < SIZE; b++) {
 			scanf("%d", &array[a][b]);
 		}
 	}
 
-	for(a = 0; a < SIZE; a++)
-	{
-		for(b = 0; b < SIZE; b++)
-		{
+	for (a = 0; a < SIZE; a++) {
+		for (b = 0; b < SIZE; b++) {
 			arr[a][b] = array[b][a];
 		}
 	}
 
-	for(a = 0; a < SIZE; a++)
-	{
-		for(b = 0; b < SIZE; b++)
-		{
+	for (a = 0; a < SIZE; a++) {
+		for (b = 0; b < SIZE; b++) {
 			printf("%d ", arr[a][b]);
 		}
 		putchar('\n');
@@ -38,8 +31,7 @@ int main()
 	return 0;
 }
 
-void swap(int * a, int * b)
-{
+void swap(int * a, int * b) {
 	int temp = *a;
 	*a = *b;
 	*b = temp;

@@ -12,23 +12,23 @@
 void test_1() {
 	int x, y, z, t;
 	scanf("%d%d%d", &x, &y, &z);
-	if(x < y) {
+	if (x < y) {
 		t = x;
 		x = y;
 		y = t;
 	}
 
-	if(x < z) {
+	if (x < z) {
 		t = x;
 		x = z;
 		z = t;
 	}
-	if(y < z) {
+	if (y < z) {
 		t = y;
 		y = z;
 		z = t;
 	}
-	
+
 	printf("%d %d %d\n", x, y, z);
 }
 
@@ -48,7 +48,7 @@ void test_2_1() {
 	int t = x;
 
 	int sum = 0;
-	while(t) {
+	while (t) {
 		sum += e * (t % 2);
 		e *= 10;
 		t /= 2;
@@ -70,13 +70,13 @@ void test_2_2() {
 	int x, i, j, t;
 	scanf("%d", &x);
 	t = x;
-	for(i = 0; t != 0; i++) {
+	for (i = 0; t != 0; i++) {
 		array[i] = t % 2;
 		t /= 2;
 	}
 
 	printf("%d 的二进制为 ", x);
-	for(j = i - 1; j >= 0; j--)
+	for (j = i - 1; j >= 0; j--)
 		printf("%d", array[j]);
 }
 

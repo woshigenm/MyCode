@@ -6,31 +6,24 @@
 丙是位数学家，他说：四位的车号正好是一个整数的平方。请根据以上线索求出可能的车牌号，输入输出形式如下。
 */
 
-int gcd(int x)
-{
+int gcd(int x) {
 	static int i = 32;
-	for(; i <= x / i; i++)
-	{
-		if(i * i == x)
-		{
+	for (; i <= x / i; i++) {
+		if (i * i == x) {
 			return 1;
 		}
 	}
-	
+
 	return 0;
 }
 
 int main() {
 	int i, j, k;
-	for(i = 1; i <= 9; i++)
-	{
-		for(j = 0; j <= 9; j++)
-		{
-			if(i != j)
-			{
+	for (i = 1; i <= 9; i++) {
+		for (j = 0; j <= 9; j++) {
+			if (i != j) {
 				k = i * 1000 + i * 100 + j * 10 + j;
-				if(gcd(k))
-				{
+				if (gcd(k)) {
 					printf("车牌是%d\n", k);
 				}
 			}

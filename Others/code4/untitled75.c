@@ -6,8 +6,8 @@ int main() {
 
 	int count = 0;
 
-	for(int i = 0; str[i] != '\0'; i++) {
-		if(str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))	count++;
+	for (int i = 0; str[i] != '\0'; i++) {
+		if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))	count++;
 	}
 
 	printf("一共有 %d 个单词\n", count);
@@ -21,9 +21,9 @@ void fanxiaochaoNMSL() {
 
 	int count = 0, fanxiaochao = 0;
 
-	for(int i = 0; str[i] != '\0'; i++) {
-		if(str[i] != ' ') {
-			if(!fanxiaochao) {
+	for (int i = 0; str[i] != '\0'; i++) {
+		if (str[i] != ' ') {
+			if (!fanxiaochao) {
 				fanxiaochao = 1;
 				count++;
 			}

@@ -4,44 +4,40 @@
 */
 #include <stdio.h>
 
-int main()
-{
+int main() {
 	int input;
-	
+
 	float sum = 0.0;
 	scanf("%d", &input);
-	if(input == -1)
-	{
+	if (input == -1) {
 		printf("开始-1结束\n");
 		return 0;
 	}
-	
+
 	sum = input;
-	
+
 	int max, min;
 	max = min = input;
-	
+
 	int count = 1;
-	
-	while(input != -1){
+
+	while (input != -1) {
 		scanf("%d", &input);
-		
-		if(input == -1)	break;
-		
-		if(input > max)
-		{
+
+		if (input == -1)	break;
+
+		if (input > max) {
 			max = input;
 		}
-		
-		if(input < min)
-		{
+
+		if (input < min) {
 			min = input;
 		}
-		
+
 		sum += input;
 		count++;
 	}
-	
+
 	printf("max=%d,min=%d,ave=%.2f\n", max, min, (sum) / (count));
 	return 0;
 }
