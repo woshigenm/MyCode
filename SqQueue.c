@@ -1,17 +1,5 @@
+#include "SqQueue.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-typedef int Elemtype;
-typedef enum {
-	ERROR, OK
-} Status;
-
-#define MAXSIZE 1024
-typedef struct QueueNode {
-	Elemtype data[MAXSIZE];
-	int front, rear;
-} QueueNode, SqQueue;
 
 Status InitQueue(SqQueue * Q) {
 	if (Q == NULL)	return ERROR;
@@ -60,30 +48,5 @@ Status GetFront(SqQueue * Q, Elemtype * e) {
 	if (Q == NULL)	return ERROR;
 	*e = Q->data[Q->front];
 	return OK;
-}
-
-int main() {
-	SqQueue Q;
-	Elemtype e;
-	InitQueue(&Q);
-	for (int i = 1; i <= 50; ++i)
-		EnQueue(&Q, i);
-
-	GetFront(&Q, &e);
-	printf("队头元素为%d\n", e);
-	printf("队列长度为: %d\n", QueueLength(&Q));
-	printf("队列元素为:\n");
-	Print(&Q);
-
-	for (int i = 1; i <= 10; ++i)
-		DeQueue(&Q, &e);
-
-	GetFront(&Q, &e);
-	printf("\n队头元素为%d\n", e);
-	printf("队列元素为:\n");
-	printf("队列长度为: %d\n", QueueLength(&Q));
-	Print(&Q);
-	
-	return 0;
 }
 

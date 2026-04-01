@@ -1,22 +1,5 @@
+#include "LinkQueue.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-typedef int Elemtype;
-typedef enum {
-	ERROR, OK
-} Status;
-
-typedef struct QueueNode {
-	Elemtype data;
-	struct QueueNode * next;
-} QueueNode;
-
-typedef struct LinkQueue {
-	struct QueueNode * front;
-	struct QueueNode * rear;
-	int size;
-} LinkQueue;
 
 Status InitLinkQueue(LinkQueue ** Q) {
 	if (NULL == Q)	return ERROR;
