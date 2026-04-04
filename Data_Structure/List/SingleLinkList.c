@@ -145,12 +145,12 @@ Status CreateList_R(LinkList * L, int n) {
 int ListLength(LinkList L) {
 	if (NULL == L)	return 0;
 	Node * cur = L->next;
-	int j = 0;
+	int len = 0;
 	while (cur) {
 		cur = cur->next;
-		++j;
+		++len;
 	}
-	return j;
+	return len;
 }
 
 //返回单链表是否为空表
@@ -182,11 +182,11 @@ void ListPrint(LinkList  L) {
 //重置线性表为空表
 Status ClearList(LinkList  L) {
 	if (NULL == L)	return ERROR;
-	Node * cur = L->next, *p;
+	Node * cur = L->next, *tmp;
 	while (cur) {
-		p = cur->next;
+		tmp = cur->next;
 		free(cur);
-		cur = p;
+		cur = tmp;
 	}
 	L->next = NULL;
 	return OK;
@@ -226,11 +226,11 @@ Status NextElem(LinkList L, ElemType cur_e, Node ** next_e) {
 //销毁线性表
 Status DestroyList(LinkList * L) {
 	if (NULL == L || NULL == *L)	return ERROR;
-	Node * cur = (*L)->next, *p;
+	Node * cur = (*L)->next, *tmp;
 	while (cur) {
-		p = cur->next;
+		tmp = cur->next;
 		free(cur);
-		cur = p;
+		cur = tmp;
 	}
 	free(*L);
 	*L = NULL;
