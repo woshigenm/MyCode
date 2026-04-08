@@ -20,4 +20,17 @@ typedef struct LinkQueue {
 	int size;
 } LinkQueue;
 
+typedef LinkQueue * LinkQueuePtr;
+
+// 函数声明
+Status InitLinkQueue(LinkQueuePtr * Q);
+bool IsEmpty(LinkQueuePtr Q);
+Status EnQueue(LinkQueuePtr Q, Elemtype e);
+Status DeQueue(LinkQueuePtr Q, Elemtype * e);
+int QueueLength(LinkQueuePtr Q);
+void Print(LinkQueuePtr Q);
+Status GetHead(LinkQueuePtr Q, Elemtype * e);
+Status DestroyQueue(LinkQueuePtr * Q);
+Status ClearQueue(LinkQueuePtr Q);
+
 #endif

@@ -1,7 +1,27 @@
-#include "../Headers/SqStack.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
-//初始化栈
+typedef char ElemType;
+typedef enum {
+	OK, ERROR
+} Status;
+
+#define MAXSIZE 128
+typedef struct Stack {
+	ElemType data[MAXSIZE];
+	int top;
+} Stack;
+
+Status InitStack(Stack * S);
+Status Push(Stack * S, ElemType e);
+Status Pop(Stack * S, ElemType * e);
+bool IsEmpty(Stack * S);
+int StackLength(Stack * S);
+bool IsFull(Stack * S);
+Status GetTop(Stack * S, ElemType * e);
+void PrintStack(Stack *S);
+
 Status InitStack(Stack * S) {
 	if (NULL == S) return ERROR;
 	S->top = -1;
@@ -69,3 +89,38 @@ void PrintStack(Stack *S) {
 	putchar('\n');
 }
 
+void Convert(int X, int N);
+int main() {
+	int X, N;
+	scanf("%d%d", &X, &N);
+	Convert(X, N);
+	return 0;
+}
+
+#define SPACE ' '
+void Convert(int X, int N) {
+	Stack s;
+	InitStack(&s);
+
+	char tmp;
+	int j = 0;
+	while (X) {
+		tmp = X % N;
+		if (tmp > 9) {
+			Push(&s, 'A' - 10 + tmp);
+		} else {
+			Push(&s, '0' + tmp);
+		}
+
+		if (++j % 8 == 0) {
+			Push(&s, SPACE);
+		}
+
+		X /= N;
+	}
+
+	while (!IsEmpty(&s)) {
+		Pop(&s, &tmp);
+		printf("%c", tmp);
+	}
+}

@@ -109,12 +109,12 @@ Status DestoryList(LinkList * L) {
 
 Status Diffenrence(LinkList L1, LinkList L2) {
 	if (NULL == L1 || NULL == L2 || NULL == L1->next || NULL == L2->next)	return ERROR;
-	
+
 	//去重
 	LinkListDedpu(L1);
 	LinkListDedpu(L2);
-	
-	LNode * p1 = L1->next, *p2, *p = L1,*tmp;
+
+	LNode * p1 = L1->next, *p2, *p = L1, *tmp = NULL;
 	while (p1) {
 		p2 = L2->next;
 		while (p2 && p1->data > p2->data) {

@@ -9,18 +9,22 @@ typedef enum {
 	ERROR, OK
 } Status;
 
-#define MAXSIZE 1024
 typedef struct QueueNode {
-	Elemtype data[MAXSIZE];
+	Elemtype * data;
 	int front, rear;
-} QueueNode, SqQueue;
+	int maxsize;
+} QueueNode, *CSqQueue;
 
-Status InitQueue(SqQueue * Q);
-bool IsEmpty(SqQueue * Q);
-bool IsFull(SqQueue * Q);
-Status EnQueue(SqQueue * Q, Elemtype e);
-Status DeQueue(SqQueue * Q, Elemtype * e);
-int QueueLength(SqQueue * Q);
-void Print(SqQueue * Q);
-Status GetFront(SqQueue * Q, Elemtype * e);
+// 函数声明
+Status InitQueue(CSqQueue * Q, int n);
+bool IsEmpty(CSqQueue Q);
+bool IsFull(CSqQueue Q);
+Status EnQueue(CSqQueue Q, Elemtype e);
+Status DeQueue(CSqQueue Q, Elemtype * e);
+int QueueLength(CSqQueue Q);
+void Print(CSqQueue Q);
+Status GetHead(CSqQueue Q, Elemtype * e);
+Status DestroyQueue(CSqQueue * Q);
+Status ClearQueue(CSqQueue Q);
+
 #endif

@@ -1,5 +1,63 @@
-#include "../Headers/CSqQueue.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef int Elemtype;
+typedef enum {
+	ERROR, OK
+} Status;
+
+typedef struct QueueNode {
+	Elemtype * data;
+	int front, rear;
+	int maxsize;
+} QueueNode, *CSqQueue;
+
+// 函数声明
+Status InitQueue(CSqQueue * Q, int n);
+bool IsEmpty(CSqQueue Q);
+bool IsFull(CSqQueue Q);
+Status EnQueue(CSqQueue Q, Elemtype e);
+Status DeQueue(CSqQueue Q, Elemtype * e);
+Status GetHead(CSqQueue Q, Elemtype * e);
+Status DestroyQueue(CSqQueue * Q);
+
+#define SIZE 13
+void Shuffle(int deck[], int decksize);
+int main() {
+	int deck[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+	Shuffle(deck, SIZE);
+	return 0;
+}
+
+void Shuffle(int deck[], int decksize) {
+	CSqQueue Queue1;
+	InitQueue(&Queue1, SIZE + 1);
+	for (int i = 0; i < decksize; ++i) {
+		EnQueue(Queue1, i);
+	}
+
+	int result[SIZE] = {};
+	int i = 0;
+	Elemtype e, no;
+	while (!IsEmpty(Queue1) && i < decksize) {
+		int j = 0;
+		while (!IsEmpty(Queue1) && j++ < i) {
+			GetHead(Queue1, &e);
+			EnQueue(Queue1, e);
+			DeQueue(Queue1, &no);
+		}
+		GetHead(Queue1, &e);
+		result[i++] = e;
+		DeQueue(Queue1, &no);
+	}
+
+	for (int i = 0; i < decksize; i++) {
+		printf("第%d 个 -> %d\n", i + 1, result[i]);
+	}
+
+	putchar('\n');
+}
 
 //初始化循环队列
 Status InitQueue(CSqQueue * Q, int n) {
@@ -48,25 +106,6 @@ int QueueLength(CSqQueue Q) {
 	return NULL == Q ? 0 : (Q->rear - Q->front + Q->maxsize) % Q->maxsize;
 }
 
-//打印循环队列元素
-void Print(CSqQueue Q) {
-	if (NULL == Q) {
-		printf("队列未初始化\n");
-		return;
-	}
-
-	if (IsEmpty(Q))	{
-		printf("队列为空\n");
-		return;
-	}
-
-	for (int j = Q->front; j != Q->rear; j = (j + 1) % Q->maxsize) {
-		printf("%d ", Q->data[j]);
-	}
-
-	putchar('\n');
-}
-
 //返回队头元素
 Status GetHead(CSqQueue Q, Elemtype * e) {
 	if (NULL == Q || IsEmpty(Q))	return ERROR;
@@ -87,11 +126,4 @@ Status DestroyQueue(CSqQueue * Q) {
 	return OK;
 }
 
-Status ClearQueue(CSqQueue Q) {
-	if (NULL == Q)	return ERROR;
-	if (IsEmpty(Q))	return OK;
-	
-	Q->front = Q->rear = 0;
-	return OK;
-}
 

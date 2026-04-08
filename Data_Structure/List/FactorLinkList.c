@@ -19,7 +19,7 @@ Status DestoryList(LinkList * L);
 Status FactorLinkList(LinkList L1, LinkList L2, LinkList L3);
 
 int main() {
-	int array1[] = {2 , -3 , 5 , -1 , 4 , -6};
+	int array1[] = {2, -3, 5, -1, 4, -6};
 	int len1 = sizeof(array1) / sizeof(*array1);
 
 	LinkList L1, L2, L3;

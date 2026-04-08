@@ -9,7 +9,7 @@ typedef enum {
 	OK, ERROR
 } Status;
 
-#define MAXSIZE 10
+#define MAXSIZE 128
 typedef struct Stack {
 	ElemType data[MAXSIZE];
 	int top;

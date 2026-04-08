@@ -90,11 +90,11 @@ void ListPrint(LinkList  L) {
 //销毁线性表
 Status DestroyList(LinkList * L) {
 	if (NULL == L || NULL == *L)	return ERROR;
-	Node * cur = (*L)->next, *p;
+	Node * cur = (*L)->next, *tmp = NULL;
 	while (cur) {
-		p = cur->next;
+		tmp = cur->next;
 		free(cur);
-		cur = p;
+		cur = tmp;
 	}
 	free(*L);
 	*L = NULL;
@@ -104,7 +104,7 @@ Status DestroyList(LinkList * L) {
 Status LinkListDedpu(LinkList L1) {
 	if (NULL == L1 || NULL == L1->next)	return ERROR;
 
-	Node * slow = L1, *fast = L1->next,*tmp;
+	Node * slow = L1, *fast = L1->next, *tmp = NULL;
 	while (fast->next) {
 		if (fast->next->data == fast->data) {
 			slow->next = fast->next;
@@ -116,7 +116,7 @@ Status LinkListDedpu(LinkList L1) {
 			fast = fast->next;
 		}
 	}
-	
+
 	return OK;
 }
 

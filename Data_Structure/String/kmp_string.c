@@ -17,7 +17,7 @@ int main() {
 
 int count1, count2, count3;
 int kmp(const char * const arr1, const char * const arr2) {
-	int x, y, m, cn;
+	int x, y, m, cn, i, j;
 
 	int * next = (int *)malloc(sizeof(int) * strlen(arr2));
 	next[0] = -1;
@@ -25,7 +25,8 @@ int kmp(const char * const arr1, const char * const arr2) {
 
 	cn = 0;
 	m = 2;
-	while (m < strlen(arr2)) {
+	j = strlen(arr2);
+	while (m < j) {
 		if (arr2[m - 1] == arr2[cn]) {
 			next[m++] = ++cn;
 		} else if (cn > 0) {
@@ -35,11 +36,13 @@ int kmp(const char * const arr1, const char * const arr2) {
 		}
 	}
 
-	for (int i = 0; i < strlen(arr2); ++i)	printf("%d ", next[i]);
+	for (int i = 0; i < j; ++i)	printf("%d ", next[i]);
 	putchar('\n');
 
 	x = y = 0;
-	while (x < strlen(arr1) && y < strlen(arr2)) {
+	i = strlen(arr1);
+	j = strlen(arr2);
+	while (x < i && y < j) {
 		count1++;
 		if (arr1[x] == arr2[y]) {
 			x++;
@@ -73,7 +76,6 @@ int look_substr2(const char str1[], const char str2[]) {
 
 	printf("count3 -> %d\n", count3);
 	if (j >= len2)	return i - j;
-	NULL;
 	return -1;
 }
 
