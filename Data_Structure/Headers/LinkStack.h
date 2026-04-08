@@ -21,7 +21,7 @@ Status Pop(LinkStack S, ElemType * e);
 void PrintStack(LinkStack S);
 Status GetTop(LinkStack S, ElemType * e);
 int StackLength(LinkStack S);
-Status DestoryLinkStack(LinkStack * S);
-Status ClearLinkStack(LinkStack S);
+Status DestoryStack(LinkStack * S);
+Status ClearStack(LinkStack S);
 
 #endif

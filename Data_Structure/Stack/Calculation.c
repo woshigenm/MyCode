@@ -22,7 +22,6 @@ Status GetTop(LinkStack S, ElemType * e);
 int StackLength(LinkStack S);
 Status DestoryLinkStack(LinkStack * S);
 
-
 //初始化栈
 Status InitStack(LinkStack * S) {
 	if (S == NULL)	return ERROR;
@@ -206,3 +205,4 @@ int main() {
 
 	return 0;
 }
+

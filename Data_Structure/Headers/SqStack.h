@@ -9,19 +9,23 @@ typedef enum {
 	OK, ERROR
 } Status;
 
-#define MAXSIZE 128
 typedef struct Stack {
-	ElemType data[MAXSIZE];
+	ElemType * data;
+	int maxsize;
 	int top;
 } Stack;
 
-Status InitStack(Stack * S);
-Status Push(Stack * S, ElemType e);
-Status Pop(Stack * S, ElemType * e);
-bool IsEmpty(Stack * S);
-int StackLength(Stack * S);
-bool IsFull(Stack * S);
-Status GetTop(Stack * S, ElemType * e);
-void PrintStack(Stack *S);
+typedef Stack* Stackptr;
+
+Status InitStack(Stackptr * S, int n);
+Status Push(Stackptr S, ElemType e);
+Status Pop(Stackptr S, ElemType * e);
+bool IsEmpty(Stackptr S);
+int StackLength(Stackptr S);
+bool IsFull(Stackptr S);
+Status GetTop(Stackptr S, ElemType * e);
+void PrintStack(Stackptr S);
+Status DestroyStack(Stackptr * S);
+Status ClearStack(Stackptr S);
 
 #endif

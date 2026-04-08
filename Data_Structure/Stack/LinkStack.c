@@ -67,7 +67,7 @@ Status GetTop(LinkStack S, ElemType * e) {
 }
 
 //销毁链栈
-Status DestoryLinkStack(LinkStack * S) {
+Status DestoryStack(LinkStack * S) {
 	if (S == NULL || *S == NULL)	return ERROR;
 	StackNode * cur = (*S)->next, *p;
 	while (cur) {
@@ -81,7 +81,7 @@ Status DestoryLinkStack(LinkStack * S) {
 }
 
 //清空栈
-Status ClearLinkStack(LinkStack S) {
+Status ClearStack(LinkStack S) {
 	if (S == NULL)	return ERROR;
 	StackNode * cur = S->next, *tmp;
 	while (cur) {
@@ -92,3 +92,4 @@ Status ClearLinkStack(LinkStack S) {
 	S->next = NULL;
 	return OK;
 }
+
