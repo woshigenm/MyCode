@@ -18,6 +18,7 @@ Status ListDelete(LinkList L, int i, ElemType * e);
 void PrintList(LinkList L);
 Status MergeList(LinkList L1, LinkList L2);
 Status DestoryList(LinkList * L);
+
 int main() {
 	int array1[] = {1, 2, 3, 4, 5};
 	int array2[] = {6, 7, 8, 9, 10};

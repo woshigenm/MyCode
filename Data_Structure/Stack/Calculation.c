@@ -1,92 +1,121 @@
-#include <stdlib.h>
-#include <stdbool.h>
+#include "../Headers/LinkStack.h"
 #include <stdio.h>
-#include <math.h>
+#include <string.h>
 #include <ctype.h>
 
-typedef int ElemType;
-typedef enum {
-	OK, ERROR
-} Status;
+int Calculate(char oper, int oprand1, int oprand2);
+int GetPriority(char oper);
+int Calc_Infix(const char * str);
+bool MatchParentheses(const char *infix_str);
+bool IsRightAssoc(char oper);
 
-typedef struct StackNode {
-	ElemType data;
-	struct StackNode * next;
-} StackNode, *LinkStack;
+#define MAXINPUT 128
+int main() {
+	char str[MAXINPUT];
+	fgets(str, MAXINPUT, stdin);
+	str[strcspn(str, "\n")] = '\0';
 
-Status InitStack(LinkStack * S);
-Status Push(LinkStack S, ElemType e);
-bool IsEmpty(LinkStack S);
-Status Pop(LinkStack S, ElemType * e);
-Status GetTop(LinkStack S, ElemType * e);
-int StackLength(LinkStack S);
-Status DestoryLinkStack(LinkStack * S);
+	printf("%d\n", Calc_Infix(str));
 
-//初始化栈
-Status InitStack(LinkStack * S) {
-	if (S == NULL)	return ERROR;
-	*S = (StackNode *)malloc(sizeof(StackNode));
-	if (*S == NULL) return ERROR;
-	(*S)->next = NULL;
-	return OK;
+	return 0;
 }
 
-//入栈元素
-Status Push(LinkStack S, ElemType e) {
-	if (S == NULL)	return ERROR;
-	StackNode * cur = (StackNode *)malloc(sizeof(StackNode));
-	if (NULL == cur)	return ERROR;
-	cur->data = e;
-	cur->next = S->next;
-	S->next = cur;
-	return OK;
-}
+int Calc_Infix(const char * str) {
+	ElemType oprand1, oprand2, top_oper, now_oper, result, Nothing;
 
-//判断栈是否为空
-bool IsEmpty(LinkStack S) {
-	if (NULL == S)	return true;
-	return S->next == NULL;
-}
-
-//弹出元素
-Status Pop(LinkStack S, ElemType * e) {
-	if (S == NULL || IsEmpty(S))	return ERROR;
-	StackNode * cur = S->next;
-	*e = cur->data;
-	S->next = cur->next;
-	free(cur);
-	return OK;
-}
-
-//返回栈长度
-int StackLength(LinkStack S) {
-	if (NULL == S)	return 0;
-
-	int j = 0;
-	for (StackNode * cur = S->next; cur ; cur = cur->next)
-		j++;
-	return j;
-}
-
-//返回栈顶元素
-Status GetTop(LinkStack S, ElemType * e) {
-	if (S == NULL || IsEmpty(S))	return ERROR;
-	*e = S->next->data;
-	return OK;
-}
-
-//销毁链栈
-Status DestoryLinkStack(LinkStack * S) {
-	if (S == NULL || *S == NULL)	return ERROR;
-	StackNode * cur = (*S)->next, *p;
-	while (cur) {
-		p = cur->next;
-		free(cur);
-		cur	= p;
+	if (!MatchParentheses(str)) {
+		printf("表达式错误：未配对的括号\n");
+		exit(EXIT_FAILURE);
 	}
-	free(*S);
-	*S = NULL;
-	return OK;
+
+	LinkStack Operator, Operand;
+	InitStack(&Operator);
+	InitStack(&Operand);
+
+	const char * pstr = str;
+	while (*pstr) {
+		if (*pstr == ' ') {
+			pstr++;
+			continue;
+		}
+
+		if (*pstr == '-' && (pstr == str || *(pstr - 1) == '(' ||
+		                     (GetPriority(*(pstr - 1)) > 0 && *(pstr - 1) != ')'))) {
+			Push(Operand, 0);
+		}
+
+		if (isdigit(*pstr)) {
+			int sum = 0;
+			while (*pstr && isdigit(*pstr)) {
+				sum = sum * 10 + (*pstr - '0');
+				pstr++;
+			}
+			Push(Operand, sum);
+			continue;
+		}
+
+		switch (*pstr) {
+			case '(':
+				Push(Operator, *pstr);
+				break;
+			case ')':
+				while (GetTop(Operator, &top_oper) == OK && top_oper != '(') {
+					Pop(Operator, &now_oper);
+					Pop(Operand, &oprand2);
+					Pop(Operand, &oprand1);
+					result = Calculate(now_oper, oprand1, oprand2);
+					Push(Operand, result);
+				}
+				Pop(Operator, &Nothing);//抛弃'('
+				break;
+			case '+':
+			case '-':
+			case '*':
+			case '/':
+			case '%':
+			case '^':
+				while (!IsEmpty(Operator) && GetTop(Operator, &top_oper) == OK && top_oper != '(') {
+					if (GetPriority(*pstr) > GetPriority(top_oper)
+					    || IsRightAssoc(*pstr))
+						break;
+
+					Pop(Operator, &now_oper);
+					Pop(Operand, &oprand2);
+					Pop(Operand, &oprand1);
+					result = Calculate(now_oper, oprand1, oprand2);
+					Push(Operand, result);
+				}
+				Push(Operator, *pstr);
+				break;
+			default: {
+				DestroyStack(&Operand);
+				DestroyStack(&Operator);
+				printf("表达式错误：非法字符\n");
+				exit(EXIT_FAILURE);
+			}
+
+		}
+		pstr++;
+	}
+
+	while (!IsEmpty(Operator)) {
+		Pop(Operator, &now_oper);
+		Pop(Operand, &oprand2);
+		Pop(Operand, &oprand1);
+		result = Calculate(now_oper, oprand1, oprand2);
+		Push(Operand, result);
+	}
+
+	bool success = Pop(Operand, &result) == OK && IsEmpty(Operator);
+	DestroyStack(&Operand);
+	DestroyStack(&Operator);
+
+	if (!success) {
+		printf("表达式错误：操作数或运算符数量不匹配\n");
+		exit(EXIT_FAILURE);
+	}
+
+	return result;
 }
 
 int GetPriority(char oper) {
@@ -127,82 +156,50 @@ int Calculate(char oper, int oprand1, int oprand2) {
 			}
 			return oprand1 % oprand2;
 		case '^':
-			return (int)powf(oprand1, oprand2);
+			if (oprand2 < 0) return 0;
+			int res = 1;
+			for (int i = 0; i < oprand2; i++) {
+				res *= oprand1;
+			}
+			return res;
 	}
 
 	return 0;
 }
 
-int main() {
-	char str[1024];
-	char * pstr = str;
-	gets(str);
+bool MatchParentheses(const char *infix_str) {
+	if (NULL == infix_str)	return false;
+	ElemType push_elem, top_elem;
+	LinkStack Parentheses;
+	InitStack(&Parentheses);
 
-	ElemType oprand1, oprand2, top_oper, now_oper, reslut, Nothing;
-	LinkStack Operator, Operand;
-	InitStack(&Operator);
-	InitStack(&Operand);
-
-	while (*pstr) {
-		if (isdigit(*pstr)) {
-			int sum = 0;
-			while (*pstr && isdigit(*pstr)) {
-				sum = sum * 10 + (*pstr - '0');
-				pstr++;
+	bool flag = true;
+	while (*infix_str && flag) {
+		switch (*infix_str) {
+			case '(': {
+				push_elem = *infix_str;
+				Push(Parentheses, push_elem);
+				break;
 			}
-			Push(Operand, sum);
-		}
-
-		switch (*pstr) {
-			case ' ':
-				pstr++;
-				continue;
-			case '(':
-				Push(Operator, *pstr);
-				break;
-			case ')':
-				while (GetTop(Operator, &top_oper) == OK && top_oper != '(') {
-					Pop(Operator, &now_oper);
-					Pop(Operand, &oprand2);
-					Pop(Operand, &oprand1);
-					reslut = Calculate(now_oper, oprand1, oprand2);
-					Push(Operand, reslut);
+			case ')': {
+				if (GetTop(Parentheses, &top_elem) == OK && top_elem == '(') {
+					Pop(Parentheses, &top_elem);
+				} else {
+					flag = false;
 				}
-				Pop(Operator, &Nothing);//抛弃'('
 				break;
-			case '+':
-			case '-':
-			case '*':
-			case '/':
-			case '%':
-			case '^':
-				while (!IsEmpty(Operator) && GetTop(Operator, &top_oper) == OK && top_oper != '(' && GetPriority(*pstr) <= GetPriority(top_oper)) {
-					Pop(Operator, &now_oper);
-					Pop(Operand, &oprand2);
-					Pop(Operand, &oprand1);
-					reslut = Calculate(now_oper, oprand1, oprand2);
-					Push(Operand, reslut);
-				}
-				Push(Operator, *pstr);
-				break;
+			}
 		}
-		pstr++;
+		infix_str++;
 	}
 
-	while (!IsEmpty(Operator)) {
-		Pop(Operator, &now_oper);
-		Pop(Operand, &oprand2);
-		Pop(Operand, &oprand1);
-		reslut = Calculate(now_oper, oprand1, oprand2);
-		Push(Operand, reslut);
-	}
+	bool result = IsEmpty(Parentheses) && flag;
+	DestroyStack(&Parentheses);
+	return result;
+}
 
-	if (Pop(Operand, &oprand1) == OK && IsEmpty(Operator)) {
-		printf("%d\n", oprand1);
-	} else {
-		printf("表达式有误\n");
-	}
-
-	return 0;
+// 判断是否为右结合运算符
+bool IsRightAssoc(char oper) {
+	return oper == '^';
 }
 

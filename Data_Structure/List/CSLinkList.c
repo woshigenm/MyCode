@@ -112,3 +112,18 @@ Status DestroyList(CSLinkList * L) {
 	*L = NULL;
 	return OK;
 }
+
+Status GetElem(CSLinkList L, int i, ElemType * e) {
+	if (NULL == e || NULL == L) return ERROR;
+	CSNode * cur = L->next;
+	int j = 1;
+	while (cur->next != L && j < i) {
+		cur = cur->next;
+		++j;
+	}
+
+	if (cur->next == cur || j > i)	return ERROR; //i值不合法，cur == NULL 时i值过大, j > i 时，i 为负值
+	*e = cur->data;
+	return OK;
+}
+

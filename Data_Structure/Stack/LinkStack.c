@@ -67,7 +67,7 @@ Status GetTop(LinkStack S, ElemType * e) {
 }
 
 //销毁链栈
-Status DestoryStack(LinkStack * S) {
+Status DestroyStack(LinkStack * S) {
 	if (S == NULL || *S == NULL)	return ERROR;
 	StackNode * cur = (*S)->next, *p;
 	while (cur) {
@@ -90,6 +90,22 @@ Status ClearStack(LinkStack S) {
 		cur	= tmp;
 	}
 	S->next = NULL;
+	return OK;
+}
+
+// 反转链栈
+Status ReverseStack(LinkStack S) {
+	if (NULL == S)	return ERROR;
+	
+	StackNode *cur = S->next, *pre = NULL, *next = NULL;
+	while (cur) {
+		next = cur->next;
+		cur->next = pre;
+		pre = cur;
+		cur = next;
+	}
+	
+	S->next = pre; // 头结点重新指向新的栈顶
 	return OK;
 }
 

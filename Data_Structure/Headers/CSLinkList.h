@@ -15,6 +15,7 @@ typedef struct CSNode {
 } CSNode, *CSLinkList;
 
 Status InitList(CSLinkList * L);
+Status GetElem(CSLinkList L, int i, ElemType * e);
 Status ListInsert(CSLinkList L, int i, ElemType e);
 bool IsEmpty(CSLinkList L);
 Status ListDelete(CSLinkList L, int i, ElemType * e);

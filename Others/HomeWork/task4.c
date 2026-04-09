@@ -41,15 +41,16 @@ void Shuffle(int deck[], int decksize) {
 	int i = 0;
 	Elemtype e, no;
 	while (!IsEmpty(Queue1) && i < decksize) {
+		GetHead(Queue1, &e);
+		result[i++] = e;
+		DeQueue(Queue1, &no);
+
 		int j = 0;
 		while (!IsEmpty(Queue1) && j++ < i) {
 			GetHead(Queue1, &e);
 			EnQueue(Queue1, e);
 			DeQueue(Queue1, &no);
 		}
-		GetHead(Queue1, &e);
-		result[i++] = e;
-		DeQueue(Queue1, &no);
 	}
 
 	for (int i = 0; i < decksize; i++) {
