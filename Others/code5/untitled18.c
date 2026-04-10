@@ -3,7 +3,8 @@
 
 #define N 10
 
-int main() {
+int main()
+{
 	double arr[N];
 	int i, j, k;
 

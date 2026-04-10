@@ -2,7 +2,8 @@
 
 #define SIZE 100
 
-int main() {
+int main()
+{
 	int i, j, k;
 
 	int array[SIZE + 1] = {1, 1};

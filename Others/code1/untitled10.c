@@ -4,7 +4,8 @@
 
 #define SIZE 10
 
-int main() {
+int main()
+{
 	int i, j;
 
 	int array[SIZE];

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main()
+{
 
 	//3, 5, 8, 3, 1, 4, 5, 9, 4, 1
 	int i, n = 10;

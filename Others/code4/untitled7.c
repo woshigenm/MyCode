@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main()
+{
 	int i, j, n = 10;
 
 	int * array = (int *)malloc(sizeof(int) * n);

@@ -21,8 +21,8 @@ void UART_Init_REVICE(void)
 
 void UART_SendByte(unsigned char Byte)
 {
-	SBUF=Byte;
-	while(!TI); // 当数据从发送缓冲区 SBUF 全部发送完成后，硬件会自动将 TI 置为 1
+	SBUF = Byte;
+	while (!TI); // 当数据从发送缓冲区 SBUF 全部发送完成后，硬件会自动将 TI 置为 1
 	TI = 0;
 }
 
@@ -34,5 +34,5 @@ void UART_Rountine(void)	interrupt 4
 		P2 = ~SBUF;
 		RI = 0;
 	}
-}	
+}
 */

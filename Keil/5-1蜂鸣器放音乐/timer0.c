@@ -9,7 +9,7 @@ void Timer0_Init()
 	TH0 = 0xFC;		//设置定时初值
 	TF0 = 0;		//清除TF0标志
 	TR0 = 1;		//定时器0开始计时
-	ET0=1;
-	EA=1;
-	PT0=0;
+	ET0 = 1;
+	EA = 1;
+	PT0 = 0;
 }

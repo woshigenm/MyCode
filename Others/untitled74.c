@@ -12,7 +12,8 @@ void ChaoShen(int test);
 
 int count_a(int test);
 
-int main() {
+int main()
+{
 	fanxiaochao(TEST);
 	fanxiaochaoCNM(TEST);
 	fanxiaochaoMM(TEST);
@@ -22,7 +23,8 @@ int main() {
 	return 0;
 }
 
-int count_a(int test) {
+int count_a(int test)
+{
 	int count = 0;
 	while (test) {
 		test /= 2;
@@ -32,7 +34,8 @@ int count_a(int test) {
 	return count;
 }
 
-void ChaoShen(int test) {
+void ChaoShen(int test)
+{
 	char temp = test % 2;
 
 	if (test > 1) {
@@ -42,7 +45,8 @@ void ChaoShen(int test) {
 	putchar(temp == 0 ? '0' : '1');
 }
 
-void fanxiaochaoCNM(int test) {
+void fanxiaochaoCNM(int test)
+{
 	int j = 1, sum = 0;
 	int count = 1;
 	while (test != 0) {
@@ -58,7 +62,8 @@ void fanxiaochaoCNM(int test) {
 	printf("%d\n", sum);
 }
 
-void fanxiaochaoMM(int test) {
+void fanxiaochaoMM(int test)
+{
 	int j = 1, sum = 0;
 	int count = 1;
 	while (test != 0) {
@@ -74,7 +79,8 @@ void fanxiaochaoMM(int test) {
 	printf("%d\n", sum);
 }
 
-void fanxiaochaoSM(int test) {
+void fanxiaochaoSM(int test)
+{
 	int array[SIZE] = {};
 	int i, j;
 	for (i = 0; test != 0; i++) {
@@ -90,7 +96,8 @@ void fanxiaochaoSM(int test) {
 	putchar('\n');
 }
 
-void fanxiaochao(int test) {
+void fanxiaochao(int test)
+{
 	int array[SIZE];
 	int i, j;
 	for (i = 0; test != 0; i++) {

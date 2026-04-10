@@ -2,7 +2,8 @@
 #include <stdio.h>
 
 //初始化栈
-Status InitStack(LinkStack * S) {
+Status InitStack(LinkStack * S)
+{
 	if (S == NULL)	return ERROR;
 	*S = (StackNode *)malloc(sizeof(StackNode));
 	if (*S == NULL) return ERROR;
@@ -11,7 +12,8 @@ Status InitStack(LinkStack * S) {
 }
 
 //入栈元素
-Status Push(LinkStack S, ElemType e) {
+Status Push(LinkStack S, ElemType e)
+{
 	if (S == NULL)	return ERROR;
 	StackNode * cur = (StackNode *)malloc(sizeof(StackNode));
 	if (NULL == cur)	return ERROR;
@@ -22,13 +24,15 @@ Status Push(LinkStack S, ElemType e) {
 }
 
 //判断栈是否为空
-bool IsEmpty(LinkStack S) {
+bool IsEmpty(LinkStack S)
+{
 	if (NULL == S)	return true;
 	return S->next == NULL;
 }
 
 //弹出元素
-Status Pop(LinkStack S, ElemType * e) {
+Status Pop(LinkStack S, ElemType * e)
+{
 	if (S == NULL || IsEmpty(S))	return ERROR;
 	StackNode * cur = S->next;
 	*e = cur->data;
@@ -38,7 +42,8 @@ Status Pop(LinkStack S, ElemType * e) {
 }
 
 // 打印栈中所有元素（从栈底到栈顶）
-void PrintStack(LinkStack S) {
+void PrintStack(LinkStack S)
+{
 	if (S == NULL || IsEmpty(S)) {
 		printf("栈为空！\n");
 		return;
@@ -50,7 +55,8 @@ void PrintStack(LinkStack S) {
 }
 
 //返回栈长度
-int StackLength(LinkStack S) {
+int StackLength(LinkStack S)
+{
 	if (NULL == S)	return 0;
 
 	int j = 0;
@@ -60,14 +66,16 @@ int StackLength(LinkStack S) {
 }
 
 //返回栈顶元素
-Status GetTop(LinkStack S, ElemType * e) {
+Status GetTop(LinkStack S, ElemType * e)
+{
 	if (S == NULL || IsEmpty(S))	return ERROR;
 	*e = S->next->data;
 	return OK;
 }
 
 //销毁链栈
-Status DestroyStack(LinkStack * S) {
+Status DestroyStack(LinkStack * S)
+{
 	if (S == NULL || *S == NULL)	return ERROR;
 	StackNode * cur = (*S)->next, *p;
 	while (cur) {
@@ -81,7 +89,8 @@ Status DestroyStack(LinkStack * S) {
 }
 
 //清空栈
-Status ClearStack(LinkStack S) {
+Status ClearStack(LinkStack S)
+{
 	if (S == NULL)	return ERROR;
 	StackNode * cur = S->next, *tmp;
 	while (cur) {
@@ -94,9 +103,10 @@ Status ClearStack(LinkStack S) {
 }
 
 // 反转链栈
-Status ReverseStack(LinkStack S) {
+Status ReverseStack(LinkStack S)
+{
 	if (NULL == S)	return ERROR;
-	
+
 	StackNode *cur = S->next, *pre = NULL, *next = NULL;
 	while (cur) {
 		next = cur->next;
@@ -104,7 +114,7 @@ Status ReverseStack(LinkStack S) {
 		pre = cur;
 		cur = next;
 	}
-	
+
 	S->next = pre; // 头结点重新指向新的栈顶
 	return OK;
 }

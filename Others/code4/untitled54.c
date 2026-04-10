@@ -7,7 +7,8 @@
 
 int test(char * arr);
 
-int main() {
+int main()
+{
 	int m;
 	scanf("%d", &m);
 
@@ -24,7 +25,8 @@ int main() {
 	return 0;
 }
 
-int test(char * arr) {
+int test(char * arr)
+{
 	if (strlen(arr) < 8 || strlen(arr) > 16) {
 		return 0;
 	}

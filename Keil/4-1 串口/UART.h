@@ -1,5 +1,5 @@
-#ifndef __UART__H_ 
-#define __UART__H_ 
+#ifndef __UART__H_
+#define __UART__H_
 
 void UART_Init_SEND(void);
 void UART_Init_REVICE(void);

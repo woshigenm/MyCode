@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void test_2() {
+void test_2()
+{
 	int n, i, fan;
 
 	int array[4] = {};
@@ -23,7 +24,8 @@ void test_2() {
 	printf("无效票有:%d票\n", array[0]);
 }
 
-int main() {
+int main()
+{
 	test_2();
 	return 0;
 }

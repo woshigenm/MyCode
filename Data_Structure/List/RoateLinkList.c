@@ -5,7 +5,8 @@ Status RightList(LinkList L, int n);
 Status Roate(LinkList L, int j);
 void RotateK(Node* head, int k);
 
-int main() {
+int main()
+{
 	int array1[] = {1, 2, 3, 4};
 	int SIZE = sizeof(array1) / sizeof(array1[0]);
 	LinkList L1, L2;
@@ -25,12 +26,13 @@ int main() {
 
 	DestroyList(&L1);
 	DestroyList(&L2);
-	
+
 	return 0;
 }
 
 //向右旋转
-Status Roate(LinkList L, int j) {
+Status Roate(LinkList L, int j)
+{
 	if (L == NULL || L->next == NULL)	return ERROR;
 	int n = 1;
 	Node * tail = L->next;
@@ -54,7 +56,8 @@ Status Roate(LinkList L, int j) {
 }
 
 //向右旋转
-Status RightList(LinkList L, int n) {
+Status RightList(LinkList L, int n)
+{
 	if (L == NULL || L->next == NULL)	return ERROR;
 
 	Node *fast, *slow;
@@ -78,7 +81,8 @@ Status RightList(LinkList L, int n) {
 }
 
 //向右旋转
-void RotateK(Node* head, int k) {
+void RotateK(Node* head, int k)
+{
 	if (head == NULL || head->next == NULL) {
 		return;
 	}

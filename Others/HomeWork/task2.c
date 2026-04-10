@@ -10,14 +10,16 @@ typedef struct Node {
 } Node, *LinkList;
 
 //初始化单链表
-Status InitList(LinkList * L) {
+Status InitList(LinkList * L)
+{
 	*L = (struct Node*)malloc(sizeof(Node));
 	(*L)->next = NULL;
 	return OK;
 }
 
 //单链表位序 i 插入 e 值， n 个元素 0 <= i <= length, i = length 时为尾插
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	Node * cur = L; //如果 cur=L->next 会导致位序为1的节点插入失败
 	int j = 0;
 	while (cur && j < i) {
@@ -33,7 +35,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 }
 
 //遍历单链表
-void ListPrint(LinkList L) {
+void ListPrint(LinkList L)
+{
 	Node * cur = L->next;
 	while (cur) {
 		printf("%d ", cur->data);
@@ -43,7 +46,8 @@ void ListPrint(LinkList L) {
 }
 
 //销毁链表
-Status DestroyList(LinkList * L) {
+Status DestroyList(LinkList * L)
+{
 	Node * cur = (*L)->next, *p;
 	while (cur) {
 		p = cur->next;
@@ -56,7 +60,8 @@ Status DestroyList(LinkList * L) {
 }
 
 //链表合并
-void Merge(LinkList LA, LinkList LB, LinkList * LC) {
+void Merge(LinkList LA, LinkList LB, LinkList * LC)
+{
 	Node * i = LA->next;
 	Node * j = LB->next;
 	int k = 0;
@@ -86,7 +91,8 @@ void Merge(LinkList LA, LinkList LB, LinkList * LC) {
 	}
 }
 
-int main() {
+int main()
+{
 	LinkList L1, L2, L3;
 	InitList(&L1);
 	InitList(&L2);

@@ -19,7 +19,8 @@ Status MergeList(LinkList L1, LinkList L2);
 Status RevertList(LinkList L);
 Status DestoryList(LinkList * L);
 
-int main() {
+int main()
+{
 	int array1[] = {1, 3, 5, 7};
 	int array2[] = {2, 4, 6, 8};
 	int arr1_len = sizeof(array1) / sizeof(*array1);
@@ -44,7 +45,8 @@ int main() {
 	return 0;
 }
 
-Status InitList(LinkList * L) {
+Status InitList(LinkList * L)
+{
 	if (NULL == L)	return	ERROR;
 	*L = (LNode *)malloc(sizeof(LNode));
 	if (NULL == *L)	return ERROR;
@@ -52,7 +54,8 @@ Status InitList(LinkList * L) {
 	return OK;
 }
 
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return	ERROR;
 
@@ -73,7 +76,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 	return OK;
 }
 
-void PrintList(LinkList L) {
+void PrintList(LinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -91,7 +95,8 @@ void PrintList(LinkList L) {
 	putchar('\n');
 }
 
-Status MergeList(LinkList L1, LinkList L2) {
+Status MergeList(LinkList L1, LinkList L2)
+{
 	if (NULL == L1 || NULL == L2 || NULL == L1->next || NULL == L2->next)	return ERROR;
 
 	LNode * L1_cur = L1, * L2_cur = L2->next, *tmp = NULL;
@@ -119,7 +124,8 @@ Status MergeList(LinkList L1, LinkList L2) {
 	return OK;
 }
 
-Status RevertList(LinkList L) {
+Status RevertList(LinkList L)
+{
 	if (NULL == L || NULL == L->next)	return ERROR;
 
 	LNode * prior = NULL, *cur = L->next, *Next = NULL;
@@ -135,7 +141,8 @@ Status RevertList(LinkList L) {
 	return OK;
 }
 
-Status DestoryList(LinkList * L) {
+Status DestoryList(LinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 
 	LNode * cur = (*L)->next, *tmp = NULL;

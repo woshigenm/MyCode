@@ -6,7 +6,8 @@
 
 #define SIZE 100
 
-int main() {
+int main()
+{
 	int gongji, muji, xiaoji;
 
 	int counter = 0;

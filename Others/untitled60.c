@@ -3,7 +3,8 @@
 
 void swap(int * a, int * b);
 
-int main() {
+int main()
+{
 	int array[SIZE];
 	int arr[SIZE];
 	int i, j;
@@ -60,7 +61,8 @@ int main() {
 	return 0;
 }
 
-void swap(int * a, int * b) {
+void swap(int * a, int * b)
+{
 	int temp = *a;
 	*a = *b;
 	*b = temp;

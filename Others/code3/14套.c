@@ -9,7 +9,8 @@
 -114514
 请输入不超过五位数的正整数
 */
-void test_1() {
+void test_1()
+{
 	int x;
 	scanf("%d", &x);
 
@@ -32,7 +33,8 @@ void test_1() {
 输出样例为
 1!+2!+3!...10!为 4037913
 */
-void test_2() {
+void test_2()
+{
 	int sum = 0;
 	int fact = 1;
 
@@ -45,7 +47,8 @@ void test_2() {
 	printf("1!+2!+3!...10!为 %d\n", sum);
 }
 
-int main() {
+int main()
+{
 
 	return 0;
 }

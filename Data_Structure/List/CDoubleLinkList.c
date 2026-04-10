@@ -27,7 +27,8 @@ Status DestroyList(CDLinkList *L);
 void PrintListReverse(CDLinkList L);
 Status Change(CDLinkList L, CDNode * p);
 
-int main() {
+int main()
+{
 	CDLinkList L;
 	printf("1. 初始化双向链表\n");
 	InitList(&L);
@@ -83,7 +84,8 @@ int main() {
 	return 0;
 }
 
-Status InitList(CDLinkList * L) {
+Status InitList(CDLinkList * L)
+{
 	if (NULL == L)  return ERROR;
 	*L = (CDNode *)malloc(sizeof(CDNode));
 	if (NULL == *L) return ERROR;
@@ -92,7 +94,8 @@ Status InitList(CDLinkList * L) {
 	return OK;
 }
 
-Status GetElem(CDLinkList L, int i, ElemType * e) {
+Status GetElem(CDLinkList L, int i, ElemType * e)
+{
 	if (NULL == L)  return ERROR;
 	if (i < 1)      return ERROR;
 
@@ -109,7 +112,8 @@ Status GetElem(CDLinkList L, int i, ElemType * e) {
 	return OK;
 }
 
-Status ListInsert(CDLinkList L, int i, ElemType e) {
+Status ListInsert(CDLinkList L, int i, ElemType e)
+{
 	if (NULL == L)  return ERROR;
 	if (i < 1)      return ERROR;
 
@@ -134,7 +138,8 @@ Status ListInsert(CDLinkList L, int i, ElemType e) {
 	return OK;
 }
 
-Status ListDelete(CDLinkList L, int i, ElemType * e) {
+Status ListDelete(CDLinkList L, int i, ElemType * e)
+{
 	if (NULL == L)  return ERROR;
 	if (i < 1)      return ERROR;
 
@@ -156,7 +161,8 @@ Status ListDelete(CDLinkList L, int i, ElemType * e) {
 	return OK;
 }
 
-Status ClearList(CDLinkList L) {
+Status ClearList(CDLinkList L)
+{
 	if (NULL == L)  return ERROR;
 
 	CDNode *cur = L->next;
@@ -173,7 +179,8 @@ Status ClearList(CDLinkList L) {
 	return OK;
 }
 
-Status DestroyList(CDLinkList * L) {
+Status DestroyList(CDLinkList * L)
+{
 	if (NULL == L || NULL == *L) return ERROR;
 
 	CDNode *cur = (*L)->next;
@@ -190,7 +197,8 @@ Status DestroyList(CDLinkList * L) {
 	return OK;
 }
 
-void PrintList(CDLinkList L) {
+void PrintList(CDLinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -210,7 +218,8 @@ void PrintList(CDLinkList L) {
 	putchar('\n');
 }
 
-void PrintListReverse(CDLinkList L) {
+void PrintListReverse(CDLinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -230,7 +239,8 @@ void PrintListReverse(CDLinkList L) {
 	putchar('\n');
 }
 
-int ListLength(CDLinkList L) {
+int ListLength(CDLinkList L)
+{
 	if (NULL == L) return 0;
 
 	int len = 0;
@@ -242,12 +252,14 @@ int ListLength(CDLinkList L) {
 	return len;
 }
 
-bool ListEmpty(CDLinkList L) {
+bool ListEmpty(CDLinkList L)
+{
 	if (NULL == L) return true;
 	return L->next == L;
 }
 
-Status Change(CDLinkList L, CDNode * p) {
+Status Change(CDLinkList L, CDNode * p)
+{
 	if (NULL == L || L == p || p->prior == L) {
 		return ERROR;
 	}

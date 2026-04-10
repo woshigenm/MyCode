@@ -24,13 +24,15 @@ Status DestroyQueue(CSqQueue * Q);
 
 #define SIZE 13
 void Shuffle(int deck[], int decksize);
-int main() {
+int main()
+{
 	int deck[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 	Shuffle(deck, SIZE);
 	return 0;
 }
 
-void Shuffle(int deck[], int decksize) {
+void Shuffle(int deck[], int decksize)
+{
 	CSqQueue Queue1;
 	InitQueue(&Queue1, SIZE + 1);
 	for (int i = 0; i < decksize; ++i) {
@@ -39,17 +41,15 @@ void Shuffle(int deck[], int decksize) {
 
 	int result[SIZE] = {};
 	int i = 0;
-	Elemtype e, no;
+	Elemtype e;
 	while (!IsEmpty(Queue1) && i < decksize) {
-		GetHead(Queue1, &e);
+		DeQueue(Queue1, &e);
 		result[i++] = e;
-		DeQueue(Queue1, &no);
 
 		int j = 0;
 		while (!IsEmpty(Queue1) && j++ < i) {
-			GetHead(Queue1, &e);
+			DeQueue(Queue1, &e);
 			EnQueue(Queue1, e);
-			DeQueue(Queue1, &no);
 		}
 	}
 
@@ -61,7 +61,8 @@ void Shuffle(int deck[], int decksize) {
 }
 
 //初始化循环队列
-Status InitQueue(CSqQueue * Q, int n) {
+Status InitQueue(CSqQueue * Q, int n)
+{
 	if (NULL == Q || n <= 0)	return ERROR;
 	*Q = (QueueNode *)malloc(sizeof(struct QueueNode));
 	if (NULL == *Q)	return ERROR;
@@ -77,17 +78,20 @@ Status InitQueue(CSqQueue * Q, int n) {
 }
 
 //判断循环队列是否为空
-bool IsEmpty(CSqQueue Q) {
+bool IsEmpty(CSqQueue Q)
+{
 	return NULL == Q || Q->front == Q->rear;
 }
 
 //判断循环队列是否为满
-bool IsFull(CSqQueue Q) {
+bool IsFull(CSqQueue Q)
+{
 	return NULL == Q || (Q->rear + 1) % Q->maxsize == Q->front;
 }
 
 //循环队列入队
-Status EnQueue(CSqQueue Q, Elemtype e) {
+Status EnQueue(CSqQueue Q, Elemtype e)
+{
 	if (NULL == Q || IsFull(Q))	return ERROR;
 	Q->data[Q->rear] = e;
 	Q->rear = (Q->rear + 1) % Q->maxsize;
@@ -95,7 +99,8 @@ Status EnQueue(CSqQueue Q, Elemtype e) {
 }
 
 //循环队列出队
-Status DeQueue(CSqQueue Q, Elemtype * e) {
+Status DeQueue(CSqQueue Q, Elemtype * e)
+{
 	if (NULL == Q || IsEmpty(Q))	return ERROR;
 	*e = Q->data[Q->front];
 	Q->front = (Q->front + 1) % Q->maxsize;
@@ -103,18 +108,21 @@ Status DeQueue(CSqQueue Q, Elemtype * e) {
 }
 
 //返回循环队列长度
-int QueueLength(CSqQueue Q) {
+int QueueLength(CSqQueue Q)
+{
 	return NULL == Q ? 0 : (Q->rear - Q->front + Q->maxsize) % Q->maxsize;
 }
 
 //返回队头元素
-Status GetHead(CSqQueue Q, Elemtype * e) {
+Status GetHead(CSqQueue Q, Elemtype * e)
+{
 	if (NULL == Q || IsEmpty(Q))	return ERROR;
 	*e = Q->data[Q->front];
 	return OK;
 }
 
-Status DestroyQueue(CSqQueue * Q) {
+Status DestroyQueue(CSqQueue * Q)
+{
 	if (NULL == Q || NULL == *Q)	return ERROR;
 
 	if (NULL != (*Q)->data) {

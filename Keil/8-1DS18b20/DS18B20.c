@@ -12,13 +12,13 @@ float DS18B20_ReadT(void)
 {
 	unsigned char LSB, MSB;
 	float T;
-	
+
 	ONEWIRE_Init();
 	ONEWIRE_SendByte(0xCC);
 	ONEWIRE_SendByte(0xBE);
-	
-	LSB=ONEWIRE_ReviceByte();
-	MSB=ONEWIRE_ReviceByte();
+
+	LSB = ONEWIRE_ReviceByte();
+	MSB = ONEWIRE_ReviceByte();
 	T = (MSB << 8 | LSB) / 16.0;
 	return T;
 }

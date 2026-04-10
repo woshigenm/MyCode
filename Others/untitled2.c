@@ -2,7 +2,8 @@
 
 long long C(int n, int m);
 
-int main() {
+int main()
+{
 	int n = 10;
 	int i, j, k;
 	for (i = 0; i < n; i++) {
@@ -19,7 +20,8 @@ int main() {
 	return 0;
 }
 
-long long C(int n, int m) {
+long long C(int n, int m)
+{
 	//C52 5*4/1*2
 
 	if (n < m)	return -1;

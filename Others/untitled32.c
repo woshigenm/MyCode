@@ -3,7 +3,8 @@
 */
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	float sum = 0.0;
 	int tn = 1;
 	int an = 1;

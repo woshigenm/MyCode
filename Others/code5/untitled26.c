@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-int qingmi(int x) {
+int qingmi(int x)
+{
 	int sum = 0;
 
 	for (int i = 1; i < x; i++)
@@ -10,7 +11,8 @@ int qingmi(int x) {
 	return sum;
 }
 
-int main() {
+int main()
+{
 	int count = 0;
 	for (int i = 1; i <= 3000; i++) {
 		int first = qingmi(i);

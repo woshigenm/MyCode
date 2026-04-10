@@ -5,7 +5,8 @@
 输出样例
 6 28
 */
-void test_1() {
+void test_1()
+{
 	int sum;
 
 	int i, j;
@@ -26,7 +27,8 @@ void test_1() {
 f1A1n4X5i1A9oChAo@Sm
 这个数为 11451
 */
-void test_2_1() {
+void test_2_1()
+{
 	char str[11];
 	printf("请输入一个长度不超过10的字符串: ");
 	gets(str);
@@ -46,7 +48,8 @@ void test_2_1() {
 f1A1n4X5i1A9oChAo@Sm
 这个数为 11451
 */
-void test_2_2() {
+void test_2_2()
+{
 	char c;
 
 	int i = 0;
@@ -63,7 +66,8 @@ void test_2_2() {
 }
 
 
-int main() {
+int main()
+{
 
 	return 0;
 }

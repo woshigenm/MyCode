@@ -1,8 +1,8 @@
 #include <REGX52.H>
 #include "IIC.H"
 
-sbit IIC_SCL = P2^1;
-sbit IIC_SDA = P2^0;
+sbit IIC_SCL = P2 ^ 1;
+sbit IIC_SDA = P2 ^ 0;
 
 void IIC_Start(void)
 {
@@ -22,8 +22,7 @@ void IIC_Over(void)
 void IIC_SendByte(unsigned char Byte)
 {
 	unsigned char i;
-	for(i = 0; i < 8; ++i)
-	{
+	for (i = 0; i < 8; ++i) {
 		IIC_SDA = (0x80 >> i) & Byte;
 		IIC_SCL = 1;
 		IIC_SCL = 0;
@@ -34,16 +33,14 @@ unsigned char IIC_ReceiveByte(void)
 {
 	unsigned char i, Byte = 0;
 	IIC_SDA = 1;
-	for(i = 0; i < 8; ++i)
-	{
+	for (i = 0; i < 8; ++i) {
 		IIC_SCL = 1;
-		if(IIC_SDA)
-		{
+		if (IIC_SDA) {
 			Byte |= (0x80 >> i);
 		}
 		IIC_SCL = 0;
 	}
-	
+
 	return Byte;
 }
 
@@ -60,9 +57,9 @@ unsigned char IIC_ReceiveAck(void)
 	unsigned char AckBit = 0;
 	IIC_SDA = 1;
 	IIC_SCL = 1;
-	
-	if(IIC_SDA)	AckBit = 1;
+
+	if (IIC_SDA)	AckBit = 1;
 	IIC_SCL = 0;
-	
+
 	return AckBit;
 }

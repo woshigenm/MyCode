@@ -8,7 +8,8 @@ typedef int (*fp)(const void * a, const void * b);
 
 int compare(const void * a, const void * b);
 
-int main() {
+int main()
+{
 	int i, j, k;
 	int array[SIZE];
 	srand((unsigned int)time(NULL));
@@ -33,6 +34,7 @@ int main() {
 	return 0;
 }
 
-int compare(const void * a, const void * b) {
+int compare(const void * a, const void * b)
+{
 	return *((int*)a) - *((int*)b);
 }

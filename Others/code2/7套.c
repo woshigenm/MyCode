@@ -8,7 +8,8 @@
 请输入年月份(空格分隔): 2024 13
 月份输入有误
 */
-void test_1() {
+void test_1()
+{
 	int year, month;
 GO:
 	printf("请输入年月(空格分隔): ");
@@ -48,7 +49,8 @@ GO:
 输出样例
 121 121 131 131 141 141 212 212 232 232 242 242 313 313 323 323 343 343 414 414 424 424 434 434
 */
-void test_2() {
+void test_2()
+{
 	void test_2() {
 		int i, j, k;
 		for (i = 1; i <= 4; i++) {
@@ -63,7 +65,8 @@ void test_2() {
 		}
 	}
 }
-int main() {
+int main()
+{
 	int i, j, k;
 	for (i = 1; i <= 4; i++) {
 		for (j = 1; j <= 4; j++) {

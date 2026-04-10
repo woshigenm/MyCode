@@ -3,14 +3,16 @@
 
 #define SPACE ' '
 void Convert(int X, int N);
-int main() {
+int main()
+{
 	int X, N;
 	scanf("%d%d", &X, &N);
 	Convert(X, N);
 	return 0;
 }
 
-void Convert(int X, int N) {
+void Convert(int X, int N)
+{
 	LinkStack s;
 	InitStack(&s);
 

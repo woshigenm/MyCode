@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int C(int n, int m) {
+int C(int n, int m)
+{
 
 	if (n < 0 || m < 0 || n < m)	return -1;
 
@@ -15,7 +16,8 @@ int C(int n, int m) {
 }
 
 int n;
-void Yang() {
+void Yang()
+{
 	int array[128][128] = {};
 	/*
 	{
@@ -51,7 +53,8 @@ void Yang() {
 	putchar('\n');
 }
 
-void Yang1() {
+void Yang1()
+{
 	for (int i = 0; i < n; i++) {
 
 		for (int k = n - 1; k > i; k--) {
@@ -68,7 +71,8 @@ void Yang1() {
 	putchar('\n');
 }
 
-int main() {
+int main()
+{
 	scanf("%d", &n);
 	int a[128] = {0, 1};
 	int b[128] = {0};

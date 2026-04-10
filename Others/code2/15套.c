@@ -9,7 +9,8 @@
 1 3 2
 3 2 1
 */
-void test_1() {
+void test_1()
+{
 	int x, y, z, t;
 	printf("请输入三个整数(空格分隔): \n");
 	scanf("%d%d%d", &x, &y, &z);
@@ -41,7 +42,8 @@ void test_1() {
 114
 114 的二进制为 1110010
 */
-void test_2_1() {
+void test_2_1()
+{
 	int x;
 	printf("请输入一个十进制整数: ");
 	scanf("%d", &x);
@@ -67,7 +69,8 @@ void test_2_1() {
 1919810
 1919810 的二进制为 111010100101101000010
 */
-void test_2_2() {
+void test_2_2()
+{
 	int array[32];
 	int x, i, j, t;
 
@@ -90,7 +93,8 @@ void test_2_2() {
 24
 11000
 */
-void test_2_3(int x) {
+void test_2_3(int x)
+{
 	int t = x % 2;
 
 	if (x > 1) {
@@ -100,7 +104,8 @@ void test_2_3(int x) {
 	putchar(t == 0 ? '0' : '1');
 }
 
-void test_2_4() {
+void test_2_4()
+{
 	int array[32] = {};
 	int x, i, t;
 
@@ -121,7 +126,8 @@ void test_2_4() {
 	}
 }
 
-int main() {
+int main()
+{
 	test_2_4();
 	return 0;
 }

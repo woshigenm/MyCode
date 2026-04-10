@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	float height = 100.0;
 
 	float sum_ball = height;

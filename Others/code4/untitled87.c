@@ -6,7 +6,8 @@ typedef struct Point {
 	int y;
 } Point;
 
-Point CreatePoint(int x, int y) {
+Point CreatePoint(int x, int y)
+{
 	Point TempPoint;
 	TempPoint.x = x;
 	TempPoint.y = y;
@@ -14,7 +15,8 @@ Point CreatePoint(int x, int y) {
 	return TempPoint;
 }
 
-int main() {
+int main()
+{
 	Point p1 = CreatePoint(1, 2);
 	Point *pp = (Point *)malloc(sizeof(struct Point));
 	pp->x = 1;

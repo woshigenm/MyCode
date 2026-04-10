@@ -24,7 +24,8 @@ Status ClearList(DLinkList L);
 Status DestroyList(DLinkList *L);
 void PrintListReverse(DLinkList L);
 
-int main() {
+int main()
+{
 	DLinkList L;
 	InitList(&L);
 
@@ -48,7 +49,8 @@ int main() {
 	return 0;
 }
 
-Status InitList(DLinkList * L) {
+Status InitList(DLinkList * L)
+{
 	if (NULL == L)	return ERROR;
 	*L = (DNode *)malloc(sizeof(DNode));
 	if (NULL == *L)	return ERROR;
@@ -56,7 +58,8 @@ Status InitList(DLinkList * L) {
 	return OK;
 }
 
-Status GetElem(DLinkList L, int i, ElemType * e) {
+Status GetElem(DLinkList L, int i, ElemType * e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return ERROR;
 
@@ -72,7 +75,8 @@ Status GetElem(DLinkList L, int i, ElemType * e) {
 	return OK;
 }
 
-Status ListInsert(DLinkList L, int i, ElemType e) {
+Status ListInsert(DLinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return ERROR;
 
@@ -100,7 +104,8 @@ Status ListInsert(DLinkList L, int i, ElemType e) {
 	return OK;
 }
 
-Status ListDelete(DLinkList L, int i, ElemType * e) {
+Status ListDelete(DLinkList L, int i, ElemType * e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return ERROR;
 
@@ -124,7 +129,8 @@ Status ListDelete(DLinkList L, int i, ElemType * e) {
 }
 
 //重置线性表为空表
-Status ClearList(DLinkList  L) {
+Status ClearList(DLinkList  L)
+{
 	if (NULL == L)	return ERROR;
 	DNode * cur = L->next, *tmp;
 	while (cur) {
@@ -137,7 +143,8 @@ Status ClearList(DLinkList  L) {
 	return OK;
 }
 
-Status DestroyList(DLinkList * L) {
+Status DestroyList(DLinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 	DNode * cur = (*L)->next, *tmp;
 	while (cur) {
@@ -150,7 +157,8 @@ Status DestroyList(DLinkList * L) {
 	return OK;
 }
 
-void PrintList(DLinkList L) {
+void PrintList(DLinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -171,7 +179,8 @@ void PrintList(DLinkList L) {
 }
 
 //返回单链表长度
-int ListLength(DLinkList L) {
+int ListLength(DLinkList L)
+{
 	if (NULL == L)	return 0;
 	DNode * cur = L->next;
 	int len = 0;
@@ -183,12 +192,14 @@ int ListLength(DLinkList L) {
 }
 
 //返回单链表是否为空表
-bool ListEmpty(DLinkList L) {
+bool ListEmpty(DLinkList L)
+{
 	if (NULL == L)	return true;
 	return L->next == NULL;
 }
 
-void PrintListReverse(DLinkList L) {
+void PrintListReverse(DLinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;

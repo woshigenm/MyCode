@@ -6,7 +6,8 @@ int kmp(const char * const arr1, const char * const arr2);
 int look_substr1(const char str1[], const char str2[]);
 int look_substr2(const char str1[], const char str2[]);
 
-int main() {
+int main()
+{
 	char arr1[] = "ABCAAAAAAAAAAAAAAAAAABCDABABCDABCDABDE";
 	char arr2[] = "ABCDABDADABCDABDAD";
 	printf("%d\n", kmp(arr1, arr2));
@@ -16,7 +17,8 @@ int main() {
 }
 
 int count1, count2, count3;
-int kmp(const char * const arr1, const char * const arr2) {
+int kmp(const char * const arr1, const char * const arr2)
+{
 	int x, y, m, cn, i, j;
 
 	int * next = (int *)malloc(sizeof(int) * strlen(arr2));
@@ -59,7 +61,8 @@ int kmp(const char * const arr1, const char * const arr2) {
 	return y == strlen(arr2) ? x - y : -1;
 }
 
-int look_substr2(const char str1[], const char str2[]) {
+int look_substr2(const char str1[], const char str2[])
+{
 	int i = 0, j = 0;
 	size_t len1 = strlen(str1);
 	size_t len2 = strlen(str2);
@@ -79,7 +82,8 @@ int look_substr2(const char str1[], const char str2[]) {
 	return -1;
 }
 
-int look_substr1(const char str1[], const char str2[]) {
+int look_substr1(const char str1[], const char str2[])
+{
 	size_t len1 = strlen(str1);
 	size_t len2 = strlen(str2);
 

@@ -4,7 +4,8 @@
 
 #define SIZE 128
 
-int main() {
+int main()
+{
 	int i, j, sum, k = 0;
 
 	int array[SIZE];

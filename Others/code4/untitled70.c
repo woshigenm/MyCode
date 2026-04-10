@@ -4,7 +4,8 @@
 */
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int N;
 
 	scanf("%d", &N);

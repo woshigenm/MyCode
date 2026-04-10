@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int hour, minute, minus;
 
 	scanf("%d:%d:%d", &hour, &minute, &minus);

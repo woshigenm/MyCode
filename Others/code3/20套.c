@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 //20高考真题第一问
-void test_1() {
+void test_1()
+{
 	float volume, bianchang, high;
 
 	bianchang = 230.0;
@@ -17,7 +18,8 @@ void test_1() {
 fan xiao chao @ qq .com
 6 number words
 */
-void test_2_1() {
+void test_2_1()
+{
 	char str[128];
 	gets(str);
 
@@ -43,7 +45,8 @@ void test_2_1() {
 fan xiao chao @ sm qq .com
 7 number words
 */
-void test_2_2() {
+void test_2_2()
+{
 	char str[128];
 	gets(str);
 
@@ -58,7 +61,8 @@ void test_2_2() {
 	printf("%d number words\n", count);
 }
 
-int main() {
+int main()
+{
 
 	return 0;
 }

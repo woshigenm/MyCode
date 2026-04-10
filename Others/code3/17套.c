@@ -10,7 +10,8 @@ NO
 1
 NO
 */
-void test_1() {
+void test_1()
+{
 	int x;
 	scanf("%d", &x);
 
@@ -41,7 +42,8 @@ void test_1() {
 921 927 971 972
 一共有 24 个
 */
-void test_2() {
+void test_2()
+{
 	int array[4] = {1, 2, 7, 9};
 	int i, j, k, t, count;
 
@@ -64,7 +66,8 @@ void test_2() {
 	printf("\n一共有 %d 个\n", count);
 }
 
-int main() {
+int main()
+{
 	test_2();
 	return 0;
 }

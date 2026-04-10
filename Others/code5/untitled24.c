@@ -2,7 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-int look_substr(const char str1[], const char str2[]) {
+int look_substr(const char str1[], const char str2[])
+{
 	size_t len1 = strlen(str1);
 	size_t len2 = strlen(str2);
 
@@ -19,15 +20,18 @@ int look_substr(const char str1[], const char str2[]) {
 	return -1;
 }
 
-int look_substrs(const char str1[], const char str2[]) {
+int look_substrs(const char str1[], const char str2[])
+{
 	return strlen(str1) < strlen(str2) ? -1 : strpbrk(str1, str2) - str1;
 }
 
-int special_look_substrs(const char str1[], const char str2[]) {
+int special_look_substrs(const char str1[], const char str2[])
+{
 	return strlen(str1) < strlen(str2) ? -1 : strstr(str1, str2) - str1;
 }
 
-int main() {
+int main()
+{
 	const char str1[] = "113";
 	const char str2[] = "13";
 

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
-int main() {
+int main()
+{
 	/*
 	0123456
 	   1		1 7-6		3

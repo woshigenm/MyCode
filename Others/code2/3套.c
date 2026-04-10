@@ -8,7 +8,8 @@
 114514
 请输入正确的数
 */
-void test_1_1() {
+void test_1_1()
+{
 	int x, t, sum;
 	printf("请输入一个五位数: ");
 	scanf("%d", &x);
@@ -38,7 +39,8 @@ void test_1_1() {
 -114514
 请输入正确的数
 */
-void test_1_2() {
+void test_1_2()
+{
 	int x;
 	printf("请输入一个五位数: ");
 	scanf("%d", &x);
@@ -73,7 +75,8 @@ void test_1_2() {
 114500 到 114514 之间的闰年为:
 114504 114508 114512
 */
-void test_2() {
+void test_2()
+{
 	int year1, year2, t;
 	printf("请输入两个年份(空格分隔): ");
 	scanf("%d%d", &year1, &year2);
@@ -93,7 +96,8 @@ void test_2() {
 	}
 }
 
-int main() {
+int main()
+{
 	int year1, year2, t;
 	printf("请输入两个年份(空格分隔): ");
 	scanf("%d%d", &year1, &year2);

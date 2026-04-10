@@ -10,11 +10,13 @@ typedef struct {
 	int rear;
 } Queue;
 
-void InitQueue(Queue * q) {
+void InitQueue(Queue * q)
+{
 	q->front = q->rear = 0;
 }
 
-int isEmpty(Queue * q) {
+int isEmpty(Queue * q)
+{
 	if (q->front == 0 && q->rear == 0) {
 		return 0;
 	}
@@ -26,7 +28,8 @@ int isEmpty(Queue * q) {
 	return 0;
 }
 
-ElemType deQueue(Queue * q) {
+ElemType deQueue(Queue * q)
+{
 	if (isEmpty(q)) {
 		printf("The Queue Is NULL\n");
 		return 0;
@@ -37,7 +40,8 @@ ElemType deQueue(Queue * q) {
 	return q->data[(q->front) - 1];
 }
 
-int getHead(Queue * q, ElemType * e) {
+int getHead(Queue * q, ElemType * e)
+{
 	if (isEmpty(q)) {
 		printf("The Queue Is NULL\n");
 		return 0;
@@ -47,7 +51,8 @@ int getHead(Queue * q, ElemType * e) {
 	return 1 ;
 }
 
-int queueFull(Queue * q) {
+int queueFull(Queue * q)
+{
 	if (q->front > 0) {
 		int step = q->front;
 
@@ -65,7 +70,8 @@ int queueFull(Queue * q) {
 	return 1;
 }
 
-ElemType eqQueue(Queue * q, ElemType e) {
+ElemType eqQueue(Queue * q, ElemType e)
+{
 	if (q->rear >= MAXSIZE) {
 		if (!queueFull(q)) {
 			return 0;
@@ -78,7 +84,8 @@ ElemType eqQueue(Queue * q, ElemType e) {
 	return 1;
 }
 
-void PrintElem(Queue *q) {
+void PrintElem(Queue *q)
+{
 	if (isEmpty(q)) {
 		printf("The Queue Is NULL\n");
 		return;
@@ -91,7 +98,8 @@ void PrintElem(Queue *q) {
 	putchar('\n');
 }
 
-int main() {
+int main()
+{
 	Queue queue;
 	Queue *q = &queue;
 	InitQueue(q);

@@ -4,7 +4,8 @@ long long C(int n, int m);
 
 #define SIZE 128
 
-int main() {
+int main()
+{
 	/*
 	1 2 3 4 5
 	1	    1
@@ -51,7 +52,8 @@ int main() {
 	return 0;
 }
 
-void fanxiaochao() {
+void fanxiaochao()
+{
 	int n = 10;
 	int i, j, k;
 	for (i = 0; i < n; i++) {
@@ -68,7 +70,8 @@ void fanxiaochao() {
 	}
 }
 
-long long C(int n, int m) {
+long long C(int n, int m)
+{
 	//C52 5*4/1*2
 
 	if (n < m)	return -1;

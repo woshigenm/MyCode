@@ -25,7 +25,8 @@ void FitIn(const Point point[], int size);
 
 double Sqrt_R_In(const Point point[], int size, double avg_a, double k);
 
-int main() {
+int main()
+{
 	Point myfunction[SIZE] = { {0, 80.000000}, {1, 76.900000}, {2, 74.600000}, {3, 72.400000}, {4, 70.900000}, {5, 69.400000}, {6, 68.000000} };
 	FitIn(myfunction, SIZE);
 	putchar('\n');
@@ -34,13 +35,15 @@ int main() {
 	return 0;
 }
 
-double Get_avg(const Point point[], int size) {
+double Get_avg(const Point point[], int size)
+{
 	double sum = 0.0;
 	for (int i = 0; i < size; i++)	sum += y(i);
 	return sum / size;
 }
 
-double Variance(const Point point[], int size) {
+double Variance(const Point point[], int size)
+{
 	double sum = 0.0, avg_y;
 
 	avg_y = Get_avg(point, size);
@@ -50,7 +53,8 @@ double Variance(const Point point[], int size) {
 	return sum / (size - 1);
 }
 
-double Sqrt_R_Exp(const Point point[], int size, double avg_a) {
+double Sqrt_R_Exp(const Point point[], int size, double avg_a)
+{
 	double SST = 0.0, SSR = 0.0;
 
 	double avg_y = Get_avg(point, size);
@@ -66,7 +70,8 @@ double Sqrt_R_Exp(const Point point[], int size, double avg_a) {
 	return 1 - SSR / SST;
 }
 
-void FitExp(const Point point[], int size) {
+void FitExp(const Point point[], int size)
+{
 	double sum = 0.0, avg_a, a;
 
 	int count = 0;
@@ -91,7 +96,8 @@ void FitExp(const Point point[], int size) {
 	printf("Variance(方差): %lf, R^2(拟合优度): %lf\n", Variance(point, size), Sqrt_R_Exp(point, size, avg_a));
 }
 
-void FitIn(const Point point[], int size) {
+void FitIn(const Point point[], int size)
+{
 	double sum, a, k, avg_a;
 	for (int i = 1; i < size; i++) {
 		a = x(i) * (y(i) - SHiWEN) / (y(0) - y(i));
@@ -112,7 +118,8 @@ void FitIn(const Point point[], int size) {
 	printf("Variance(方差): %lf, R^2(拟合优度): %lf\n", Variance(point, size), Sqrt_R_In(point, size, avg_a, k));
 }
 
-double Sqrt_R_In(const Point point[], int size, double avg_a, double k) {
+double Sqrt_R_In(const Point point[], int size, double avg_a, double k)
+{
 	double SST = 0.0, SSR = 0.0;
 	double avg_y = Get_avg(point, size);
 

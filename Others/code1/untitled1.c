@@ -21,7 +21,8 @@ void jiemi_str(char * str, int str_size);
 //字母大小写转换函数
 void case_str(char * str, int str_size);
 
-int main() {
+int main()
+{
 	char arr[SIZE];
 
 	gets(arr);
@@ -43,7 +44,8 @@ str_size: 字符串的长度
 move_size: 移动位数
 flag: flag为true时向左移, flag为flase向右移动
 */
-void move_str(char * str, int str_size, int move_size, bool flag) {
+void move_str(char * str, int str_size, int move_size, bool flag)
+{
 	int i;
 	for (i = 0; i < str_size; i++) {
 		if (flag) {
@@ -66,7 +68,8 @@ void move_str(char * str, int str_size, int move_size, bool flag) {
 str: 要倒置的字符串
 str_size: 字符串的长度
 */
-void rev_str(char * str, int str_size) {
+void rev_str(char * str, int str_size)
+{
 	int i, tmp;
 	for (i = 0; i < str_size / 2; i++) {
 		tmp = str[i];
@@ -79,7 +82,8 @@ void rev_str(char * str, int str_size) {
 str: 要大小写转换的字符串
 str_size: 字符串的长度
 */
-void case_str(char * str, int str_size) {
+void case_str(char * str, int str_size)
+{
 	int i;
 
 	for (i = 0; i < str_size; i++) {
@@ -95,7 +99,8 @@ void case_str(char * str, int str_size) {
 str: 要加密的字符串
 str_size: 字符串的长度
 */
-void jiami_str(char * str, int str_size) {
+void jiami_str(char * str, int str_size)
+{
 	move_str(str, str_size, DEFAULT_MOVE, true);
 
 	rev_str(str, str_size);
@@ -107,7 +112,8 @@ void jiami_str(char * str, int str_size) {
 str: 要解密的字符串
 str_size: 字符串的长度
 */
-void jiemi_str(char * str, int str_size) {
+void jiemi_str(char * str, int str_size)
+{
 	move_str(str, str_size, DEFAULT_MOVE, false);
 
 	rev_str(str, str_size);

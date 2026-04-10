@@ -10,15 +10,13 @@ unsigned int Num;
 void main()
 {
 	LCD_Init();
-	
+
 	LCD_ShowNum(1, 1, Num, 5);
-	while(1)
-	{
+	while (1) {
 		KeyNum = Key();
-		
-		if(KeyNum)	LCD_ShowNum(1, 10, KeyNum, 1);
-		switch(KeyNum)
-		{
+
+		if (KeyNum)	LCD_ShowNum(1, 10, KeyNum, 1);
+		switch (KeyNum) {
 			case 1:
 				--Num;
 				LCD_ShowNum(1, 1, Num, 5);
@@ -32,7 +30,7 @@ void main()
 				Delay(6);
 				AT24C02_WriteByte(0, Num % 256);
 				Delay(6);
-			
+
 				LCD_ShowString(1, 15, "WT");
 				Delay(1000);
 				LCD_ShowString(1, 15, "  ");
@@ -41,7 +39,7 @@ void main()
 				Num = AT24C02_ReadByte(0);
 				Num |= AT24C02_ReadByte(1) << 8;
 				LCD_ShowNum(1, 1, Num, 5);
-			
+
 				LCD_ShowString(1, 15, "RD");
 				Delay(1000);
 				LCD_ShowString(1, 15, "  ");

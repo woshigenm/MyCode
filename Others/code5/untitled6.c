@@ -2,7 +2,8 @@
 
 #define N 100
 
-int main() {
+int main()
+{
 	int array[N + 1] = {};
 	for (int i = 2; i <= N; i++) {
 		if (!array[i]) {

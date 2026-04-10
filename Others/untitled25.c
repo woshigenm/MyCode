@@ -4,7 +4,8 @@
 */
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int input;
 
 	float sum = 0.0;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int FANXIAOCHAO_HUIWENSHU(int fan) {
+int FANXIAOCHAO_HUIWENSHU(int fan)
+{
 	int tmp = fan;
 	int sum = 0;
 	while (tmp) {
@@ -12,7 +13,8 @@ int FANXIAOCHAO_HUIWENSHU(int fan) {
 	return 0;
 }
 
-int main() {
+int main()
+{
 	int fanxiaochao;
 	scanf("%d", &fanxiaochao);
 

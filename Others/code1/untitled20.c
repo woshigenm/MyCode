@@ -2,7 +2,8 @@
 
 #define SIZE 128
 
-int main() {
+int main()
+{
 	char arr[SIZE];
 	gets(arr);
 

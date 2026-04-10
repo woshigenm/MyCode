@@ -5,7 +5,8 @@
 
 #define SIZE 128
 
-int main() {
+int main()
+{
 	char array[SIZE];
 	gets(array);
 	char x;

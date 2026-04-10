@@ -9,7 +9,8 @@
 1 3 2
 3 2 1
 */
-void test_1() {
+void test_1()
+{
 	int x, y, z, t;
 	scanf("%d%d%d", &x, &y, &z);
 	if (x < y) {
@@ -40,7 +41,8 @@ void test_1() {
 114
 114 的二进制为 1110010
 */
-void test_2_1() {
+void test_2_1()
+{
 	int x;
 	scanf("%d", &x);
 
@@ -65,7 +67,8 @@ void test_2_1() {
 1919810
 1919810 的二进制为 111010100101101000010
 */
-void test_2_2() {
+void test_2_2()
+{
 	int array[32];
 	int x, i, j, t;
 	scanf("%d", &x);
@@ -80,7 +83,8 @@ void test_2_2() {
 		printf("%d", array[j]);
 }
 
-int main() {
+int main()
+{
 	test_1();
 	return 0;
 }

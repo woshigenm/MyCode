@@ -2,7 +2,8 @@
 
 #define SIZE 10
 
-int main() {
+int main()
+{
 	int array[SIZE];
 
 	int i, j, k;

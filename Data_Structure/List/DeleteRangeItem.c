@@ -18,7 +18,8 @@ void PrintList(LinkList L);
 Status DestoryList(LinkList * L);
 Status DeleteRangeItem(LinkList L, ElemType mink, ElemType maxk);
 
-int main() {
+int main()
+{
 	int array1[] = {3, 0, -1, 1, 1, 1, 1, 4, 4};
 	int len1 = sizeof(array1) / sizeof(*array1);
 
@@ -36,7 +37,8 @@ int main() {
 	return 0;
 }
 
-Status InitList(LinkList * L) {
+Status InitList(LinkList * L)
+{
 	if (NULL == L)	return	ERROR;
 	*L = (LNode *)malloc(sizeof(LNode));
 	if (NULL == *L)	return ERROR;
@@ -44,7 +46,8 @@ Status InitList(LinkList * L) {
 	return OK;
 }
 
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return	ERROR;
 
@@ -65,7 +68,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 	return OK;
 }
 
-void PrintList(LinkList L) {
+void PrintList(LinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -83,7 +87,8 @@ void PrintList(LinkList L) {
 	putchar('\n');
 }
 
-Status DestoryList(LinkList * L) {
+Status DestoryList(LinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 
 	LNode * cur = (*L)->next, *tmp = NULL;
@@ -98,7 +103,8 @@ Status DestoryList(LinkList * L) {
 	return OK;
 }
 
-Status DeleteRangeItem(LinkList L, ElemType mink, ElemType maxk) {
+Status DeleteRangeItem(LinkList L, ElemType mink, ElemType maxk)
+{
 	if (NULL == L || NULL == L->next) return ERROR;
 
 	LNode *slow = L, *fast = slow->next, *tmp = NULL;

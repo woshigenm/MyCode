@@ -58,7 +58,8 @@ static void append_char(char *str, char ch);
 static void int_to_string(int num, char *out_str);
 
 // ======================== 核心逻辑 ========================
-int main() {
+int main()
+{
 	char str[MAXINPUT];
 	fgets(str, MAXINPUT, stdin);
 	str[strcspn(str, "\n")] = '\0';
@@ -70,9 +71,9 @@ int main() {
 
 	LinkStack PoLish = NULL;
 	if (InfixToPostfix(str, &PoLish) == OK) {
-		#if DEBUG
+#if DEBUG
 		PrintPoLishStack(PoLish);
-		#endif
+#endif
 		char InfixStr[STR_MAX_LEN * 2] = "";
 		if (PostfixToInfix(PoLish, InfixStr) == OK) {
 			printf("%s\n", InfixStr);
@@ -87,7 +88,8 @@ int main() {
 	return 0;
 }
 
-Status PostfixToInfix(LinkStack polish_stack, char *infix_str) {
+Status PostfixToInfix(LinkStack polish_stack, char *infix_str)
+{
 	ElemType top_elem, push_elem, oprand1, oprand2;
 	LinkStack Infix;
 	InitStack(&Infix);
@@ -148,7 +150,8 @@ Status PostfixToInfix(LinkStack polish_stack, char *infix_str) {
 
 
 // ======================== 辅助函数实现 ========================
-static void reverse_str(char *str) {
+static void reverse_str(char *str)
+{
 	if (str == NULL) return;
 	int len = strlen(str);
 	for (int i = 0; i < len / 2; i++) {
@@ -158,13 +161,15 @@ static void reverse_str(char *str) {
 	}
 }
 
-static void append_char(char *str, char ch) {
+static void append_char(char *str, char ch)
+{
 	int len = strlen(str);
 	str[len] = ch;
 	str[len + 1] = '\0';
 }
 
-static void int_to_string(int num, char *out_str) {
+static void int_to_string(int num, char *out_str)
+{
 	char buf[32];
 	int i = 0;
 
@@ -181,7 +186,8 @@ static void int_to_string(int num, char *out_str) {
 
 
 // ======================== 链栈基础操作实现 ========================
-Status InitStack(LinkStack *stack) {
+Status InitStack(LinkStack *stack)
+{
 	if (stack == NULL) return ERROR;
 	*stack = (StackNode *)malloc(sizeof(StackNode));
 	if (*stack == NULL) return ERROR;
@@ -189,7 +195,8 @@ Status InitStack(LinkStack *stack) {
 	return OK;
 }
 
-Status Push(LinkStack stack, ElemType elem) {
+Status Push(LinkStack stack, ElemType elem)
+{
 	if (stack == NULL) return ERROR;
 	StackNode *cur = (StackNode *)malloc(sizeof(StackNode));
 	if (NULL == cur) return ERROR;
@@ -199,12 +206,14 @@ Status Push(LinkStack stack, ElemType elem) {
 	return OK;
 }
 
-bool IsEmpty(LinkStack stack) {
+bool IsEmpty(LinkStack stack)
+{
 	if (NULL == stack) return true;
 	return stack->next == NULL;
 }
 
-Status Pop(LinkStack stack, ElemType *out_elem) {
+Status Pop(LinkStack stack, ElemType *out_elem)
+{
 	if (stack == NULL || IsEmpty(stack)) return ERROR;
 	StackNode *cur = stack->next;
 	*out_elem = cur->data;
@@ -213,7 +222,8 @@ Status Pop(LinkStack stack, ElemType *out_elem) {
 	return OK;
 }
 
-void PrintPoLishStack(LinkStack stack) {
+void PrintPoLishStack(LinkStack stack)
+{
 	if (stack == NULL) {
 		printf("栈未初始化！\n");
 		return;
@@ -250,7 +260,8 @@ void PrintPoLishStack(LinkStack stack) {
 	DestroyStack(&tempStack);
 }
 
-int StackLength(LinkStack stack) {
+int StackLength(LinkStack stack)
+{
 	if (NULL == stack) return 0;
 	int j = 0;
 	for (StackNode *cur = stack->next; cur; cur = cur->next)
@@ -258,13 +269,15 @@ int StackLength(LinkStack stack) {
 	return j;
 }
 
-Status GetTop(LinkStack stack, ElemType *out_elem) {
+Status GetTop(LinkStack stack, ElemType *out_elem)
+{
 	if (stack == NULL || IsEmpty(stack)) return ERROR;
 	*out_elem = stack->next->data;
 	return OK;
 }
 
-Status DestroyStack(LinkStack *stack) {
+Status DestroyStack(LinkStack *stack)
+{
 	if (stack == NULL || *stack == NULL) return ERROR;
 	StackNode *cur = (*stack)->next, *p;
 	while (cur) {
@@ -277,7 +290,8 @@ Status DestroyStack(LinkStack *stack) {
 	return OK;
 }
 
-Status ClearStack(LinkStack stack) {
+Status ClearStack(LinkStack stack)
+{
 	if (stack == NULL) return ERROR;
 	StackNode *cur = stack->next, *tmp;
 	while (cur) {
@@ -289,7 +303,8 @@ Status ClearStack(LinkStack stack) {
 	return OK;
 }
 
-Status ReverseStack(LinkStack stack) {
+Status ReverseStack(LinkStack stack)
+{
 	if (NULL == stack) return ERROR;
 	StackNode *cur = stack->next, *pre = NULL, *next = NULL;
 	while (cur) {
@@ -303,7 +318,8 @@ Status ReverseStack(LinkStack stack) {
 }
 
 // ======================== 表达式解析实现 ========================
-int GetPriority(char oper) {
+int GetPriority(char oper)
+{
 	switch (oper) {
 		case '+':
 		case '-':
@@ -320,11 +336,13 @@ int GetPriority(char oper) {
 	return -1;
 }
 
-bool IsRightAssoc(char oper) {
+bool IsRightAssoc(char oper)
+{
 	return oper == '^';
 }
 
-Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix) {
+Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix)
+{
 	if (infix_str == NULL || out_postfix == NULL) return ERROR;
 
 	LinkStack Operator;
@@ -421,7 +439,8 @@ Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix) {
 	return OK;
 }
 
-bool MatchParentheses(const char *infix_str) {
+bool MatchParentheses(const char *infix_str)
+{
 	if (NULL == infix_str) return false;
 	ElemType push_elem, top_elem;
 	LinkStack Parentheses;

@@ -3,7 +3,8 @@
 #include <string.h>
 
 bool Matching(char * str);
-int main() {
+int main()
+{
 	char arr[128];
 	while (scanf("%s", arr) == 1 && strcmp(arr, "#")) {
 		printf("%s -> %d\n", arr, Matching(arr));
@@ -12,7 +13,8 @@ int main() {
 	return 0;
 }
 
-bool Matching(char * str) {
+bool Matching(char * str)
+{
 	if (NULL == 	str)	return false;
 	ElemType e;
 	LinkStack S;

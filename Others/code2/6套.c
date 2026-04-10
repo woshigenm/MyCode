@@ -10,7 +10,8 @@ It is a letter!
 !
 It isn't a letter or number!
 */
-void test_1() {
+void test_1()
+{
 	char c;
 	printf("请输入一个字符: ");
 	c = getchar();
@@ -29,7 +30,8 @@ void test_1() {
 114 514 19198 10 4 52 5 25 55 23
 最大值 19198
 */
-void test_2() {
+void test_2()
+{
 	int array[10];
 
 	int i, j;
@@ -47,7 +49,8 @@ void test_2() {
 	printf("最大值为 %d \n", max);
 }
 
-int main() {
+int main()
+{
 	test_2();
 	return 0;
 }

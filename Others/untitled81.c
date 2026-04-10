@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-void reverse(char* s) {
+void reverse(char* s)
+{
 	int len = strlen(s);
 	for (int i = 0; i < len / 2; i++) {
 		char temp = s[i];
@@ -11,7 +12,8 @@ void reverse(char* s) {
 }
 
 #define SIZE 64
-void Convert(int x, int n) {
+void Convert(int x, int n)
+{
 	int tmp = x % n;
 	if (x >= n) {
 		Convert(x / n, n);
@@ -27,7 +29,8 @@ void Convert(int x, int n) {
 	}
 }
 
-void fanshen(int input, int n) {
+void fanshen(int input, int n)
+{
 	const char str[] = "0123456789ABCDEF";
 	char new_str[SIZE];
 	int i;
@@ -41,7 +44,8 @@ void fanshen(int input, int n) {
 	else printf("%s\n", new_str);
 }
 
-void fan(int input, int n) {
+void fan(int input, int n)
+{
 	char str[SIZE] = {};
 	int i = 0;
 	while (input) {
@@ -55,7 +59,8 @@ void fan(int input, int n) {
 	for (int j = i - 1; j >= 0; j--) printf("%c", str[j]);
 }
 
-int main() {
+int main()
+{
 	int input, n;
 	scanf("%d %d", &input, &n);
 

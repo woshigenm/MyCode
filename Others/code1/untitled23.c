@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	float i;
 	scanf("%f", &i);
 	float max, sum = i;

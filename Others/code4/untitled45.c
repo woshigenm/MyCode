@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	float money, r;
 
 	scanf("%f", &money);

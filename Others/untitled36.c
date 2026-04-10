@@ -3,7 +3,8 @@
 
 void swap(int * a, int * b);
 
-int main() {
+int main()
+{
 	int a, b, c, d;
 
 	scanf("%d%d%d%d", &a, &b, &c, &d);
@@ -21,7 +22,8 @@ int main() {
 	return 0;
 }
 
-void swap(int * a, int * b) {
+void swap(int * a, int * b)
+{
 	int temp = *a;
 	*a = *b;
 	*b = temp;

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
-int FANXIAOCHAO_TONGGOUSHU(int fan) {
+int FANXIAOCHAO_TONGGOUSHU(int fan)
+{
 	int k = 1;
 	int temp = fan;
 	for (int i = 1; temp != 0; i++) {
@@ -14,7 +15,8 @@ int FANXIAOCHAO_TONGGOUSHU(int fan) {
 	return 0;
 }
 
-int main() {
+int main()
+{
 	int fanxiaochao;
 	scanf("%d", &fanxiaochao);
 

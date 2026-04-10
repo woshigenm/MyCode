@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void Binary(int x) {
+void Binary(int x)
+{
 	int t = x % 2;
 
 	if (x > 1)	Binary(x / 2);
@@ -10,7 +11,8 @@ void Binary(int x) {
 
 #define N 32
 
-void convert() {
+void convert()
+{
 	char arr[N];
 	int x, n;
 
@@ -33,7 +35,8 @@ void convert() {
 		putchar(arr[j]);
 }
 
-int main() {
+int main()
+{
 	convert();
 	return 0;
 }

@@ -21,9 +21,9 @@ void UART_Init_Revice(void)	//4800bps@11.0592MHz
 
 void UART_SendByte(unsigned char Byte)
 {
-	SBUF=Byte;
-	while(TI==0);
-	TI=0;
+	SBUF = Byte;
+	while (TI == 0);
+	TI = 0;
 }
 
 /*

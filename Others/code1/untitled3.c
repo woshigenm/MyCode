@@ -4,13 +4,15 @@
 
 #define SIZE 45
 
-int fbi(int x) {
+int fbi(int x)
+{
 	if (x == 1 || x == 2)	return 1;
 
 	return fbi(x - 1) + fbi(x - 2);
 }
 
-long long int palouti(int x) {
+long long int palouti(int x)
+{
 	if (x == 1) return 1;
 	if (x == 2)	return 2;
 	if (x == 3)	return 4;
@@ -18,7 +20,8 @@ long long int palouti(int x) {
 	return palouti(x - 1) + palouti(x - 2) + palouti(x - 3);
 }
 
-int main() {
+int main()
+{
 	int i, j, sum, m, n;
 
 	sum = 0;

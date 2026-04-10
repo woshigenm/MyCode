@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void print(int x) {
+void print(int x)
+{
 	int r;
 	r = x % 2;
 	if (x >= 2) {
@@ -10,7 +11,8 @@ void print(int x) {
 	putchar(r == 0 ? '0' : '1');
 }
 
-int main() {
+int main()
+{
 	int k = 24;
 	print(k);
 	putchar('\n');
@@ -30,7 +32,8 @@ int main() {
 	return 0;
 }
 
-void fanxiaochao() {
+void fanxiaochao()
+{
 	int k = 1 << 14;
 
 	int array[128] = {};

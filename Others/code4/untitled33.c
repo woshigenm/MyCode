@@ -3,7 +3,8 @@
 
 #define SIZE 20
 
-int main() {
+int main()
+{
 	int array[SIZE] = {1, 1};
 	int sum = array[0] + array[1];
 

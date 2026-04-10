@@ -2,7 +2,8 @@
 
 #define SIZE 1000000
 
-int main() {
+int main()
+{
 	int array[SIZE + 1] = {1, 1};
 
 	for (int i = 2; i * i <= SIZE; i++) {

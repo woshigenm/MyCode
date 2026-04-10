@@ -4,7 +4,8 @@
 */
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int red, white, black;
 
 	int counter = 0;

@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 
-void swap(int *a, int *b) {
+void swap(int *a, int *b)
+{
 	int t = *a;
 	*a = *b;
 	*b = t;
@@ -14,7 +15,8 @@ void swap(int *a, int *b) {
 114 514 1919 8101
 8101 1919 514 114
 */
-void test_1() {
+void test_1()
+{
 	int a, b, c, d, t;
 	printf("请输入四个整数(空格分隔): ");
 
@@ -63,7 +65,8 @@ void test_1() {
 输出样例
 1+1/2+1/3+...1/50 = 4.499206
 */
-void test_2() {
+void test_2()
+{
 	float sum = 0;
 
 	int i;
@@ -75,7 +78,8 @@ void test_2() {
 	printf("1+1/2+1/3+...1/50 = %f\n", sum);
 }
 
-int main() {
+int main()
+{
 
 	return 0;
 }

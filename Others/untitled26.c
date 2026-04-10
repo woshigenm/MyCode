@@ -3,7 +3,8 @@
 输入输出形式如下。*/
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int i, j, sum;
 
 	printf("1000以内的完数有");

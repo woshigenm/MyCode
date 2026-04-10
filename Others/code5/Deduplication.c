@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int slow, fast;
 	int array[] = {1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 5, 6, 6};
 	int length = sizeof(array) / sizeof(*array);

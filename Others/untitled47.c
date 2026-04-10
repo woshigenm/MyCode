@@ -6,7 +6,8 @@
 
 #define FANXIAOCHAO 5
 
-int main() {
+int main()
+{
 	char input;
 	input = getchar();
 

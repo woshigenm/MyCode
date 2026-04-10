@@ -10,7 +10,8 @@ E
 79
 C
 */
-void test_1() {
+void test_1()
+{
 	float score;
 GO:
 	printf("请输入百分制成绩: ");
@@ -41,7 +42,8 @@ GO:
 2 4 6 8 10 12 14 16
 最大值 16 最小值 2, 最大值与最小值的差值为 14
 */
-void test_2() {
+void test_2()
+{
 	int array[8];
 
 	int i, j;
@@ -63,7 +65,8 @@ void test_2() {
 	printf("最大值 %d 最小值 %d, 最大值与最小值的差值为 %d\n", max, min, max - min);
 }
 
-int main() {
+int main()
+{
 	test_2();
 	return 0;
 }

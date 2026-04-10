@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 //【1+22+333+4444+……的和】编程实现1+22+333+4444+55555+……nn……n(n<=9)的和
-int main() {
+int main()
+{
 	int i, j, n;
 	scanf("%d", &n);
 

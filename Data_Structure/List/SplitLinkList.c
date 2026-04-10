@@ -3,7 +3,8 @@
 
 Node* splitList(Node* L1, int x);
 
-int main() {
+int main()
+{
 	int arr1[] = {1, 4, 3, 2, 5, 2}, x = 5;
 	int len_arr1 = sizeof(arr1) / sizeof(*arr1);
 	LinkList L1;
@@ -22,7 +23,8 @@ int main() {
 }
 
 //将链表L1分割为 小于x 的节点在前，大于等于x 的节点在后
-Node* splitList(Node* L1, int x) {
+Node* splitList(Node* L1, int x)
+{
 	Node *smallHead = (Node*)malloc(sizeof(Node));
 	Node *largeHead = (Node*)malloc(sizeof(Node));
 	Node *small = smallHead;

@@ -4,7 +4,8 @@
 //输入输出格式如下。
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	float tax = 0.0, money, temp;
 	scanf("%f", &money);
 	temp = money;

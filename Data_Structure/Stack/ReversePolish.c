@@ -44,7 +44,8 @@ Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix);
 bool MatchParentheses(const char *infix_str);
 
 #define MAXINPUT 128
-int main() {
+int main()
+{
 	char str[MAXINPUT];
 
 	fgets(str, MAXINPUT, stdin);
@@ -66,7 +67,8 @@ int main() {
 }
 
 //初始化栈
-Status InitStack(LinkStack * S) {
+Status InitStack(LinkStack * S)
+{
 	if (S == NULL)  return ERROR;
 	*S = (StackNode *)malloc(sizeof(StackNode));
 	if (*S == NULL) return ERROR;
@@ -75,7 +77,8 @@ Status InitStack(LinkStack * S) {
 }
 
 //入栈元素
-Status Push(LinkStack S, ElemType e) {
+Status Push(LinkStack S, ElemType e)
+{
 	if (S == NULL)  return ERROR;
 	StackNode * cur = (StackNode *)malloc(sizeof(StackNode));
 	if (NULL == cur)    return ERROR;
@@ -86,13 +89,15 @@ Status Push(LinkStack S, ElemType e) {
 }
 
 //判断栈是否为空
-bool IsEmpty(LinkStack S) {
+bool IsEmpty(LinkStack S)
+{
 	if (NULL == S)  return true;
 	return S->next == NULL;
 }
 
 //弹出元素
-Status Pop(LinkStack S, ElemType * e) {
+Status Pop(LinkStack S, ElemType * e)
+{
 	if (S == NULL || IsEmpty(S))    return ERROR;
 	StackNode * cur = S->next;
 	*e = cur->data;
@@ -102,7 +107,8 @@ Status Pop(LinkStack S, ElemType * e) {
 }
 
 // 打印栈中所有元素
-void PrintPoLishStack(LinkStack S) {
+void PrintPoLishStack(LinkStack S)
+{
 	if (S == NULL) {
 		printf("栈未初始化！\n");
 		return;
@@ -141,7 +147,8 @@ void PrintPoLishStack(LinkStack S) {
 }
 
 //返回栈长度
-int StackLength(LinkStack S) {
+int StackLength(LinkStack S)
+{
 	if (NULL == S)  return 0;
 
 	int j = 0;
@@ -151,14 +158,16 @@ int StackLength(LinkStack S) {
 }
 
 //返回栈顶元素
-Status GetTop(LinkStack S, ElemType * e) {
+Status GetTop(LinkStack S, ElemType * e)
+{
 	if (S == NULL || IsEmpty(S))    return ERROR;
 	*e = S->next->data;
 	return OK;
 }
 
 //销毁链栈
-Status DestroyStack(LinkStack * S) {
+Status DestroyStack(LinkStack * S)
+{
 	if (S == NULL || *S == NULL)    return ERROR;
 	StackNode * cur = (*S)->next, *p;
 	while (cur) {
@@ -172,7 +181,8 @@ Status DestroyStack(LinkStack * S) {
 }
 
 //清空栈
-Status ClearStack(LinkStack S) {
+Status ClearStack(LinkStack S)
+{
 	if (S == NULL)  return ERROR;
 	StackNode * cur = S->next, *tmp;
 	while (cur) {
@@ -184,7 +194,8 @@ Status ClearStack(LinkStack S) {
 	return OK;
 }
 
-int GetPriority(char oper) {
+int GetPriority(char oper)
+{
 	switch (oper) {
 		case '+':
 		case '-':
@@ -207,7 +218,8 @@ int GetPriority(char oper) {
  * @param out_postfix 输出参数，用于存放后缀表达式的栈（需传入未初始化的栈指针的地址）
  * @return Status 转换状态，OK 表示成功，ERROR 表示失败（如内存分配失败）
  */
-Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix) {
+Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix)
+{
 	if (infix_str == NULL || out_postfix == NULL) return ERROR;
 
 	LinkStack Operator;
@@ -313,11 +325,13 @@ Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix) {
 }
 
 // 判断是否为右结合运算符
-bool IsRightAssoc(char oper) {
+bool IsRightAssoc(char oper)
+{
 	return oper == '^';
 }
 
-bool MatchParentheses(const char *infix_str) {
+bool MatchParentheses(const char *infix_str)
+{
 	if (NULL == infix_str)	return false;
 	ElemType push_elme, top_elem;
 	LinkStack Parentheses;

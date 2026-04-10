@@ -2,7 +2,8 @@
 #include <string.h>
 
 #define SIZE 64
-void Convert(long long int x, int n) {
+void Convert(long long int x, int n)
+{
 	int tmp = x % n;
 
 	if (x > 1) {
@@ -19,7 +20,8 @@ void Convert(long long int x, int n) {
 	}
 }
 
-void fanshen() {
+void fanshen()
+{
 	const char str[] = "0123456789ABCDEF";
 	int input = 32, n = 8;
 
@@ -43,7 +45,8 @@ void fanshen() {
 
 }
 
-void test() {
+void test()
+{
 	int input, n;
 	scanf("%d%d", &input, &n);
 	Convert(input, n);
@@ -61,7 +64,8 @@ void test() {
 
 
 
-void fan(long long int input, int n) {
+void fan(long long int input, int n)
+{
 	char str[SIZE] = {};
 	int i = 0;
 	while (input) {
@@ -83,7 +87,8 @@ void fan(long long int input, int n) {
 	putchar('\n');
 }
 
-int main() {
+int main()
+{
 	long long int input, n;
 	//scanf("%lld", &input);
 

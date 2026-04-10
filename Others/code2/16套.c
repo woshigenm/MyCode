@@ -5,7 +5,8 @@
 输出样例
 153 370 371 407
 */
-void test_1() {
+void test_1()
+{
 	int i;
 	printf("所有的水仙花数为:\n");
 	for (i = 100; i < 1000; i++) {
@@ -27,7 +28,8 @@ void test_1() {
    ***
     *
 */
-void test_2() {
+void test_2()
+{
 	int i, j, k;
 	for (i = 5; i >= 1; i--) {
 		for (k = 5; k > i; k--)
@@ -40,7 +42,8 @@ void test_2() {
 	}
 }
 
-int main() {
+int main()
+{
 
 	return 0;
 }

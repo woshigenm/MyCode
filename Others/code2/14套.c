@@ -9,7 +9,8 @@
 -114514
 请输入不超过五位数的正整数
 */
-void test_1() {
+void test_1()
+{
 	int x;
 GO:
 	printf("请输入不超过五位数的正整数: ");
@@ -35,7 +36,8 @@ GO:
 输出样例为
 1!+2!+3!...10!为 4037913
 */
-void test_2() {
+void test_2()
+{
 	int sum = 0;
 	int fact = 1;
 
@@ -48,7 +50,8 @@ void test_2() {
 	printf("1!+2!+3!...10!为 %d\n", sum);
 }
 
-int main() {
+int main()
+{
 //	int x = 24;
 //	char str[] = "0123456789ABCDEF";
 //	char arr[32];

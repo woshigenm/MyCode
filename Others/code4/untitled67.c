@@ -1,7 +1,8 @@
 //1^3+2^3+...+m^3 <= n
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int n, m = 1;
 	scanf("%d", &n);
 

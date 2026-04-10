@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	char str[128];
 	gets(str);
 	//f1a1n4x5i1a4o

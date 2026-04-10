@@ -5,7 +5,8 @@
 
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	//路程
 	float sum_all = 0.0;
 	float fanxiachao = 100.0;

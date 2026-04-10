@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int FANXIAOCHAO_SHUIXIANHUASHU(int fan) {
+int FANXIAOCHAO_SHUIXIANHUASHU(int fan)
+{
 	if (fan < 100 || fan > 1000)
 		return 0;
 
@@ -14,7 +15,8 @@ int FANXIAOCHAO_SHUIXIANHUASHU(int fan) {
 	return 0;
 }
 
-int main() {
+int main()
+{
 	int fanxiaochao;
 	scanf("%d", &fanxiaochao);
 

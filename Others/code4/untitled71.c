@@ -4,7 +4,8 @@
 
 void swap(int * a, int * b);
 
-int main() {
+int main()
+{
 //	int array[SIZE] = {73, 85, 60, 75, 26, 58, 6, 64, 64, 10, 7, 70};
 //
 //	int i, j, t;
@@ -23,7 +24,8 @@ int main() {
 	return 0;
 }
 
-void SelectSort(int array[]) {
+void SelectSort(int array[])
+{
 	int i, j, minindex;
 
 	for (i = 0; i < SIZE - 1; i++) {
@@ -40,7 +42,8 @@ void SelectSort(int array[]) {
 	}
 }
 
-void swap(int * a, int * b) {
+void swap(int * a, int * b)
+{
 	int temp = *a;
 	*a = *b;
 	*b = temp;

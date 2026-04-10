@@ -1,7 +1,8 @@
 //【星期的判定】编程实现：输入今天是星期几（1—7,7代表星期日），求x天后星期几？
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int week, day;
 	scanf("%d%d", &week, &day);
 

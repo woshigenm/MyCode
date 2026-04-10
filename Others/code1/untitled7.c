@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int add(int x, int a) {
+int add(int x, int a)
+{
 	if (x == 1) {
 		return a;
 	}
@@ -9,7 +10,8 @@ int add(int x, int a) {
 	return add(x - 1, a) * 10 + a;
 }
 
-int main() {
+int main()
+{
 
 	int a, n, i;
 

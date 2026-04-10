@@ -10,7 +10,8 @@ bool MatchParentheses(const char *infix_str);
 bool IsRightAssoc(char oper);
 
 #define MAXINPUT 128
-int main() {
+int main()
+{
 	char str[MAXINPUT];
 	fgets(str, MAXINPUT, stdin);
 	str[strcspn(str, "\n")] = '\0';
@@ -20,7 +21,8 @@ int main() {
 	return 0;
 }
 
-int Calc_Infix(const char * str) {
+int Calc_Infix(const char * str)
+{
 	ElemType oprand1, oprand2, top_oper, now_oper, result, Nothing;
 
 	if (!MatchParentheses(str)) {
@@ -118,7 +120,8 @@ int Calc_Infix(const char * str) {
 	return result;
 }
 
-int GetPriority(char oper) {
+int GetPriority(char oper)
+{
 	switch (oper) {
 		case '+':
 		case '-':
@@ -135,7 +138,8 @@ int GetPriority(char oper) {
 	return -1;
 }
 
-int Calculate(char oper, int oprand1, int oprand2) {
+int Calculate(char oper, int oprand1, int oprand2)
+{
 	switch (oper) {
 		case '+':
 			return oprand1 + oprand2;
@@ -167,7 +171,8 @@ int Calculate(char oper, int oprand1, int oprand2) {
 	return 0;
 }
 
-bool MatchParentheses(const char *infix_str) {
+bool MatchParentheses(const char *infix_str)
+{
 	if (NULL == infix_str)	return false;
 	ElemType push_elem, top_elem;
 	LinkStack Parentheses;
@@ -199,7 +204,8 @@ bool MatchParentheses(const char *infix_str) {
 }
 
 // 判断是否为右结合运算符
-bool IsRightAssoc(char oper) {
+bool IsRightAssoc(char oper)
+{
 	return oper == '^';
 }
 

@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main() {
+int main()
+{
 	int n, m;
 	scanf("%d%d", &n, &m);
 

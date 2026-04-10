@@ -20,7 +20,8 @@ Status DestoryList(LinkList * L);
 Status IntersectionList(LinkList L1, LinkList L2);
 Status IntersectionList_Other(LinkList L1, LinkList L2);
 
-int main() {
+int main()
+{
 	int array1[] = {1, 2, 3};
 	int array2[] = {3, 4, 5, 6};
 
@@ -53,7 +54,8 @@ int main() {
 	return 0;
 }
 
-Status IntersectionList_Other(LinkList L1, LinkList L2) {
+Status IntersectionList_Other(LinkList L1, LinkList L2)
+{
 	if (NULL == L1 || NULL == L2 || NULL == L1->next || NULL == L2->next)	return ERROR;
 
 	LNode * p = L1, *p1 = L1->next, *p2 = L2->next, *tmp = NULL;
@@ -84,7 +86,8 @@ Status IntersectionList_Other(LinkList L1, LinkList L2) {
 	return OK;
 }
 
-Status IntersectionList(LinkList L1, LinkList L2) {
+Status IntersectionList(LinkList L1, LinkList L2)
+{
 	if (NULL == L1 || NULL == L2 || NULL == L1->next || NULL == L2->next)	return ERROR;
 
 	LNode * p1 = L1, *p2 = L2->next, *tmp = NULL;
@@ -130,7 +133,8 @@ Status IntersectionList(LinkList L1, LinkList L2) {
 	return OK;
 }
 
-Status InitList(LinkList * L) {
+Status InitList(LinkList * L)
+{
 	if (NULL == L)	return	ERROR;
 	*L = (LNode *)malloc(sizeof(LNode));
 	if (NULL == *L)	return ERROR;
@@ -138,7 +142,8 @@ Status InitList(LinkList * L) {
 	return OK;
 }
 
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return	ERROR;
 
@@ -159,7 +164,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 	return OK;
 }
 
-void PrintList(LinkList L) {
+void PrintList(LinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -177,7 +183,8 @@ void PrintList(LinkList L) {
 	putchar('\n');
 }
 
-Status DestoryList(LinkList * L) {
+Status DestoryList(LinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 
 	LNode * cur = (*L)->next, *tmp = NULL;

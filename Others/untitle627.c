@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <math.h>
 
-float Fbi(int x) {
+float Fbi(int x)
+{
 	return (sqrt(5) / 5) * (pow((sqrt(5) + 1) / 2, x) - pow((1 - sqrt(5)) / 2, x));
 }
 
-int main() {
+int main()
+{
 	float sum = 0.0;
 
 	int i;

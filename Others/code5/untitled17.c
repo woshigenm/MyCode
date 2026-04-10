@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
-int main() {
+int main()
+{
 	int i;
 	float a[10], avg, s = 0, x, min;
 

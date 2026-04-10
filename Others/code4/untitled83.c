@@ -4,7 +4,8 @@
 
 #define SIZE 10
 
-int main() {
+int main()
+{
 	unsigned array[SIZE] = {0xFFFFFFFF, 0x28C7D4F, 0xFBE21396, 0x6DD89A, 0xC1F00421,
 	                        0xB5D780F2, 0xE24A6B13, 0x5CC94A0E, 0x74FE89C1, 0x9B3A0D55
 	                       };

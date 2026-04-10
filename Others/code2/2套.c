@@ -8,7 +8,8 @@
 89 144 233 377 610
 987 1597 2584 4181 6765
 */
-void test_1() {
+void test_1()
+{
 	int array[20] = {1, 1};
 	int i;
 	printf("%d %d ", array[0], array[1]);
@@ -34,7 +35,8 @@ void test_1() {
 3 号候选人有 2 张选票
 无效选票有 4 张
 */
-void test_2() {
+void test_2()
+{
 	int n, i, fan;
 
 	int array[4] = {};
@@ -59,7 +61,8 @@ void test_2() {
 	printf("无效选票有 %d 张\n", array[0]);
 }
 
-int main() {
+int main()
+{
 	test_2();
 	return 0;
 }

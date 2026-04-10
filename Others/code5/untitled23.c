@@ -4,7 +4,8 @@
 
 #define N 5
 
-int main() {
+int main()
+{
 	srand((unsigned)time(NULL));
 	int ranom_number = rand() % 101;
 

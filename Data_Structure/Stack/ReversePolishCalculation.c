@@ -48,7 +48,8 @@ Status ReverseStack(LinkStack S);
 
 #define MAXINPUT 128
 #define DEBUG 1
-int main() {
+int main()
+{
 	char str[MAXINPUT];
 	fgets(str, MAXINPUT, stdin);
 	str[strcspn(str, "\n")] = '\0';
@@ -60,9 +61,9 @@ int main() {
 	}
 
 	if (InfixToPostfix(str, &PoLish) == OK) {
-		#if DEBUG
+#if DEBUG
 		PrintPoLishStack(PoLish);
-		#endif
+#endif
 		int result = ReversePolishCalculate(PoLish);
 		printf("%d\n", result);
 		DestroyStack(&PoLish);
@@ -73,7 +74,8 @@ int main() {
 	return 0;
 }
 
-int ReversePolishCalculate(LinkStack PoLish) {
+int ReversePolishCalculate(LinkStack PoLish)
+{
 	LinkStack Oprand;
 	InitStack(&Oprand);
 
@@ -119,7 +121,8 @@ int ReversePolishCalculate(LinkStack PoLish) {
 	return result;
 }
 
-int Calculate(char oper, int oprand1, int oprand2) {
+int Calculate(char oper, int oprand1, int oprand2)
+{
 	switch (oper) {
 		case '+':
 			return oprand1 + oprand2;
@@ -152,7 +155,8 @@ int Calculate(char oper, int oprand1, int oprand2) {
 }
 
 //初始化栈
-Status InitStack(LinkStack * S) {
+Status InitStack(LinkStack * S)
+{
 	if (S == NULL)  return ERROR;
 	*S = (StackNode *)malloc(sizeof(StackNode));
 	if (*S == NULL) return ERROR;
@@ -161,7 +165,8 @@ Status InitStack(LinkStack * S) {
 }
 
 //入栈元素
-Status Push(LinkStack S, ElemType e) {
+Status Push(LinkStack S, ElemType e)
+{
 	if (S == NULL)  return ERROR;
 	StackNode * cur = (StackNode *)malloc(sizeof(StackNode));
 	if (NULL == cur)    return ERROR;
@@ -172,13 +177,15 @@ Status Push(LinkStack S, ElemType e) {
 }
 
 //判断栈是否为空
-bool IsEmpty(LinkStack S) {
+bool IsEmpty(LinkStack S)
+{
 	if (NULL == S)  return true;
 	return S->next == NULL;
 }
 
 //弹出元素
-Status Pop(LinkStack S, ElemType * e) {
+Status Pop(LinkStack S, ElemType * e)
+{
 	if (S == NULL || IsEmpty(S))    return ERROR;
 	StackNode * cur = S->next;
 	*e = cur->data;
@@ -188,7 +195,8 @@ Status Pop(LinkStack S, ElemType * e) {
 }
 
 // 打印栈中所有元素
-void PrintPoLishStack(LinkStack S) {
+void PrintPoLishStack(LinkStack S)
+{
 	if (S == NULL) {
 		printf("栈未初始化！\n");
 		return;
@@ -227,7 +235,8 @@ void PrintPoLishStack(LinkStack S) {
 }
 
 //返回栈长度
-int StackLength(LinkStack S) {
+int StackLength(LinkStack S)
+{
 	if (NULL == S)  return 0;
 
 	int j = 0;
@@ -237,14 +246,16 @@ int StackLength(LinkStack S) {
 }
 
 //返回栈顶元素
-Status GetTop(LinkStack S, ElemType * e) {
+Status GetTop(LinkStack S, ElemType * e)
+{
 	if (S == NULL || IsEmpty(S))    return ERROR;
 	*e = S->next->data;
 	return OK;
 }
 
 //销毁链栈
-Status DestroyStack(LinkStack * S) {
+Status DestroyStack(LinkStack * S)
+{
 	if (S == NULL || *S == NULL)    return ERROR;
 	StackNode * cur = (*S)->next, *p;
 	while (cur) {
@@ -258,7 +269,8 @@ Status DestroyStack(LinkStack * S) {
 }
 
 //清空栈
-Status ClearStack(LinkStack S) {
+Status ClearStack(LinkStack S)
+{
 	if (S == NULL)  return ERROR;
 	StackNode * cur = S->next, *tmp;
 	while (cur) {
@@ -270,7 +282,8 @@ Status ClearStack(LinkStack S) {
 	return OK;
 }
 
-int GetPriority(char oper) {
+int GetPriority(char oper)
+{
 	switch (oper) {
 		case '+':
 		case '-':
@@ -287,7 +300,8 @@ int GetPriority(char oper) {
 	return -1;
 }
 
-Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix) {
+Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix)
+{
 	if (infix_str == NULL || out_postfix == NULL) return ERROR;
 
 	LinkStack Operator;
@@ -393,11 +407,13 @@ Status InfixToPostfix(const char *infix_str, LinkStack *out_postfix) {
 }
 
 // 判断是否为右结合运算符
-bool IsRightAssoc(char oper) {
+bool IsRightAssoc(char oper)
+{
 	return oper == '^';
 }
 
-bool MatchParentheses(const char *infix_str) {
+bool MatchParentheses(const char *infix_str)
+{
 	if (NULL == infix_str)	return false;
 	ElemType push_elem, top_elem;
 	LinkStack Parentheses;
@@ -429,7 +445,8 @@ bool MatchParentheses(const char *infix_str) {
 }
 
 // 反转链栈（原地修改指针方向，无需额外空间）
-Status ReverseStack(LinkStack S) {
+Status ReverseStack(LinkStack S)
+{
 	if (NULL == S)	return ERROR;
 
 	StackNode *cur = S->next, *pre = NULL, *next = NULL;

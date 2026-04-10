@@ -5,7 +5,8 @@
 
 #define SIZE 10
 
-int main() {
+int main()
+{
 	float array[SIZE];
 	int i;
 

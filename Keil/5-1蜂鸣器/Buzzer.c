@@ -7,9 +7,8 @@ void Delay500us(void);
 void Buzzer(unsigned int xms)
 {
 	unsigned int i;
-	for(i = 0; i < 2 * xms; ++i)
-	{
-		beep =~beep;
+	for (i = 0; i < 2 * xms; ++i) {
+		beep = ~beep;
 		Delay500us();
 	}
 }

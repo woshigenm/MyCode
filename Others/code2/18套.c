@@ -7,7 +7,8 @@
 偶数的平均值为 11.000000
 没有奇数
 */
-void test_1() {
+void test_1()
+{
 	int array[10];
 	int i;
 
@@ -50,7 +51,8 @@ void test_1() {
 179 181 191 193 197
 199 211
 */
-void test_2() {
+void test_2()
+{
 	int i, j, count;
 	count = 0;
 
@@ -71,7 +73,8 @@ void test_2() {
 	}
 }
 
-int main() {
+int main()
+{
 
 	return 0;
 }

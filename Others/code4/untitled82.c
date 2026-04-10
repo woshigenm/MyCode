@@ -2,7 +2,8 @@
 
 #define SIZE 10
 
-int main() {
+int main()
+{
 	unsigned int array[SIZE] = {0xFFFFFFFF, 0x028C7D4F, 0x0FBE21396, 0x006DD89A, 0x0C1F00421, 0x0B5D780F2, 0x0E24A6B13, 0x05CC94A0E, 0x074FE89C1, 0x09B3A0D55};
 
 	for (int i = 0; i < SIZE; i++)

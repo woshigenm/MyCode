@@ -8,18 +8,21 @@ typedef struct Node {
 	struct Node *next;
 } Node, *LinkList;
 
-void PrintInfo() {
+void PrintInfo()
+{
 	printf("链表为空\n");
 }
 
-void initList(LinkList L) {
+void initList(LinkList L)
+{
 	L = (LinkList)malloc(sizeof(LinkList));
 	if (!L)	return;
 	L->next = NULL;
 	L->data = 0;
 }
 
-Node * get_tail(Node * list) {
+Node * get_tail(Node * list)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return NULL;
@@ -33,7 +36,8 @@ Node * get_tail(Node * list) {
 	return Cur;
 }
 
-Node * InsertTail(Node * list, ElemType e) {
+Node * InsertTail(Node * list, ElemType e)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return NULL;
@@ -48,7 +52,8 @@ Node * InsertTail(Node * list, ElemType e) {
 	return NNode;
 }
 
-void Print(Node * list) {
+void Print(Node * list)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return;
@@ -63,7 +68,8 @@ void Print(Node * list) {
 	putchar('\n');
 }
 
-Node * insertHead(Node * list, ElemType e) {
+Node * insertHead(Node * list, ElemType e)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return NULL;
@@ -78,7 +84,8 @@ Node * insertHead(Node * list, ElemType e) {
 }
 
 
-Node * insertNode(Node * list, int pos, ElemType target) {
+Node * insertNode(Node * list, int pos, ElemType target)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return NULL;
@@ -99,7 +106,8 @@ Node * insertNode(Node * list, int pos, ElemType target) {
 	return NNode;
 }
 
-int deleteNode(Node * list, int pos) {
+int deleteNode(Node * list, int pos)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return 0;
@@ -129,7 +137,8 @@ int deleteNode(Node * list, int pos) {
 	return 1;
 }
 
-int lisLength(Node *list) {
+int lisLength(Node *list)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return 0;
@@ -145,7 +154,8 @@ int lisLength(Node *list) {
 	return length;
 }
 
-int destoryList(Node **list) {
+int destoryList(Node **list)
+{
 	if (list == NULL) {
 		PrintInfo();
 		return 0;
@@ -164,7 +174,8 @@ int destoryList(Node **list) {
 	return 1;
 }
 
-void reserveList(Node **list) {
+void reserveList(Node **list)
+{
 	//原链表顺序为A→B→C→D，反转后变为D→C→B→A。
 //	Node *list = initList();
 //	Node *arr[SIZE];
@@ -186,7 +197,8 @@ void reserveList(Node **list) {
 
 #define SIZE 100
 
-int main() {
+int main()
+{
 	LinkList list;
 	initList(list);
 

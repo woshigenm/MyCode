@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	char str[128];
 	gets(str);
 
@@ -15,7 +16,8 @@ int main() {
 	return 0;
 }
 
-void fanxiaochaoNMSL() {
+void fanxiaochaoNMSL()
+{
 	char str[128];
 	gets(str);
 

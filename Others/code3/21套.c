@@ -6,7 +6,8 @@
 f1A1n4X5i1A9oChAo@Sm
 F1A1N4X5I1A9OCHAO@SM
 */
-void test_1_1() {
+void test_1_1()
+{
 	char c;
 
 	char str[256];
@@ -28,7 +29,8 @@ void test_1_1() {
 f1A1n4X5i1A9oChAo@Sm
 F1A1N4X5I1A9OCHAO@SM
 */
-void test_1_2() {
+void test_1_2()
+{
 	char str[256];
 	int i;
 	gets(str);
@@ -48,7 +50,8 @@ void test_1_2() {
 10
 2 3 6 1 8 8 6 4 2 4
 */
-void test_2_1() {
+void test_2_1()
+{
 	int array[256] = {2, 3};
 
 	int n;
@@ -85,7 +88,8 @@ void test_2_1() {
 20
 2 3 6 1 8 8 6 4 2 4 8 3 2 6 1 2 2 4 8 3
 */
-void test_2_2() {
+void test_2_2()
+{
 	int array[128] = {2, 3};
 
 	int n;
@@ -108,6 +112,7 @@ void test_2_2() {
 		printf("%d ", array[i]);
 }
 
-int main() {
+int main()
+{
 	return 0;
 }

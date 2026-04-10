@@ -18,7 +18,8 @@ void PrintList(LinkList L);
 Status DestoryList(LinkList * L);
 Status FactorLinkList(LinkList L1, LinkList L2, LinkList L3);
 
-int main() {
+int main()
+{
 	int array1[] = {2, -3, 5, -1, 4, -6};
 	int len1 = sizeof(array1) / sizeof(*array1);
 
@@ -41,7 +42,8 @@ int main() {
 	return 0;
 }
 
-Status InitList(LinkList * L) {
+Status InitList(LinkList * L)
+{
 	if (NULL == L)	return	ERROR;
 	*L = (LNode *)malloc(sizeof(LNode));
 	if (NULL == *L)	return ERROR;
@@ -49,7 +51,8 @@ Status InitList(LinkList * L) {
 	return OK;
 }
 
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return	ERROR;
 
@@ -70,7 +73,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 	return OK;
 }
 
-void PrintList(LinkList L) {
+void PrintList(LinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -88,7 +92,8 @@ void PrintList(LinkList L) {
 	putchar('\n');
 }
 
-Status DestoryList(LinkList * L) {
+Status DestoryList(LinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 
 	LNode * cur = (*L)->next, *tmp = NULL;
@@ -103,7 +108,8 @@ Status DestoryList(LinkList * L) {
 	return OK;
 }
 
-Status FactorLinkList(LinkList L1, LinkList L2, LinkList L3) {
+Status FactorLinkList(LinkList L1, LinkList L2, LinkList L3)
+{
 	if (NULL == L1 || NULL == L2 || NULL == L3 || NULL == L1->next)	return ERROR;
 
 	LNode * Small = L2;

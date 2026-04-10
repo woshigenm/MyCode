@@ -2,7 +2,8 @@
 #include <stdio.h>
 
 //初始化栈
-Status InitStack(Stackptr * S, int n) {
+Status InitStack(Stackptr * S, int n)
+{
 	if (NULL == S || n <= 0) return ERROR;
 	*S = (Stackptr)malloc(sizeof(struct Stack));
 	if (NULL == *S)	return ERROR;
@@ -18,17 +19,20 @@ Status InitStack(Stackptr * S, int n) {
 }
 
 //判断栈是否为满
-bool IsFull(Stackptr S) {
+bool IsFull(Stackptr S)
+{
 	return S != NULL && (S->top + 1 == S->maxsize);
 }
 
 //判断栈是否为空
-bool IsEmpty(Stackptr S) {
+bool IsEmpty(Stackptr S)
+{
 	return S == NULL || S->top == -1;
 }
 
 //元素入栈
-Status Push(Stackptr S, ElemType e) {
+Status Push(Stackptr S, ElemType e)
+{
 	if (NULL == S) return ERROR;
 	if (IsFull(S))	return ERROR;
 	S->data[++S->top] = e;
@@ -36,7 +40,8 @@ Status Push(Stackptr S, ElemType e) {
 }
 
 //元素弹栈
-Status Pop(Stackptr S, ElemType * e) {
+Status Pop(Stackptr S, ElemType * e)
+{
 	if (NULL == S || NULL == e) return ERROR;
 	if (IsEmpty(S))	return ERROR;
 	*e = S->data[S->top--];
@@ -44,13 +49,15 @@ Status Pop(Stackptr S, ElemType * e) {
 }
 
 //返回栈长度
-int StackLength(Stackptr S) {
+int StackLength(Stackptr S)
+{
 	if (NULL == S)	return 0;
 	return S->top + 1;
 }
 
 //返回栈顶元素
-Status GetTop(Stackptr S, ElemType * e) {
+Status GetTop(Stackptr S, ElemType * e)
+{
 	if (NULL == S || NULL == e) return ERROR;
 	if (IsEmpty(S)) return ERROR;
 	*e = S->data[S->top];
@@ -58,7 +65,8 @@ Status GetTop(Stackptr S, ElemType * e) {
 }
 
 // 打印栈中所有元素（从栈底到栈顶）
-void PrintStack(Stackptr S) {
+void PrintStack(Stackptr S)
+{
 	if (NULL == S) {
 		printf("栈未初始化!\n");
 		return;
@@ -76,7 +84,8 @@ void PrintStack(Stackptr S) {
 	putchar('\n');
 }
 
-Status DestroyStack(Stackptr * S) {
+Status DestroyStack(Stackptr * S)
+{
 	if (NULL == S || NULL == *S)	return ERROR;
 	if (NULL != (*S)->data) {
 		free((*S)->data);
@@ -87,7 +96,8 @@ Status DestroyStack(Stackptr * S) {
 	return OK;
 }
 
-Status ClearStack(Stackptr S) {
+Status ClearStack(Stackptr S)
+{
 	if (NULL == S)	return ERROR;
 	S->top = -1;
 	return OK;

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+int main()
+{
 	char arr[128];
 	scanf("%s", arr);
 

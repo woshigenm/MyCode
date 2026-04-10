@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	for (int red = 1; red <= 3; red++) {
 		for (int white = 1; white <= 7; white++) {
 			for (int black = 0; black <= 4; black++) {

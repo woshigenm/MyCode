@@ -1,7 +1,8 @@
 //【水仙花数判断】输入任意一个数，判定是否是水仙花数（水仙花数是一个三位数，每位的立方和等于它本身），输入输出格式如下。
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int input;
 	scanf("%d", &input);
 

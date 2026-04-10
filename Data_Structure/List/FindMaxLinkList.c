@@ -17,9 +17,11 @@ Status ListInsert(LinkList L, int i, ElemType e);
 void PrintList(LinkList L);
 Status DestoryList(LinkList * L);
 Status FindMaxLinkList(LinkList L, ElemType * e);
+void FindMaxLinkListR(LinkList L, ElemType * Max);
 
-int main() {
-	int array1[] = {2, -3, 5, -1, 4, 6};
+int main()
+{
+	int array1[] = {2, -3, 5, -1, 4, 0};
 	int len1 = sizeof(array1) / sizeof(*array1);
 
 	LinkList L1;
@@ -34,11 +36,25 @@ int main() {
 		printf("MAX -> %d\n", e);
 	}
 
+	FindMaxLinkListR(L1, &e);
+
 	DestoryList(&L1);
 	return 0;
 }
 
-Status InitList(LinkList * L) {
+void FindMaxLinkListR(LinkList L, ElemType * Max)
+{
+	if (L == NULL)	return;
+	if (L->next == NULL) {
+		*Max = L->data;
+	}
+	FindMaxLinkListR(L->next, Max);
+	if (L->data > *Max)
+		*Max = L->data;
+}
+
+Status InitList(LinkList * L)
+{
 	if (NULL == L)	return	ERROR;
 	*L = (LNode *)malloc(sizeof(LNode));
 	if (NULL == *L)	return ERROR;
@@ -46,7 +62,8 @@ Status InitList(LinkList * L) {
 	return OK;
 }
 
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	if (i < 1)	return	ERROR;
 
@@ -67,7 +84,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 	return OK;
 }
 
-void PrintList(LinkList L) {
+void PrintList(LinkList L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -85,7 +103,8 @@ void PrintList(LinkList L) {
 	putchar('\n');
 }
 
-Status DestoryList(LinkList * L) {
+Status DestoryList(LinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 
 	LNode * cur = (*L)->next, *tmp = NULL;
@@ -100,7 +119,8 @@ Status DestoryList(LinkList * L) {
 	return OK;
 }
 
-Status FindMaxLinkList(LinkList L, ElemType * e) {
+Status FindMaxLinkList(LinkList L, ElemType * e)
+{
 	if (NULL == L || NULL == L->next || NULL == e)	return ERROR;
 
 	LNode * p = L->next;

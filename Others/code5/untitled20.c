@@ -2,7 +2,8 @@
 
 #define N 11
 
-int main() {
+int main()
+{
 	float input[N];
 	scanf("%f", &input[1]);
 

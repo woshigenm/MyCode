@@ -2,7 +2,8 @@
 
 #define ON 0
 
-int main() {
+int main()
+{
 	int array[] = {-1, 1, 2, 23, 45, 123, 456, 512, 345};
 
 	int size = sizeof(array) / sizeof(array[0]);

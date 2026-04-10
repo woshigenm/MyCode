@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 #define N 13
-int main() {
+int main()
+{
 	int array[N] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 	int year, month, day;

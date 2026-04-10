@@ -1,9 +1,9 @@
 #include <REGX52.H>
 
 //引脚配置：
-sbit LCD_RS=P2^6;
-sbit LCD_RW=P2^5;
-sbit LCD_EN=P2^7;
+sbit LCD_RS = P2 ^ 6;
+sbit LCD_RW = P2 ^ 5;
+sbit LCD_EN = P2 ^ 7;
 #define LCD_DataPort P0
 
 //函数定义：
@@ -18,8 +18,7 @@ void LCD_Delay()
 
 	i = 2;
 	j = 239;
-	do
-	{
+	do {
 		while (--j);
 	} while (--i);
 }
@@ -31,12 +30,12 @@ void LCD_Delay()
   */
 void LCD_WriteCommand(unsigned char Command)
 {
-	LCD_RS=0;
-	LCD_RW=0;
-	LCD_DataPort=Command;
-	LCD_EN=1;
+	LCD_RS = 0;
+	LCD_RW = 0;
+	LCD_DataPort = Command;
+	LCD_EN = 1;
 	LCD_Delay();
-	LCD_EN=0;
+	LCD_EN = 0;
 	LCD_Delay();
 }
 
@@ -47,12 +46,12 @@ void LCD_WriteCommand(unsigned char Command)
   */
 void LCD_WriteData(unsigned char Data)
 {
-	LCD_RS=1;
-	LCD_RW=0;
-	LCD_DataPort=Data;
-	LCD_EN=1;
+	LCD_RS = 1;
+	LCD_RW = 0;
+	LCD_DataPort = Data;
+	LCD_EN = 1;
 	LCD_Delay();
-	LCD_EN=0;
+	LCD_EN = 0;
 	LCD_Delay();
 }
 
@@ -62,15 +61,12 @@ void LCD_WriteData(unsigned char Data)
   * @param  Column 列位置，范围：1~16
   * @retval 无
   */
-void LCD_SetCursor(unsigned char Line,unsigned char Column)
+void LCD_SetCursor(unsigned char Line, unsigned char Column)
 {
-	if(Line==1)
-	{
-		LCD_WriteCommand(0x80|(Column-1));
-	}
-	else if(Line==2)
-	{
-		LCD_WriteCommand(0x80|(Column-1+0x40));
+	if (Line == 1) {
+		LCD_WriteCommand(0x80 | (Column - 1));
+	} else if (Line == 2) {
+		LCD_WriteCommand(0x80 | (Column - 1 + 0x40));
 	}
 }
 
@@ -94,9 +90,9 @@ void LCD_Init()
   * @param  Char 要显示的字符
   * @retval 无
   */
-void LCD_ShowChar(unsigned char Line,unsigned char Column,char Char)
+void LCD_ShowChar(unsigned char Line, unsigned char Column, char Char)
 {
-	LCD_SetCursor(Line,Column);
+	LCD_SetCursor(Line, Column);
 	LCD_WriteData(Char);
 }
 
@@ -107,12 +103,11 @@ void LCD_ShowChar(unsigned char Line,unsigned char Column,char Char)
   * @param  String 要显示的字符串
   * @retval 无
   */
-void LCD_ShowString(unsigned char Line,unsigned char Column,char *String)
+void LCD_ShowString(unsigned char Line, unsigned char Column, char *String)
 {
 	unsigned char i;
-	LCD_SetCursor(Line,Column);
-	for(i=0;String[i]!='\0';i++)
-	{
+	LCD_SetCursor(Line, Column);
+	for (i = 0; String[i] != '\0'; i++) {
 		LCD_WriteData(String[i]);
 	}
 }
@@ -120,13 +115,12 @@ void LCD_ShowString(unsigned char Line,unsigned char Column,char *String)
 /**
   * @brief  返回值=X的Y次方
   */
-int LCD_Pow(int X,int Y)
+int LCD_Pow(int X, int Y)
 {
 	unsigned char i;
-	int Result=1;
-	for(i=0;i<Y;i++)
-	{
-		Result*=X;
+	int Result = 1;
+	for (i = 0; i < Y; i++) {
+		Result *= X;
 	}
 	return Result;
 }
@@ -139,13 +133,12 @@ int LCD_Pow(int X,int Y)
   * @param  Length 要显示数字的长度，范围：1~5
   * @retval 无
   */
-void LCD_ShowNum(unsigned char Line,unsigned char Column,unsigned int Number,unsigned char Length)
+void LCD_ShowNum(unsigned char Line, unsigned char Column, unsigned int Number, unsigned char Length)
 {
 	unsigned char i;
-	LCD_SetCursor(Line,Column);
-	for(i=Length;i>0;i--)
-	{
-		LCD_WriteData(Number/LCD_Pow(10,i-1)%10+'0');
+	LCD_SetCursor(Line, Column);
+	for (i = Length; i > 0; i--) {
+		LCD_WriteData(Number / LCD_Pow(10, i - 1) % 10 + '0');
 	}
 }
 
@@ -157,24 +150,20 @@ void LCD_ShowNum(unsigned char Line,unsigned char Column,unsigned int Number,uns
   * @param  Length 要显示数字的长度，范围：1~5
   * @retval 无
   */
-void LCD_ShowSignedNum(unsigned char Line,unsigned char Column,int Number,unsigned char Length)
+void LCD_ShowSignedNum(unsigned char Line, unsigned char Column, int Number, unsigned char Length)
 {
 	unsigned char i;
 	unsigned int Number1;
-	LCD_SetCursor(Line,Column);
-	if(Number>=0)
-	{
+	LCD_SetCursor(Line, Column);
+	if (Number >= 0) {
 		LCD_WriteData('+');
-		Number1=Number;
-	}
-	else
-	{
+		Number1 = Number;
+	} else {
 		LCD_WriteData('-');
-		Number1=-Number;
+		Number1 = -Number;
 	}
-	for(i=Length;i>0;i--)
-	{
-		LCD_WriteData(Number1/LCD_Pow(10,i-1)%10+'0');
+	for (i = Length; i > 0; i--) {
+		LCD_WriteData(Number1 / LCD_Pow(10, i - 1) % 10 + '0');
 	}
 }
 
@@ -186,20 +175,16 @@ void LCD_ShowSignedNum(unsigned char Line,unsigned char Column,int Number,unsign
   * @param  Length 要显示数字的长度，范围：1~4
   * @retval 无
   */
-void LCD_ShowHexNum(unsigned char Line,unsigned char Column,unsigned int Number,unsigned char Length)
+void LCD_ShowHexNum(unsigned char Line, unsigned char Column, unsigned int Number, unsigned char Length)
 {
-	unsigned char i,SingleNumber;
-	LCD_SetCursor(Line,Column);
-	for(i=Length;i>0;i--)
-	{
-		SingleNumber=Number/LCD_Pow(16,i-1)%16;
-		if(SingleNumber<10)
-		{
-			LCD_WriteData(SingleNumber+'0');
-		}
-		else
-		{
-			LCD_WriteData(SingleNumber-10+'A');
+	unsigned char i, SingleNumber;
+	LCD_SetCursor(Line, Column);
+	for (i = Length; i > 0; i--) {
+		SingleNumber = Number / LCD_Pow(16, i - 1) % 16;
+		if (SingleNumber < 10) {
+			LCD_WriteData(SingleNumber + '0');
+		} else {
+			LCD_WriteData(SingleNumber - 10 + 'A');
 		}
 	}
 }
@@ -212,13 +197,12 @@ void LCD_ShowHexNum(unsigned char Line,unsigned char Column,unsigned int Number,
   * @param  Length 要显示数字的长度，范围：1~16
   * @retval 无
   */
-void LCD_ShowBinNum(unsigned char Line,unsigned char Column,unsigned int Number,unsigned char Length)
+void LCD_ShowBinNum(unsigned char Line, unsigned char Column, unsigned int Number, unsigned char Length)
 {
 	unsigned char i;
-	LCD_SetCursor(Line,Column);
-	for(i=Length;i>0;i--)
-	{
-		LCD_WriteData(Number/LCD_Pow(2,i-1)%2+'0');
+	LCD_SetCursor(Line, Column);
+	for (i = Length; i > 0; i--) {
+		LCD_WriteData(Number / LCD_Pow(2, i - 1) % 2 + '0');
 	}
 }
 
@@ -226,45 +210,46 @@ void LCD_ShowBinNum(unsigned char Line,unsigned char Column,unsigned int Number,
  * @brief 手动清除指定行的内容
  * @param line 行号：0-第一行，1-第二行，2-清除所有行
  */
-void LCD_ClearManual(unsigned char line) {
-    unsigned char i;
-    
-    switch(line) {
-        case 0: // 清除第一行
-            LCD_WriteCommand(0x80); // 设置到第一行开头
-            for(i = 0; i < 16; i++) {
-                LCD_WriteData(' '); // 写入空格
-            }
-			
+void LCD_ClearManual(unsigned char line)
+{
+	unsigned char i;
+
+	switch (line) {
+		case 0: // 清除第一行
+			LCD_WriteCommand(0x80); // 设置到第一行开头
+			for (i = 0; i < 16; i++) {
+				LCD_WriteData(' '); // 写入空格
+			}
+
 			LCD_WriteCommand(0x80);
-			
-            break;
-            
-        case 1: // 清除第二行
-            LCD_WriteCommand(0xC0); // 设置到第二行开头
-            for(i = 0; i < 16; i++) {
-                LCD_WriteData(' '); // 写入空格
-            }
-			
+
+			break;
+
+		case 1: // 清除第二行
+			LCD_WriteCommand(0xC0); // 设置到第二行开头
+			for (i = 0; i < 16; i++) {
+				LCD_WriteData(' '); // 写入空格
+			}
+
 			LCD_WriteCommand(0xC0);
-            break;
-            
-        case 2: // 清除所有行
-        default:
-            // 清除第一行
-            LCD_WriteCommand(0x80);
-            for(i = 0; i < 16; i++) {
-                LCD_WriteData(' ');
-            }
-            
-            // 清除第二行
-            LCD_WriteCommand(0xC0);
-            for(i = 0; i < 16; i++) {
-                LCD_WriteData(' ');
-            }
-			
+			break;
+
+		case 2: // 清除所有行
+		default:
+			// 清除第一行
 			LCD_WriteCommand(0x80);
-			
-            break;
-		}
+			for (i = 0; i < 16; i++) {
+				LCD_WriteData(' ');
+			}
+
+			// 清除第二行
+			LCD_WriteCommand(0xC0);
+			for (i = 0; i < 16; i++) {
+				LCD_WriteData(' ');
+			}
+
+			LCD_WriteCommand(0x80);
+
+			break;
+	}
 }

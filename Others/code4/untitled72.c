@@ -24,15 +24,18 @@ void QueuePush(Queue * queue, int data);
 
 void QueuePop(Queue * queue, int data);
 
-int QueueFront(Queue * queue) {
+int QueueFront(Queue * queue)
+{
 	return queue->head->data;
 }
 
-int QueueBack(Queue * queue) {
+int QueueBack(Queue * queue)
+{
 	return queue->tail->data;
 }
 
-int QueueEmpty(Queue * queue) {
+int QueueEmpty(Queue * queue)
+{
 	return queue->head == NULL ? 1 : 0;
 }
 
@@ -44,12 +47,14 @@ void QueueSort(Queue * queue);
 
 int QueueMax(Queue * queue, int target);
 
-int main() {
+int main()
+{
 
 	return 0;
 }
 
-void QueuePush(Queue * queue, int data) {
+void QueuePush(Queue * queue, int data)
+{
 	QueueNode * Node = (QueueNode *)malloc(sizeof(QueueNode));
 	if (NULL == Node) {
 		printf("PUSH FAILD\n");
@@ -70,7 +75,8 @@ void QueuePush(Queue * queue, int data) {
 	//QueueSort(queue);
 }
 
-int QueueSize(Queue * queue) {
+int QueueSize(Queue * queue)
+{
 	QueueNode* cur = queue->head;
 	int size = 0;
 	while (cur) {
@@ -81,7 +87,8 @@ int QueueSize(Queue * queue) {
 	return size;
 }
 
-void QueuePop(Queue * queue, int data) {
+void QueuePop(Queue * queue, int data)
+{
 	QueueNode * Cur = queue->head;
 
 	QueueNode * temp = queue->head->next;
@@ -105,7 +112,8 @@ void QueuePop(Queue * queue, int data) {
 	}
 }
 
-void QueueDestory(Queue * queue) {
+void QueueDestory(Queue * queue)
+{
 	QueueNode * Cur = queue->head;
 
 	while (Cur) {
@@ -117,7 +125,8 @@ void QueueDestory(Queue * queue) {
 	queue->tail = queue->head = NULL;
 }
 
-void QueueInit(Queue * queue) {
+void QueueInit(Queue * queue)
+{
 	queue->head = queue->tail = NULL;
 }
 
@@ -128,7 +137,8 @@ void QueueInit(Queue * queue) {
 //		Cur = Cur->next;
 //	}
 
-void QueueSelect(Queue * queue) {
+void QueueSelect(Queue * queue)
+{
 	if (QueueEmpty(queue)) {
 		printf("The Queue Is NULL\n");
 		return;
@@ -144,13 +154,15 @@ void QueueSelect(Queue * queue) {
 	putchar('\n');
 }
 
-void swap(int * a, int * b) {
+void swap(int * a, int * b)
+{
 	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
-int QueueMax(Queue * queue, int target) {
+int QueueMax(Queue * queue, int target)
+{
 	QueueNode * Cur = queue->head;
 
 	int max = Cur->data;
@@ -164,7 +176,8 @@ int QueueMax(Queue * queue, int target) {
 	return max;
 }
 
-void QueueSort(Queue * queue) {
+void QueueSort(Queue * queue)
+{
 	if (QueueEmpty(queue)) {
 		printf("The Queue Is NULL\n");
 		return;

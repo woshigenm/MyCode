@@ -20,7 +20,8 @@ void ListPrint(LinkList L);
 Status DestroyList(LinkList *L);
 Status LinkListDedpu(LinkList L1);
 
-int main() {
+int main()
+{
 	int arr1[] = {1, 1, 1, 2, 2, 3};
 	int len_arr1 = sizeof(arr1) / sizeof(*arr1);
 	LinkList L1;
@@ -39,7 +40,8 @@ int main() {
 }
 
 //初始化单链表
-Status InitList(LinkList * L) {
+Status InitList(LinkList * L)
+{
 	if (NULL == L)	return ERROR;
 	*L = (struct Node*)malloc(sizeof(Node));
 	if (NULL == *L)	return ERROR;
@@ -48,7 +50,8 @@ Status InitList(LinkList * L) {
 }
 
 //单链表位序 i 插入 e 值， n 个元素 1 <= i <= n + 1, i = n + 1 时为尾插
-Status ListInsert(LinkList L, int i, ElemType e) {
+Status ListInsert(LinkList L, int i, ElemType e)
+{
 	if (NULL == L)	return ERROR;
 	Node * cur = L; //如果 cur=L->next 会导致位序为1的节点插入失败
 	int j = 0;
@@ -68,7 +71,8 @@ Status ListInsert(LinkList L, int i, ElemType e) {
 }
 
 //遍历单链表
-void ListPrint(LinkList  L) {
+void ListPrint(LinkList  L)
+{
 	if (NULL == L) {
 		printf("链表未初始化\n");
 		return;
@@ -88,7 +92,8 @@ void ListPrint(LinkList  L) {
 }
 
 //销毁线性表
-Status DestroyList(LinkList * L) {
+Status DestroyList(LinkList * L)
+{
 	if (NULL == L || NULL == *L)	return ERROR;
 	Node * cur = (*L)->next, *tmp = NULL;
 	while (cur) {
@@ -101,7 +106,8 @@ Status DestroyList(LinkList * L) {
 	return OK;
 }
 
-Status LinkListDedpu(LinkList L1) {
+Status LinkListDedpu(LinkList L1)
+{
 	if (NULL == L1 || NULL == L1->next)	return ERROR;
 
 	Node * slow = L1, *fast = L1->next, *tmp = NULL;

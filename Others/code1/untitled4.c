@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-long long int palouti(int x) {
+long long int palouti(int x)
+{
 	if (x == 1)	return 1;
 	if (x == 2)	return 2;
 	if (x == 3)	return 4;
@@ -10,7 +11,8 @@ long long int palouti(int x) {
 
 #define SIZE 46
 
-int main() {
+int main()
+{
 	int n, i;
 	printf("输入一个整数n,(1<=n<46): ");
 

@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	float score;
 	scanf("%f", &score);
 

@@ -3,7 +3,8 @@
 
 #define SIZE 3
 
-int main() {
+int main()
+{
 	int array[SIZE][SIZE];
 
 	int a, b;

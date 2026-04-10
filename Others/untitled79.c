@@ -2,7 +2,8 @@
 
 #define SIZE 26
 
-int main() {
+int main()
+{
 	int array[SIZE] = {};
 	char str[128];
 	gets(str);

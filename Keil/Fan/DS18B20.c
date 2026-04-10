@@ -19,9 +19,9 @@ float DS18B20_ReadT(void)
 	OneWire_Init();
 	OneWire_SendByte(DS18B20_SKIP_ROM);
 	OneWire_SendByte(DS18B20_READ_SCRATCHPAD);
-	
-	LSB=OneWire_ReceiveByte();
-	MSB=OneWire_ReceiveByte();
-	
+
+	LSB = OneWire_ReceiveByte();
+	MSB = OneWire_ReceiveByte();
+
 	return (((unsigned int)MSB << 8) | LSB) / 16.0f;
 }

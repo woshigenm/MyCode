@@ -4,14 +4,12 @@ void Delay(unsigned int xms)	//@11.0592MHz
 {
 	unsigned char data i, j;
 
-	do
-	{
+	do {
 		_nop_();
 		i = 2;
 		j = 199;
-		do
-		{
+		do {
 			while (--j);
 		} while (--i);
-	}while(xms--);
+	} while (xms--);
 }

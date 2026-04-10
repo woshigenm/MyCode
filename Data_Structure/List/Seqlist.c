@@ -2,7 +2,8 @@
 #include <stdio.h>
 
 //初始化线性表
-Status InitList(SqList ** S, int n) {
+Status InitList(SqList ** S, int n)
+{
 	*S = (SqList *)malloc(sizeof(SqList));
 	if (NULL == *S)	return ERROR;
 	(*S)->data = (int *)malloc(sizeof(int) * n);
@@ -13,7 +14,8 @@ Status InitList(SqList ** S, int n) {
 }
 
 //销毁线性表
-Status DestroyList(SqList ** S) {
+Status DestroyList(SqList ** S)
+{
 	if (NULL == S || NULL == *S) return ERROR;
 
 	if ((*S)->data != NULL) {
@@ -29,7 +31,8 @@ Status DestroyList(SqList ** S) {
 }
 
 //扩大线性表
-Status IncreaseList(SqList * S, int len) {
+Status IncreaseList(SqList * S, int len)
+{
 	if (NULL == S || len <= 0)	return ERROR;
 	ElemType *tmp = (ElemType *)malloc((sizeof(ElemType) * (len + S->MAXSIZE)));
 	if (NULL == tmp)	return ERROR;
@@ -42,36 +45,42 @@ Status IncreaseList(SqList * S, int len) {
 }
 
 //重置线性表为空表
-Status ClearList(SqList * S) {
+Status ClearList(SqList * S)
+{
 	if (NULL == S)	return ERROR;
 	S->length = 0;
 	return OK;
 }
 
 //返回线性表是否为空表
-bool ListEmpty(SqList * S) {
+bool ListEmpty(SqList * S)
+{
 	return S ? S->length == 0 : false;
 }
 
 //返回线性表中元素个数
-int ListLength(SqList * S) {
+int ListLength(SqList * S)
+{
 	return S ? S->length : 0;
 }
 
 //按位取值
-ElemType GetElem(SqList * S, int i) {
+ElemType GetElem(SqList * S, int i)
+{
 	if (NULL == S || i < 1 || i > S->length) return 0;
 	return S->data[i - 1];
 }
 
 //按位取结点地址值
-ElemType * GetAdd(SqList * S, int i) {
+ElemType * GetAdd(SqList * S, int i)
+{
 	if (NULL == S || i < 1 || i > S->length) return NULL;
 	return &S->data[i - 1];
 }
 
 //查找元素e在线性表中的位序
-int LocateElem(SqList * S, ElemType e) {
+int LocateElem(SqList * S, ElemType e)
+{
 	if (NULL == S)	return 0;
 	for (int i = 1; i <= S->length; ++i) {
 		if (e == S->data[i - 1])	return i;
@@ -80,7 +89,8 @@ int LocateElem(SqList * S, ElemType e) {
 }
 
 //查找cur_e 之前的前驱结点，返回 pre_e
-Status PriorElem(SqList * S, ElemType cur_e, ElemType ** pre_e) {
+Status PriorElem(SqList * S, ElemType cur_e, ElemType ** pre_e)
+{
 	if (NULL == S || NULL == pre_e)	return ERROR;
 	*pre_e = NULL;
 	int i = LocateElem(S, cur_e);
@@ -90,7 +100,8 @@ Status PriorElem(SqList * S, ElemType cur_e, ElemType ** pre_e) {
 }
 
 //查找cur_e 之前的后驱结点，返回 next_e
-Status NextElem(SqList * S, ElemType cur_e, ElemType ** next_e) {
+Status NextElem(SqList * S, ElemType cur_e, ElemType ** next_e)
+{
 	if (NULL == S || NULL == next_e)	return ERROR;
 	*next_e = NULL;
 	int i = LocateElem(S, cur_e);
@@ -101,7 +112,8 @@ Status NextElem(SqList * S, ElemType cur_e, ElemType ** next_e) {
 
 //按位插入线性表元素
 //location 为位序 1<=laction<=SqList->length + 1 当laction=SqList->length + 1为尾插
-Status ListInsert(SqList * S, int laction, ElemType data) {
+Status ListInsert(SqList * S, int laction, ElemType data)
+{
 	if (NULL == S || S->length >= S->MAXSIZE)	return ERROR;
 	if (laction < 1 || laction > S->length + 1)	return ERROR;
 
@@ -115,7 +127,8 @@ Status ListInsert(SqList * S, int laction, ElemType data) {
 
 //按位删除线性表元素
 //location 为位序 1<=laction<=SqList->length
-Status ListDelete(SqList * S, int laction, ElemType * e) {
+Status ListDelete(SqList * S, int laction, ElemType * e)
+{
 	if (NULL == S || NULL == e || S->length == 0)	return ERROR;
 	if (laction < 1 || laction > S->length)	return ERROR;
 
@@ -128,7 +141,8 @@ Status ListDelete(SqList * S, int laction, ElemType * e) {
 }
 
 //遍历表中元素
-void ListPrint(SqList * S) {
+void ListPrint(SqList * S)
+{
 	if (NULL == S)	return;
 	for (int i = 0; i < S->length; ++i)
 		printf("%p -> %d\n", &S->data[i], S->data[i]);

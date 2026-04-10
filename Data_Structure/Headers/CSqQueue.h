@@ -4,13 +4,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef int Elemtype;
+typedef int ElemType;
 typedef enum {
 	ERROR, OK
 } Status;
 
 typedef struct QueueNode {
-	Elemtype * data;
+	ElemType * data;
 	int front, rear;
 	int maxsize;
 } QueueNode, *CSqQueue;
@@ -19,11 +19,11 @@ typedef struct QueueNode {
 Status InitQueue(CSqQueue * Q, int n);
 bool IsEmpty(CSqQueue Q);
 bool IsFull(CSqQueue Q);
-Status EnQueue(CSqQueue Q, Elemtype e);
-Status DeQueue(CSqQueue Q, Elemtype * e);
+Status EnQueue(CSqQueue Q, ElemType e);
+Status DeQueue(CSqQueue Q, ElemType * e);
 int QueueLength(CSqQueue Q);
 void Print(CSqQueue Q);
-Status GetHead(CSqQueue Q, Elemtype * e);
+Status GetHead(CSqQueue Q, ElemType * e);
 Status DestroyQueue(CSqQueue * Q);
 Status ClearQueue(CSqQueue Q);
 

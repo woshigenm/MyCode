@@ -5,7 +5,8 @@
 输出样例
 19 28 37 46 55 64 73 82 91
 */
-void test_1() {
+void test_1()
+{
 	int i;
 	for (i = 10; i <= 99; i++) {
 		int j = i / 10;
@@ -22,7 +23,8 @@ void test_1() {
 1 1 4 5 1 4 19 198 10 114514
 114514 198 19 10 5 4 4 1 1 1
 */
-void test_2_1() {
+void test_2_1()
+{
 	int i, j, t;
 	int array[10];
 
@@ -47,7 +49,8 @@ void test_2_1() {
 114 514 19198 10 4 52 5 25 55 23
 19198 514 114 55 52 25 23 10 5 4
 */
-void test_2_2() {
+void test_2_2()
+{
 	int i, j, t;
 	int array[10];
 
@@ -70,7 +73,8 @@ void test_2_2() {
 	for (i = 0; i < 10; i++) printf("%d ", array[i]);
 }
 
-int main() {
+int main()
+{
 
 	return 0;
 }

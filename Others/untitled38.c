@@ -1,13 +1,15 @@
 //【求总天数】输入某年，某月，某日，求这一天是这一年的第几天，输入输出格式如下。
 #include <stdio.h>
 
-int leap_year(int year) {
+int leap_year(int year)
+{
 	if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
 		return 1;
 
 	return 0;
 }
-int main() {
+int main()
+{
 	int year, month, day;
 	scanf("%d%d%d", &year, &month, &day);
 

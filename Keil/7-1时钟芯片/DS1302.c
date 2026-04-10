@@ -1,9 +1,9 @@
 #include <REGX52.H>
 #include "DS1302.H"
 
-sbit DS1302_CE = P3^5;
-sbit DS1302_IO = P3^4;
-sbit DS1302_SCLK = P3^6;
+sbit DS1302_CE = P3 ^ 5;
+sbit DS1302_IO = P3 ^ 4;
+sbit DS1302_SCLK = P3 ^ 6;
 
 #define DS1302_SECONDS_WADDR 	0x80
 #define DS1302_MINUTES_WADDR 	0x82
@@ -19,14 +19,13 @@ unsigned char Command[] = {DS1302_SECONDS_WADDR, DS1302_MINUTES_WADDR, DS1302_HO
 void DS1302_Init()
 {
 	unsigned char sec;
-	
-    DS1302_WriteByte(DS1302_WP_WADDR, 0x00);
-	
-	for(sec = 0; sec < sizeof(Command); ++sec)
-	{
+
+	DS1302_WriteByte(DS1302_WP_WADDR, 0x00);
+
+	for (sec = 0; sec < sizeof(Command); ++sec) {
 		DS1302_WriteByte(Command[sec], DecToBcd(SetTime[sec]));
 	}
-	
+
 	DS1302_WriteByte(DS1302_WP_WADDR, 0x80);
 }
 
@@ -43,52 +42,48 @@ unsigned char BcdToDec(unsigned char Bcd_Data)
 void DS1302_WriteByte(unsigned char Command, unsigned char Data)
 {
 	unsigned char i;
-	
+
 	DS1302_CE = 0;
-    DS1302_SCLK = 0;
-    DS1302_CE = 1;
-	
-	for(i = 0; i < 8; ++i)
-	{
+	DS1302_SCLK = 0;
+	DS1302_CE = 1;
+
+	for (i = 0; i < 8; ++i) {
 		DS1302_IO = Command & (1 << i);
 		DS1302_SCLK = 1;
 		DS1302_SCLK = 0;
 	}
-	
-	for(i = 0; i < 8; ++i)
-	{
+
+	for (i = 0; i < 8; ++i) {
 		DS1302_IO = Data & (1 << i);
 		DS1302_SCLK = 1;
 		DS1302_SCLK = 0;
 	}
-	
+
 	DS1302_CE = 0;
 }
 
 unsigned char DS1302_ReadByte(unsigned char Command)
 {
 	unsigned char i, Read_Data = 0;
-	
+
 	DS1302_CE = 0;
-    DS1302_SCLK = 0;
-    DS1302_CE = 1;
-	
-	for(i = 0; i < 8; ++i)
-	{
+	DS1302_SCLK = 0;
+	DS1302_CE = 1;
+
+	for (i = 0; i < 8; ++i) {
 		DS1302_IO = Command & (1 << i);
 		DS1302_SCLK = 0;
 		DS1302_SCLK = 1;
 	}
-	
-	for(i = 0; i < 8; ++i)
-	{
+
+	for (i = 0; i < 8; ++i) {
 		DS1302_SCLK = 1;
 		DS1302_SCLK = 0;
-		if(DS1302_IO) Read_Data |= 1 << i;
+		if (DS1302_IO) Read_Data |= 1 << i;
 	}
-	
+
 	DS1302_CE = 0;
 	DS1302_IO = 0;
-	
+
 	return Read_Data;
 }

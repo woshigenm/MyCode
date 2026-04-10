@@ -4,7 +4,8 @@
 #define SIZE 128
 
 #define ALP(x) ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z'))
-int main() {
+int main()
+{
 	char array[SIZE];
 	gets(array);
 

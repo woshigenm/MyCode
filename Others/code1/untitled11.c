@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int ji, tu;
 
 	for (ji = 0; ji <= 35; ji++) {

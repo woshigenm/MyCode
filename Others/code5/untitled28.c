@@ -3,7 +3,8 @@
 
 #define N 128
 
-void setStr(char *str, int target_len) {
+void setStr(char *str, int target_len)
+{
 	int current_len = strlen(str);
 	if (current_len < target_len) {
 		// 移动字符串到右侧，左侧补零
@@ -12,7 +13,8 @@ void setStr(char *str, int target_len) {
 	}
 }
 
-int main() {
+int main()
+{
 	char str1[N] = {0};
 	char str2[N] = {0};
 	char result[N + 2] = {0}; // 多两位：可能进位和结束符

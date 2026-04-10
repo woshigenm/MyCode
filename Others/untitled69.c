@@ -2,7 +2,8 @@
 //用这些邮票中的一张或若干张可以得到多少种不同的邮资？
 #include <stdio.h>
 
-int main() {
+int main()
+{
 	int counter = 0;
 
 	int array[28] = {};

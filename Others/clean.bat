@@ -21,7 +21,7 @@ REM 递归处理所有.c和.h文件
 for /R %%f in (*.c *.h) do (
     echo 正在格式化: %%~nxf
     "%ASTYLE_PATH%" ^
-        --style=java ^
+        --style=linux ^
         --indent=tab=4 ^
         --indent-switches ^
         --indent-namespaces ^

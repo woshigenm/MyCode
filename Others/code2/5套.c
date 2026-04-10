@@ -9,7 +9,8 @@
 80 到 90 之间能被 6 整除的数为:
 84 90
 */
-void test_1() {
+void test_1()
+{
 	int x, y, t;
 GO:
 	printf("请输入两个不超过200的正整数(空格分隔): ");
@@ -44,7 +45,8 @@ GO:
 *******
 *********
 */
-void test_2() {
+void test_2()
+{
 	int i, j;
 	for (i = 1; i <= 5; i++) {
 		for (j = 1; j <= 2 * i - 1; j++)
@@ -53,7 +55,8 @@ void test_2() {
 	}
 }
 
-int main() {
+int main()
+{
 	test_1();
 	return 0;
 }
