@@ -1,0 +1,31 @@
+#ifndef __SQUEUETAG__H__
+#define __SQUEUETAG__H__
+
+#include <stdbool.h>
+#include <stdio.h>
+
+typedef int ElemType;
+typedef enum {
+	ERROR, OK
+} Status;
+
+typedef struct QueueNode {
+	ElemType * data;
+	int front, rear;
+	int maxsize;
+	bool tag;
+} QueueNode, *CSqQueue;
+
+// 函数声明
+Status InitQueue(CSqQueue * Q, int n);
+bool IsEmpty(CSqQueue Q);
+bool IsFull(CSqQueue Q);
+Status EnQueue(CSqQueue Q, ElemType e);
+Status DeQueue(CSqQueue Q, ElemType * e);
+int QueueLength(CSqQueue Q);
+void Print(CSqQueue Q);
+Status GetHead(CSqQueue Q, ElemType * e);
+Status DestroyQueue(CSqQueue * Q);
+Status ClearQueue(CSqQueue Q);
+
+#endif
