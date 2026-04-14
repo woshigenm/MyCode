@@ -11,8 +11,8 @@ void generateNext(const char* arr, int* next);
 
 int main()
 {
-	char arr1[] = "AAAAAAAAAAAAAAAAC";
-	char arr2[] = "AAAAAAAAAAAAAAAAB";
+	char arr1[] = "AAAAAAAAAAAAAAAAD";
+	char arr2[] = "AAAAAAAAAAAAAAAC";
 	size_t len1 = strlen(arr1);
 
 	printf("主串: %s\n", arr1);
