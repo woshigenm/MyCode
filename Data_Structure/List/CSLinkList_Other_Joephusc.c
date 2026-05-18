@@ -21,7 +21,6 @@ typedef struct CSLinkList {
 Status InitList(CSLinkList* L);
 Status ListInsert(CSLinkList L, int i, ElemType e);
 Status DestroyList(CSLinkList* L);
-void ListPrint(CSLinkList  L);
 
 int main()
 {
@@ -50,8 +49,6 @@ int main()
 		tmp = cur;
 		prev->next = cur->next;
 
-		L->size--;
-
 		if (cur == L->rear) {
 			L->rear = prev;
 		}
@@ -63,6 +60,7 @@ int main()
 		}
 
 		printf("%d\n", tmp->data);
+		L->size--;
 		free(tmp);
 	}
 
@@ -73,10 +71,17 @@ int main()
 Status InitList(CSLinkList* L)
 {
 	if (NULL == L)	return ERROR;
+
 	*L = (CSLinkList)malloc(sizeof(struct CSLinkList));
 	if (NULL == *L)	return ERROR;
+
 	(*L)->rear = (CSNode*)malloc(sizeof(struct CSNode));
-	if (NULL == (*L)->rear)	return ERROR;
+	if (NULL == (*L)->rear) {
+		free(*L);
+		*L = NULL;
+		return ERROR;
+	}
+
 	(*L)->rear->next = (*L)->rear;
 	(*L)->head = (*L)->rear;
 	(*L)->size = 0;
@@ -90,52 +95,30 @@ bool IsEmpty(CSLinkList L)
 	return L->head->next == L->head;
 }
 
-
-void ListPrint(CSLinkList  L)
-{
-	if (NULL == L) {
-		printf("链表未初始化！\n");
-		return;
-	}
-
-	if (IsEmpty(L)) {
-		printf("链表为空！\n");
-		return;
-	}
-
-	CSNode* cur = L->head->next;
-	while (cur != L->head) {
-		printf("%d \n", cur->data);
-		cur = cur->next;
-	}
-	putchar('\n');
-}
-
 Status ListInsert(CSLinkList L, int i, ElemType e)
 {
 	if (NULL == L)	return ERROR;
+	if (i < 1 || i > L->size + 1) return ERROR;
 
 	int j = 0;
-	CSNode* cur = L->head->next;
-	while (j < i - 1 && cur->next != L->head) {
+	CSNode* cur = L->head;
+	while (j < i - 1) {
 		cur = cur->next;
 		++j;
 	}
 
-	if (j > i - 1)	return ERROR;
-
 	CSNode* NewNode = (CSNode*)malloc(sizeof(CSNode));
 	if (NULL == NewNode)	return ERROR;
+
 	NewNode->data = e;
 	NewNode->next = cur->next;
 	cur->next = NewNode;
 
-	if (i == L->size + 1 || L->size == 0) {
+	if (i == L->size + 1) {
 		L->rear = NewNode;
 	}
 
 	L->size++;
-
 	return OK;
 }
 
@@ -143,13 +126,16 @@ Status ListInsert(CSLinkList L, int i, ElemType e)
 Status DestroyList(CSLinkList* L)
 {
 	if (NULL == *L || NULL == L)	return ERROR;
+
 	CSNode* cur = (*L)->head->next, * tmp;
 	while (cur != (*L)->head) {
 		tmp = cur->next;
 		free(cur);
 		cur = tmp;
 	}
+
 	free((*L)->head);
+	free(*L);
 	*L = NULL;
 	return OK;
 }
