@@ -382,26 +382,6 @@
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
             <File>
-              <FileName>Delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>Delay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Delay.h</FilePath>
-            </File>
-            <File>
-              <FileName>timer0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\timer0.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer0.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\timer0.h</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>

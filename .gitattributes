@@ -1,1 +1,60 @@
+# ========================
+# Keil MDK 编译相关忽略
+# ========================
+
 *.pdf filter=lfs diff=lfs merge=lfs -text
+# 编译输出文件 (hex、bin、axf 等最终固件)
+*.hex
+*.bin
+*.axf
+*.elf
+*.out
+*.hex.txt
+
+# 编译中间文件 (object、列表文件)
+*.o
+*.obj
+*.lst
+*.map
+*.d
+*.crf
+*.lnp
+*.sct
+*.htm
+*.dep
+*.build_log.htm
+
+# Keil 工程临时/缓存文件
+*.uvguix.*
+*.uvoptx
+*.uvprojx.user
+*.uvmx
+*.bak
+*.BAK
+*.tmp
+*.TMP
+
+# 调试/仿真文件
+*.ini
+*.dbgconf
+*.cinit
+*.ini
+
+# 工程输出目录 (常见 Keil 编译输出文件夹)
+/Output/
+/output/
+/Build/
+/build/
+/Debug/
+/debug/
+/Release/
+/release/
+/Listing/
+/listing/
+/Objects/
+/objects/
+
+# IDE 配置/日志
+*.uvopt
+*.plg
+*.log
