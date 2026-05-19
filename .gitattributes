@@ -1,60 +1,44 @@
-# ========================
-# Keil MDK 编译相关忽略
-# ========================
+# ==============================
+# 全局忽略（你的整个 code 文件夹）
+# ==============================
 
-*.pdf filter=lfs diff=lfs merge=lfs -text
-# 编译输出文件 (hex、bin、axf 等最终固件)
-*.hex
-*.bin
-*.axf
-*.elf
-*.out
-*.hex.txt
+# VS 缓存
+.vs/
 
-# 编译中间文件 (object、列表文件)
+# VSCode
+.vscode/
+
+# Keil 编译产物（完美匹配你的目录结构）
+Keil/**/Listings/
+Keil/**/Objects/
+Keil/**/Output/
+Keil/**/Build/
+Keil/**/Debug/
+Keil/**/Release/
+
+# Keil 编译文件
+*.uvgui.*
+*.uvopt
+*.uvoptx
+*.bak
+*.tmp
 *.o
 *.obj
 *.lst
 *.map
-*.d
-*.crf
-*.lnp
-*.sct
-*.htm
+*.hex
+*.bin
+*.axf
+*.elf
 *.dep
-*.build_log.htm
-
-# Keil 工程临时/缓存文件
-*.uvguix.*
-*.uvoptx
-*.uvprojx.user
-*.uvmx
-*.bak
-*.BAK
-*.tmp
-*.TMP
-
-# 调试/仿真文件
-*.ini
-*.dbgconf
-*.cinit
-*.ini
-
-# 工程输出目录 (常见 Keil 编译输出文件夹)
-/Output/
-/output/
-/Build/
-/build/
-/Debug/
-/debug/
-/Release/
-/release/
-/Listing/
-/listing/
-/Objects/
-/objects/
-
-# IDE 配置/日志
-*.uvopt
+*.lnp
+*.crf
+*.htm
 *.plg
 *.log
+
+# 其他工具临时文件
+*.i
+*.d
+*.swp
+.DS_Store
