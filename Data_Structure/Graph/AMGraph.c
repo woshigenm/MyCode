@@ -100,6 +100,111 @@ Status AddEdge(Graph G, char* fromVertex, char* toVertex)
 	return AddWeightedEdge(G, fromVertex, toVertex, 1);
 }
 
+bool IsAdjacent(Graph G, char* firstVertex, char* secondVertex)
+{
+	if (NULL == firstVertex || NULL == secondVertex) return false;
+
+	int firstIdx = FindVertexIndex(G, firstVertex);
+	int secondIdx = FindVertexIndex(G, secondVertex);
+	if (firstIdx == FAILURE || secondIdx == FAILURE) return false;
+
+	return G->edges[firstIdx][secondIdx] != INF;
+}
+
+int GetWeight(Graph G, char* firstVertex, char* secondVertex)
+{
+	if (NULL == firstVertex || NULL == secondVertex) return -1;
+
+	int firstIdx = FindVertexIndex(G, firstVertex);
+	int secondIdx = FindVertexIndex(G, secondVertex);
+	if (firstIdx == FAILURE || secondIdx == FAILURE) return -1;
+
+	return G->edges[firstIdx][secondIdx] == INF ? -1 : G->edges[firstIdx][secondIdx];
+}
+
+Status RemoveEdge(Graph G, char* fromVertex, char* toVertex)
+{
+	if (NULL == fromVertex || NULL == toVertex) return ERROR;
+
+	int fromIdx = FindVertexIndex(G, fromVertex);
+	int toIdx = FindVertexIndex(G, toVertex);
+	if (fromIdx == FAILURE || toIdx == FAILURE) return ERROR;
+
+	// 只有边存在时才删除并修改边数
+	if (IsAdjacent(G, fromVertex, toVertex)) {
+		G->edges[fromIdx][toIdx] = INF;
+		if (G->direction == UNDIRECTED) {
+			G->edges[toIdx][fromIdx] = INF;
+		}
+		G->edgeNum--;
+	}
+
+	return OK;
+}
+
+Status RemoveVertex(Graph G, char* targetVertex)
+{
+	if (NULL == targetVertex) return ERROR;
+
+	int targetIdx = FindVertexIndex(G, targetVertex);
+	if (FAILURE == targetIdx) return ERROR;
+
+	int removedEdgeCount = 0;
+	if (G->direction == UNDIRECTED) {
+		for (int i = 0; i < G->vertexNum; ++i)
+			if (G->edges[targetIdx][i] != INF) ++removedEdgeCount;
+	} else {
+		for (int i = 0; i < G->vertexNum; ++i) {
+			if (G->edges[targetIdx][i] != INF) ++removedEdgeCount; // 出度
+			if (G->edges[i][targetIdx] != INF) ++removedEdgeCount; // 入度
+		}
+		if (G->edges[targetIdx][targetIdx] != INF) --removedEdgeCount; // 自环边多算了一次，减回来
+	}
+
+	G->edgeNum -= removedEdgeCount;
+
+	int moveSize = G->vertexNum - targetIdx - 1;
+	int newSize = G->vertexNum - 1;
+
+	// 1. 处理邻接矩阵行的删除与搬移
+	free(G->edges[targetIdx]); // 释放目标顶点所在行的数组
+	if (moveSize > 0)
+		memmove(&G->edges[targetIdx], &G->edges[targetIdx + 1], moveSize * sizeof(int * ));
+
+	if (newSize == 0) {
+		free(G->edges);
+		G->edges = NULL;
+	} else {
+		int** edgeTemp = (int**)realloc(G->edges, sizeof(int*) * newSize);
+		if (edgeTemp) G->edges = edgeTemp;
+
+		// 2. 处理每行中列的删除与搬移
+		for (int i = 0; i < newSize; ++i) {
+			if (moveSize > 0)
+				memmove(&G->edges[i][targetIdx], &G->edges[i][targetIdx + 1], moveSize * sizeof(int));
+
+			int* colTemp = (int*)realloc(G->edges[i], sizeof(int) * newSize);
+			if (colTemp) G->edges[i] = colTemp;
+		}
+	}
+
+	// 3. 处理顶点名称数组的删除与搬移
+	free(G->names[targetIdx]);
+	if (moveSize > 0)
+		memmove(&G->names[targetIdx], &G->names[targetIdx + 1], moveSize * sizeof(char * ));
+
+	if (newSize == 0) {
+		free(G->names);
+		G->names = NULL;
+	} else {
+		char** nameTemp = (char**)realloc(G->names, sizeof(char*) * newSize);
+		if (nameTemp) G->names = nameTemp;
+	}
+
+	G->vertexNum--;
+	return OK;
+}
+
 Status DestroyGraph(Graph* G)
 {
 	if (NULL == G || NULL == *G) return ERROR;
@@ -116,7 +221,6 @@ Status DestroyGraph(Graph* G)
 	return OK;
 }
 
-// 专门为 Kruskal 统计无向图真实边数 (不重复计算)
 inline static int CountUndirectedEdges(Graph G)
 {
 	int count = 0;
@@ -236,12 +340,12 @@ void SwapEdge(EdgeInfo* a, EdgeInfo* b)
 Status InitMinHeap(MinHeap* heap, int capacity)
 {
 	if (NULL == heap || capacity <= 0) return ERROR;
-	*heap = (struct MinHeap *)malloc(sizeof(struct MinHeap));
+	*heap = (struct MinHeap*)malloc(sizeof(struct MinHeap));
 	if (NULL == *heap) return ERROR;
 
 	(*heap)->size = 0;
 	(*heap)->capacity = capacity;
-	(*heap)->data = (EdgeInfo*)malloc(sizeof(struct EdgeInfo) * capacity);
+	(*heap)->data = (EdgeInfo*)calloc(capacity, sizeof(struct EdgeInfo));
 	if (NULL == (*heap)->data) {
 		free(*heap);
 		*heap = NULL;
@@ -419,7 +523,6 @@ Status DestroyDisjointSet(DisjointSet* ds)
 	return OK;
 }
 
-
 // ==================== 核心算法 ====================
 Status PrimMST(Graph G, char* startVertex)
 {
@@ -513,6 +616,7 @@ Status KruskalMST(Graph G)
 {
 	EdgeInfo* edgeList = NULL;
 	DisjointSet ds = NULL;
+	int mstEdgeCount = 0; // moved/initialized early to avoid use-after-goto (C6001)
 
 	int edgeCount = CountUndirectedEdges(G);
 	if (edgeCount <= 0) return ERROR;
@@ -552,8 +656,6 @@ Status KruskalMST(Graph G)
 	InitDisjointSet(&ds, G->names, G->vertexNum);
 
 	int edgeIdx = 0;
-	int mstEdgeCount = 0;
-
 	while (edgeIdx < validEdgeCount && mstEdgeCount < G->vertexNum - 1) {
 		int root1 = FindRoot(ds, edgeList[edgeIdx].from);
 		int root2 = FindRoot(ds, edgeList[edgeIdx].to);
@@ -581,6 +683,137 @@ CLEANUP:
 	return (mstEdgeCount == G->vertexNum - 1) ? OK : ERROR;
 }
 
+// ==================== 循环队列定义 ====================
+typedef char* ElemType;
+typedef struct QueueNode {
+	ElemType* data;
+	int front, rear;
+	int maxsize;
+} QueueNode, * CSqQueue;
+
+Status InitQueue(CSqQueue* Q, int n)
+{
+	if (NULL == Q || n <= 0)	return ERROR;
+	*Q = (QueueNode*)malloc(sizeof(struct QueueNode));
+	if (NULL == *Q)	return ERROR;
+	(*Q)->data = (ElemType*)malloc(sizeof(ElemType) * n);
+	if (NULL == (*Q)->data) {
+		free(*Q);
+		*Q = NULL;
+		return ERROR;
+	}
+	(*Q)->maxsize = n;
+	(*Q)->front = (*Q)->rear = 0;
+	return OK;
+}
+
+bool IsEmpty(CSqQueue Q)
+{
+	return Q->front == Q->rear;
+}
+
+bool IsFull(CSqQueue Q)
+{
+	return (Q->rear + 1) % Q->maxsize == Q->front;
+}
+
+Status EnQueue(CSqQueue Q, ElemType e)
+{
+	if (Q == NULL || IsFull(Q))	return ERROR;
+
+	Q->data[Q->rear] = e;
+
+	Q->rear = (Q->rear + 1) % Q->maxsize;
+	return OK;
+}
+
+Status DeQueue(CSqQueue Q, ElemType* e)
+{
+	if (Q == NULL || IsEmpty(Q))	return ERROR;
+
+	*e = Q->data[Q->front];
+
+	Q->front = (Q->front + 1) % Q->maxsize;
+	return OK;
+}
+
+int QueueLength(CSqQueue Q)
+{
+	return NULL == Q ? 0 : (Q->rear - Q->front + Q->maxsize) % Q->maxsize;
+}
+
+Status GetHead(CSqQueue Q, ElemType* e)
+{
+	if (NULL == Q || IsEmpty(Q))	return ERROR;
+	*e = Q->data[Q->front];
+	return OK;
+}
+
+Status DestroyQueue(CSqQueue* Q)
+{
+	if (NULL == Q || NULL == *Q)	return ERROR;
+
+	free((*Q)->data);
+	free(*Q);
+	*Q = NULL;
+
+	return OK;
+}
+
+Status BFS(Graph G, char* startVertex)
+{
+	if (NULL == startVertex) return ERROR;
+
+	bool* visited = (bool*)calloc(G->vertexNum, sizeof(bool));
+	if (!visited) return ERROR;
+
+	CSqQueue Q;
+	if (InitQueue(&Q, G->vertexNum + 1) != OK) {
+		goto cleanup;
+	}
+
+	int startIdx = FindVertexIndex(G, startVertex);
+	if (FAILURE == startIdx) {
+		goto cleanup;
+	}
+
+	visited[startIdx] = true;
+	EnQueue(Q, G->names[startIdx]); // 直接入队图里的名字指针
+
+	while (!IsEmpty(Q)) {
+		char* currentName;
+		DeQueue(Q, &currentName);
+
+		int currIdx = FindVertexIndex(G, currentName);
+		if (currIdx == FAILURE) continue;
+
+		printf("%s ", currentName);
+
+		for (int i = 0; i < G->vertexNum; ++i) {
+			if (G->edges[currIdx][i] != INF && !visited[i]) {
+				visited[i] = true; // 必须在入队时标记为已访问，防止重复入队
+				EnQueue(Q, G->names[i]);
+			}
+		}
+	}
+
+	putchar('\n');
+
+	free(visited);
+	DestroyQueue(&Q);
+	return OK;
+
+cleanup:
+	free(visited);
+	DestroyQueue(&Q);
+	return ERROR;
+}
+
+Status BFSTravel(Graph G, char* startVertex)
+{
+	return BFS(G, startVertex);
+}
+
 int main()
 {
 	Graph G;
@@ -601,11 +834,7 @@ int main()
 
 	PrintGraphMatrix(G);
 
-	printf("--- Prim MST ---\n");
-	PrimMST(G, "E");
-
-	printf("--- Kruskal MST ---\n");
-	KruskalMST(G);
+	BFSTravel(G, "B");
 
 	DestroyGraph(&G);
 	return 0;
