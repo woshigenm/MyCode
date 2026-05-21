@@ -814,6 +814,37 @@ Status BFSTravel(Graph G, char* startVertex)
 	return BFS(G, startVertex);
 }
 
+
+void DFS(Graph G, int startIdx, bool * visited)
+{
+	visited[startIdx] = true;
+
+	printf("%s ", G->names[startIdx]);
+	for (int i = 0; i < G->vertexNum; ++i) {
+		if (G->edges[startIdx][i] != INF && !visited[i])
+			DFS(G, i, visited);
+	}
+}
+
+Status DFSTravel(Graph G, char * start)
+{
+	bool* visited = (bool*)calloc(G->vertexNum, sizeof(bool));
+	if (!visited) return ERROR;
+
+	int startIdx = FindVertexIndex(G, start);
+	if (FAILURE == startIdx)	return ERROR;
+
+	for (int i = 0; i < G->vertexNum; i++) {
+		int current = (startIdx + i) % G->vertexNum;
+		if (!visited[current]) {
+			DFS(G, current, visited);
+		}
+	}
+
+	free(visited);
+	return OK;
+}
+
 int main()
 {
 	Graph G;
@@ -835,6 +866,7 @@ int main()
 	PrintGraphMatrix(G);
 
 	BFSTravel(G, "B");
+	DFSTravel(G, "D");
 
 	DestroyGraph(&G);
 	return 0;
