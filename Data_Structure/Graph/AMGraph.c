@@ -998,41 +998,94 @@ cleanup:
 	return visitedCount == G->vertexNum ? OK : ERROR;
 }
 
+Status TopoSort(Graph G)
+{
+	if (G == NULL || G->direction != DIRECTED)	return ERROR;
+	if (G->vertexNum == 0)	return OK;
+
+	int VerCont = 0;
+
+	CSqQueue Q;
+	if (InitQueue(&Q, G->vertexNum + 1) != OK)
+		return ERROR;
+
+	int* inDegree = (int*)calloc(G->vertexNum, sizeof(int));
+	if (!inDegree)
+		goto cleanup;
+
+	char** names = (char**)calloc(G->vertexNum, sizeof(char*));
+	if (!names)	goto cleanup;
+
+	for (int i = 0; i < G->vertexNum; ++i) {
+		for (int j = 0; j < G->vertexNum; ++j) {
+			if (G->edges[j][i] != INF)
+				inDegree[i]++;
+		}
+	}
+
+	for (int i = 0; i < G->vertexNum; ++i) {
+		if (inDegree[i] == 0)
+			EnQueue(Q, G->names[i]);
+	}
+
+	while (!IsEmpty(Q)) {
+		char* currentName;
+		DeQueue(Q, &currentName);
+
+		int currIdx = FindVertexIndex(G, currentName);
+		if (currIdx == FAILURE) continue;
+
+		names[VerCont] = (char*)malloc(sizeof(char) * (strlen(currentName) + 1));
+		if (!names[VerCont])	goto cleanup;
+
+		strcpy(names[VerCont], currentName);
+		VerCont++;
+
+		for (int i = 0; i < G->vertexNum; ++i) {
+			if (G->edges[currIdx][i] != INF) {
+				if (--inDegree[i] == 0)
+					EnQueue(Q, G->names[i]);
+			}
+		}
+	}
+
+	if (VerCont < G->vertexNum)
+		printf("Error: Graph contains a cycle!");
+	else {
+		for (int i = 0; i < G->vertexNum; ++i) {
+			printf("%s ", names[i]);
+		}
+	}
+
+	putchar('\n');
+
+cleanup:
+	free(inDegree);
+	DestroyQueue(&Q);
+
+	if (names != NULL) {
+		for (int i = 0; i < G->vertexNum; ++i)
+			free(names[i]);
+		free(names);
+	}
+
+	return VerCont == G->vertexNum ? OK : ERROR;
+}
+
 int main()
 {
 	Graph G;
-	char* vertexNames[] = { "V0", "V1", "V2", "V3", "V4", "V5" };
+	char* vertexNames[] = { "A", "B", "C" };
 	int vNum = sizeof(vertexNames) / sizeof(*vertexNames);
-	InitGraph(&G, vertexNames, vNum, UNDIRECTED);
+	InitGraph(&G, vertexNames, vNum, DIRECTED);
 
-	// 添加 V0 的出边
-	AddWeightedEdge(G, "V0", "V5", 100);
-	AddWeightedEdge(G, "V0", "V4", 30);
-	AddWeightedEdge(G, "V0", "V2", 10);
-
-	// 添加 V1 的出边
-	AddWeightedEdge(G, "V1", "V2", 5);
-
-	// 添加 V2 的出边
-	AddWeightedEdge(G, "V2", "V3", 50);
-
-	// 添加 V3 的出边
-	AddWeightedEdge(G, "V3", "V5", 10);
-
-	// 添加 V4 的出边
-	AddWeightedEdge(G, "V4", "V3", 20);
-	AddWeightedEdge(G, "V4", "V5", 60);
-
+	AddEdge(G, "A", "B"); // A -> B
+	AddEdge(G, "B", "C"); // B -> C
+	AddEdge(G, "C", "A"); // C -> A
 
 	PrintGraphMatrix(G);
 
-	printf("BFS: \n");
-	BFSTravel(G, "V1");
-	printf("DFS: \n");
-	DFSTravel(G, "V1");
-
-	PrimMST(G, "V1");
-	Dijkstra(G, "V1");
+	TopoSort(G);
 
 	DestroyGraph(&G);
 	return 0;
