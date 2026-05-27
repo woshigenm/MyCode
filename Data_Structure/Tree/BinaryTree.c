@@ -342,6 +342,7 @@ void TreePostThread(BTNodePtr root)
 	TreePostThread_Helper(root, &pre);
 }
 
+//TODO 完善二叉树后序线序化
 void TreePostOrderThreaded(BTNodePtr root)
 {
 

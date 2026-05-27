@@ -26,13 +26,13 @@ Status InitQueue(CSqQueue* Q, int n)
 	if (NULL == Q || n <= 0)	return ERROR;
 	*Q = (QueueNode*)malloc(sizeof(struct QueueNode));
 	if (NULL == *Q)	return ERROR;
-	(*Q)->data = (ElemType*)malloc(sizeof(ElemType) * n);
+	(*Q)->data = (ElemType*)malloc(sizeof(ElemType) * (n + 1));
 	if (NULL == (*Q)->data) {
 		free(*Q);
 		*Q = NULL;
 		return ERROR;
 	}
-	(*Q)->maxsize = n;
+	(*Q)->maxsize = n + 1;
 	(*Q)->front = (*Q)->rear = 0;
 	return OK;
 }
@@ -82,11 +82,9 @@ Status GetHead(CSqQueue Q, ElemType* e)
 Status DestroyQueue(CSqQueue* Q)
 {
 	if (NULL == Q || NULL == *Q)	return ERROR;
-
 	free((*Q)->data);
 	free(*Q);
 	*Q = NULL;
-
 	return OK;
 }
 
@@ -285,7 +283,6 @@ Status RemoveVertex(Graph G, char* targetVertex)
 Status DestroyGraph(Graph* G)
 {
 	if (NULL == G || NULL == *G) return ERROR;
-
 	for (int i = 0; i < (*G)->vertexNum; ++i) {
 		free((*G)->names[i]);
 		free((*G)->edges[i]);
@@ -402,7 +399,7 @@ Status BFS(Graph G, char* startVertex)
 	if (!visited) return ERROR;
 
 	CSqQueue Q = NULL;
-	if (InitQueue(&Q, G->vertexNum + 1) != OK) {
+	if (InitQueue(&Q, G->vertexNum) != OK) {
 		goto cleanup;
 	}
 
@@ -480,9 +477,9 @@ Status DFSTravel(Graph G, char* start)
 
 // ==================== 最小堆定义 ====================
 typedef struct EdgeInfo {
-	char* from;
-	char* to;
-	int   weight;
+	int from;
+	int	to;
+	int weight;
 } EdgeInfo;
 
 typedef struct MinHeap {
@@ -583,10 +580,6 @@ Status HeapifyMin(MinHeap heap, int idx)
 Status DestroyMinHeap(MinHeap* heap)
 {
 	if (NULL == heap || NULL == *heap) return ERROR;
-	for (int i = 0; i < (*heap)->size; i++) {
-		free((*heap)->data[i].from);
-		free((*heap)->data[i].to);
-	}
 
 	free((*heap)->data);
 	free(*heap);
@@ -597,14 +590,13 @@ Status DestroyMinHeap(MinHeap* heap)
 
 // ==================== 并查集定义 ====================
 typedef struct DisjointSet {
-	char** names;
 	int* parent;
 	int    size;
 }*DisjointSet;
 
-Status InitDisjointSet(DisjointSet* ds, char** names, int size)
+Status InitDisjointSet(DisjointSet* ds, int size)
 {
-	if (NULL == names || size <= 0) return ERROR;
+	if (size <= 0) return ERROR;
 
 	*ds = (DisjointSet)malloc(sizeof(struct DisjointSet));
 	if (NULL == *ds) return ERROR;
@@ -612,48 +604,23 @@ Status InitDisjointSet(DisjointSet* ds, char** names, int size)
 	(*ds)->parent = (int*)malloc(sizeof(int) * size);
 	if (NULL == (*ds)->parent) goto cleanup;
 
-	(*ds)->names = (char**)calloc(size, sizeof(char*));
-	if (NULL == (*ds)->names) goto cleanup;
-
 	(*ds)->size = size;
 
 	for (int i = 0; i < size; i++) {
-		if (NULL == names[i]) goto cleanup;
-
-		(*ds)->names[i] = (char*)malloc(strlen(names[i]) + 1);
-		if (NULL == (*ds)->names[i]) goto cleanup;
-		strcpy((*ds)->names[i], names[i]);
-
 		(*ds)->parent[i] = -1;
 	}
 
 	return OK;
 cleanup:
-	if ((*ds)->names != NULL) {
-		for (int i = 0; i < (*ds)->size; i++) free((*ds)->names[i]);
-		free((*ds)->names);
-	}
 	free((*ds)->parent);
 	free(*ds);
 	*ds = NULL;
 	return ERROR;
 }
 
-inline static int FindSetIndex(DisjointSet ds, char* name)
+inline static int FindRoot(DisjointSet ds, int idx)
 {
-	for (int i = 0; i < ds->size; ++i) {
-		if (!strcmp(name, ds->names[i])) return i;
-	}
-	return FAILURE;
-}
-
-inline static int FindRoot(DisjointSet ds, char* name)
-{
-	if (NULL == name) return FAILURE;
-
-	int idx = FindSetIndex(ds, name);
-	if (idx == FAILURE) return FAILURE;
-
+	if (idx < 0 || idx >= ds->size) return FAILURE;
 	int root = idx;
 	while (ds->parent[root] >= 0) {
 		root = ds->parent[root];
@@ -666,16 +633,15 @@ inline static int FindRoot(DisjointSet ds, char* name)
 		ds->parent[curr] = root;
 		curr = next;
 	}
+
 	return root;
 }
 
 // 按大小合并
-Status UnionSets(DisjointSet ds, char* name1, char* name2)
+Status UnionSets(DisjointSet ds, int idx1, int idx2)
 {
-	if (NULL == name1 || NULL == name2) return ERROR;
-
-	int root1 = FindRoot(ds, name1);
-	int root2 = FindRoot(ds, name2);
+	int root1 = FindRoot(ds, idx1);
+	int root2 = FindRoot(ds, idx2);
 	if (root1 == FAILURE || root2 == FAILURE) return ERROR;
 
 	if (root1 != root2) {
@@ -693,13 +659,7 @@ Status UnionSets(DisjointSet ds, char* name1, char* name2)
 Status DestroyDisjointSet(DisjointSet* ds)
 {
 	if (NULL == ds || NULL == *ds) return ERROR;
-
-	if (NULL != (*ds)->names) {
-		for (int i = 0; i < (*ds)->size; ++i) free((*ds)->names[i]);
-		free((*ds)->names);
-	}
 	free((*ds)->parent);
-
 	free(*ds);
 	*ds = NULL;
 	return OK;
@@ -725,29 +685,18 @@ Status PrimMST(Graph G, char* startVertex)
 
 	int mstEdgeCount = 0;
 	EdgeInfo startEdge = {
-		.from = (char*)malloc(strlen(G->names[targetIdx]) + 1),
-		.to = (char*)malloc(strlen(G->names[targetIdx]) + 1),
+		.from = targetIdx,
+		.to = targetIdx,
 		.weight = 0
 	};
-
-	if (!startEdge.from || !startEdge.to) {
-		free(startEdge.from);
-		free(startEdge.to);
-		goto cleanup;
-	}
-
-	strcpy(startEdge.from, G->names[targetIdx]);
-	strcpy(startEdge.to, G->names[targetIdx]);
 
 	InsertHeap(heap, startEdge);
 	while (heap->size > 0 && mstEdgeCount < G->vertexNum - 1) {
 		EdgeInfo minEdge;
 		if (ExtractMin(heap, &minEdge) != OK) break;
-		targetIdx = FindVertexIndex(G, minEdge.to);
+		targetIdx = minEdge.to;
 
 		if (visited[targetIdx]) { // 过期边过滤
-			free(minEdge.from);
-			free(minEdge.to);
 			continue;
 		}
 
@@ -757,28 +706,19 @@ Status PrimMST(Graph G, char* startVertex)
 		for (int i = 0; i < G->vertexNum; i++) {
 			if (G->edges[targetIdx][i] != INF && !visited[i]) {
 				EdgeInfo edge = {
-					.from = (char*)malloc(strlen(G->names[targetIdx]) + 1),
-					.to = (char*)malloc(strlen(G->names[i]) + 1),
+					.from = targetIdx,
+					.to = i,
 					.weight = G->edges[targetIdx][i]
 				};
-				if (!edge.from || !edge.to) {
-					free(edge.from);
-					free(edge.to);
-					goto cleanup;
-				}
-				strcpy(edge.from, G->names[targetIdx]);
-				strcpy(edge.to, G->names[i]);
+
 				InsertHeap(heap, edge);
 			}
 		}
 
-		if (strcmp(minEdge.from, minEdge.to) != 0) {
-			printf("%s %s %d\n", minEdge.from, minEdge.to, minEdge.weight);
+		if (minEdge.from != minEdge.to) {
+			printf("%s %s %d\n", G->names[minEdge.from], G->names[minEdge.to], minEdge.weight);
 			mstEdgeCount++;
 		}
-
-		free(minEdge.from);
-		free(minEdge.to);
 	}
 	putchar('\n');
 
@@ -805,15 +745,8 @@ Status KruskalMST(Graph G)
 		for (int j = i + 1; j < G->vertexNum; ++j) {
 			if (G->edges[i][j] != INF) {
 				edgeList[validEdgeCount].weight = G->edges[i][j];
-				edgeList[validEdgeCount].from = (char*)malloc(strlen(G->names[i]) + 1);
-				edgeList[validEdgeCount].to = (char*)malloc(strlen(G->names[j]) + 1);
-
-				if (!edgeList[validEdgeCount].from || !edgeList[validEdgeCount].to) {
-					goto cleanup;
-				}
-
-				strcpy(edgeList[validEdgeCount].from, G->names[i]);
-				strcpy(edgeList[validEdgeCount].to, G->names[j]);
+				edgeList[validEdgeCount].from = i;
+				edgeList[validEdgeCount].to = j;
 
 				// 插入排序
 				int k = validEdgeCount - 1;
@@ -828,7 +761,7 @@ Status KruskalMST(Graph G)
 		}
 	}
 
-	InitDisjointSet(&ds, G->names, G->vertexNum);
+	InitDisjointSet(&ds, G->vertexNum);
 
 	int edgeIdx = 0;
 	while (edgeIdx < validEdgeCount && mstEdgeCount < G->vertexNum - 1) {
@@ -836,7 +769,7 @@ Status KruskalMST(Graph G)
 		int root2 = FindRoot(ds, edgeList[edgeIdx].to);
 
 		if (root1 != root2) {
-			printf("%s %s %d\n", edgeList[edgeIdx].from, edgeList[edgeIdx].to, edgeList[edgeIdx].weight);
+			printf("%s %s %d\n", G->names[edgeList[edgeIdx].from], G->names[edgeList[edgeIdx].to], edgeList[edgeIdx].weight);
 			UnionSets(ds, edgeList[edgeIdx].from, edgeList[edgeIdx].to);
 			mstEdgeCount++;
 		}
@@ -844,13 +777,7 @@ Status KruskalMST(Graph G)
 	}
 
 cleanup:
-	if (NULL != edgeList) {
-		for (int i = 0; i < validEdgeCount; i++) {
-			free(edgeList[i].from);
-			free(edgeList[i].to);
-		}
-		free(edgeList);
-	}
+	free(edgeList);
 
 	if (ds) DestroyDisjointSet(&ds);
 	putchar('\n');
@@ -912,19 +839,10 @@ Status Dijkstra(Graph G, char* startVertex)
 
 	int visitedCount = 0;
 	EdgeInfo startEdge = {
-		.from = (char*)malloc(strlen(G->names[targetIdx]) + 1),
-		.to = (char*)malloc(strlen(G->names[targetIdx]) + 1),
-		.weight = 0
+		.from	= targetIdx,
+		.to		= targetIdx,
+		.weight	= 0
 	};
-
-	if (!startEdge.from || !startEdge.to) {
-		free(startEdge.from);
-		free(startEdge.to);
-		goto cleanup;
-	}
-
-	strcpy(startEdge.from, G->names[targetIdx]);
-	strcpy(startEdge.to, G->names[targetIdx]);
 
 	Distance[targetIdx] = 0;
 	Pre[targetIdx] = targetIdx;
@@ -934,11 +852,8 @@ Status Dijkstra(Graph G, char* startVertex)
 		EdgeInfo minEdge;
 		if (ExtractMin(heap, &minEdge) != OK)	goto cleanup;
 
-		targetIdx = FindVertexIndex(G, minEdge.to);
-
+		targetIdx = minEdge.to;
 		if (visited[targetIdx]) {
-			free(minEdge.from);
-			free(minEdge.to);
 			continue;
 		}
 
@@ -950,28 +865,17 @@ Status Dijkstra(Graph G, char* startVertex)
 					Pre[i] = targetIdx;
 
 					EdgeInfo edge = {
-						.from = (char*)malloc(strlen(G->names[targetIdx]) + 1),
-						.to = (char*)malloc(strlen(G->names[i]) + 1),
+						.from	= targetIdx,
+						.to		= i,
 						.weight = Distance[i]
 					};
 
-					if (!edge.from || !edge.to) {
-						free(edge.from);
-						free(edge.to);
-						goto cleanup;
-					}
-
-					strcpy(edge.from, G->names[targetIdx]);
-					strcpy(edge.to, G->names[i]);
 					InsertHeap(heap, edge);
 				}
 			}
 		}
 
 		visitedCount++;
-
-		free(minEdge.from);
-		free(minEdge.to);
 	}
 
 	for (int i = 0; i < G->vertexNum; ++i) {
@@ -1000,21 +904,21 @@ cleanup:
 
 Status TopoSort(Graph G)
 {
-	if (G == NULL || G->direction != DIRECTED)	return ERROR;
+	if (NULL == G || G->direction != DIRECTED)	return ERROR;
 	if (G->vertexNum == 0)	return OK;
 
 	int VerCont = 0;
 
 	CSqQueue Q;
-	if (InitQueue(&Q, G->vertexNum + 1) != OK)
+	if (InitQueue(&Q, G->vertexNum) != OK)
 		return ERROR;
 
 	int* inDegree = (int*)calloc(G->vertexNum, sizeof(int));
 	if (!inDegree)
 		goto cleanup;
 
-	char** names = (char**)calloc(G->vertexNum, sizeof(char*));
-	if (!names)	goto cleanup;
+	int* nameIdx = (int*)malloc(sizeof(int) * G->vertexNum);
+	if (!nameIdx)	goto cleanup;
 
 	for (int i = 0; i < G->vertexNum; ++i) {
 		for (int j = 0; j < G->vertexNum; ++j) {
@@ -1035,10 +939,7 @@ Status TopoSort(Graph G)
 		int currIdx = FindVertexIndex(G, currentName);
 		if (currIdx == FAILURE) continue;
 
-		names[VerCont] = (char*)malloc(sizeof(char) * (strlen(currentName) + 1));
-		if (!names[VerCont])	goto cleanup;
-
-		strcpy(names[VerCont], currentName);
+		nameIdx[VerCont] = currIdx;
 		VerCont++;
 
 		for (int i = 0; i < G->vertexNum; ++i) {
@@ -1053,7 +954,7 @@ Status TopoSort(Graph G)
 		printf("Error: Graph contains a cycle!");
 	else {
 		for (int i = 0; i < G->vertexNum; ++i) {
-			printf("%s ", names[i]);
+			printf("%s ", G->names[nameIdx[i]]);
 		}
 	}
 
@@ -1062,32 +963,77 @@ Status TopoSort(Graph G)
 cleanup:
 	free(inDegree);
 	DestroyQueue(&Q);
-
-	if (names != NULL) {
-		for (int i = 0; i < G->vertexNum; ++i)
-			free(names[i]);
-		free(names);
-	}
-
+	free(nameIdx);
 	return VerCont == G->vertexNum ? OK : ERROR;
+}
+
+// ==================== 测试用例 ====================
+void TestAlgorithms()
+{
+	printf("========== 测试核心算法 ==========\n");
+	Graph G;
+	char* names[] = { "V0", "V1", "V2", "V3", "V4", "V5" };
+	assert(InitGraph(&G, names, 6, UNDIRECTED) == OK);
+
+	AddWeightedEdge(G, "V0", "V5", 100);
+	AddWeightedEdge(G, "V0", "V4", 30);
+	AddWeightedEdge(G, "V0", "V2", 10);
+	AddWeightedEdge(G, "V1", "V2", 5);
+	AddWeightedEdge(G, "V2", "V3", 50);
+	AddWeightedEdge(G, "V3", "V5", 10);
+	AddWeightedEdge(G, "V4", "V3", 20);
+	AddWeightedEdge(G, "V4", "V5", 60);
+
+	printf("BFS 遍历结果: \n");
+	assert(BFSTravel(G, "V1") == OK);
+
+	printf("DFS 遍历结果: \n");
+	assert(DFSTravel(G, "V1") == OK);
+
+	printf("\nPrim 算法生成树:\n");
+	assert(PrimMST(G, "V1") == OK);
+
+	printf("Kruskal 算法生成树:\n");
+	assert(KruskalMST(G) == OK);
+
+	printf("Dijkstra 最短路径:\n");
+	assert(Dijkstra(G, "V1") == OK);
+
+	assert(DestroyGraph(&G) == OK);
+	printf("核心算法测试通过！\n\n");
+}
+
+void TestTopoSort()
+{
+	printf("========== 测试拓扑排序 ==========\n");
+	Graph G;
+	char* names[] = { "C1", "C2", "C3", "C4", "C5" };
+	assert(InitGraph(&G, names, 5, DIRECTED) == OK);
+
+	// C1 -> C2, C1 -> C3, C2 -> C4, C3 -> C4, C4 -> C5
+	AddEdge(G, "C1", "C2");
+	AddEdge(G, "C1", "C3");
+	AddEdge(G, "C2", "C4");
+	AddEdge(G, "C3", "C4");
+	AddEdge(G, "C4", "C5");
+
+	printf("正常拓扑排序结果: \n");
+	assert(TopoSort(G) == OK);
+
+	// 增加一条边构造环: C5 -> C1，形成 C1->C2->C4->C5->C1
+	AddEdge(G, "C5", "C1");
+	printf("带环拓扑排序结果: \n");
+	assert(TopoSort(G) == ERROR);
+
+	assert(DestroyGraph(&G) == OK);
+	printf("拓扑排序测试通过！\n\n");
 }
 
 int main()
 {
-	Graph G;
-	char* vertexNames[] = { "A", "B", "C" };
-	int vNum = sizeof(vertexNames) / sizeof(*vertexNames);
-	InitGraph(&G, vertexNames, vNum, DIRECTED);
-
-	AddEdge(G, "A", "B"); // A -> B
-	AddEdge(G, "B", "C"); // B -> C
-	AddEdge(G, "C", "A"); // C -> A
-
-	PrintGraphMatrix(G);
-
-	TopoSort(G);
-
-	DestroyGraph(&G);
+	TestTopoSort();
+	TestAlgorithms();
+	printf("所有断言测试全部通过！\n");
 	return 0;
 }
 
