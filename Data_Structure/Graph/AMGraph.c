@@ -839,9 +839,9 @@ Status Dijkstra(Graph G, char* startVertex)
 
 	int visitedCount = 0;
 	EdgeInfo startEdge = {
-		.from	= targetIdx,
-		.to		= targetIdx,
-		.weight	= 0
+		.from = targetIdx,
+		.to = targetIdx,
+		.weight = 0
 	};
 
 	Distance[targetIdx] = 0;
@@ -865,8 +865,8 @@ Status Dijkstra(Graph G, char* startVertex)
 					Pre[i] = targetIdx;
 
 					EdgeInfo edge = {
-						.from	= targetIdx,
-						.to		= i,
+						.from = targetIdx,
+						.to = i,
 						.weight = Distance[i]
 					};
 
@@ -967,6 +967,126 @@ cleanup:
 	return VerCont == G->vertexNum ? OK : ERROR;
 }
 
+void PrintPath(int** Path, int i, int j)
+{
+	if (Path[i][j] == -1) {
+		printf("%d ", i);
+		if (i != j) printf("%d ", j);
+		return;
+	}
+	PrintPath(Path, i, Path[i][j]);
+	PrintPath(Path, Path[i][j], j);
+}
+
+void PrintFloydPath(char ** name, int ** Path, int i, int j)
+{
+	if (Path[i][j] == -1)
+		return;
+
+	if (i == j) {
+		printf("%s", name[i]);
+		return;
+	}
+
+	PrintFloydPath(name, Path, i, Path[i][j]);
+	printf("->%s", name[j]);
+}
+
+Status Floyd(Graph G)
+{
+	int** Distance = NULL;
+	int** Path = NULL;
+
+	bool fail_status = false;
+	Distance = (int**)calloc(G->vertexNum, sizeof(int*));
+	if (!Distance) {
+		fail_status = true;
+		goto cleanup;
+	}
+
+	Path = (int**)calloc(G->vertexNum, sizeof(int*));
+	if (!Path)	{
+		fail_status = true;
+		goto cleanup;
+	}
+
+	for (int i = 0; i < G->vertexNum; ++i) {
+		Distance[i] = (int*)malloc(sizeof(int) * G->vertexNum);
+		if (!Distance[i]) {
+			fail_status = true;
+			goto cleanup;
+		}
+		Path[i] = (int*)malloc(sizeof(int) * G->vertexNum);
+		if (!Path[i]) {
+			fail_status = true;
+			goto cleanup;
+		}
+
+		for (int j = 0; j < G->vertexNum; ++j) {
+			Distance[i][j] = (i == j) ? 0 : G->edges[i][j];
+			if (G->edges[i][j] != INF || i == j)
+				Path[i][j] = i;
+			else
+				Path[i][j] = -1;
+		}
+	}
+
+	for (int k = 0; k < G->vertexNum; ++k) {
+		for (int i = 0; i < G->vertexNum; ++i) {
+			for (int j = 0; j < G->vertexNum; ++j) {
+				if (i != j && i != k && j != k &&
+				    Distance[i][k] != INF && Distance[k][j] != INF &&
+				    Distance[i][k] + Distance[k][j] < Distance[i][j]) {
+					Distance[i][j] = Distance[i][k] + Distance[k][j];
+					Path[i][j] = Path[k][j];
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < G->vertexNum; ++i) {
+		for (int j = 0; j < G->vertexNum; ++j) {
+			if (Distance[i][j] == INF)
+				printf("%s ", "INF");
+			else
+				printf("%-3d ", Distance[i][j]);
+		}
+		putchar('\n');
+	}
+
+	putchar('\n');
+	for (int i = 0; i < G->vertexNum; ++i) {
+		for (int j = 0; j < G->vertexNum; ++j) {
+			if (i == j) continue;
+			if (Path[i][j] == -1)
+				printf("%s 到 %s: 不可达", G->names[i], G->names[j]);
+			else {
+				printf("%s -> %s: ", G->names[i], G->names[j]);
+				PrintFloydPath(G->names, Path, i, j);
+				printf(" %d", Distance[i][j]);
+			}
+			putchar('\n');
+		}
+	}
+
+cleanup:
+	if (Distance != NULL) {
+		for (int i = 0; i < G->vertexNum; ++i)
+			free(Distance[i]);
+
+		free(Distance);
+	}
+
+	if (Path != NULL) {
+		for (int i = 0; i < G->vertexNum; ++i)
+			free(Path[i]);
+
+		free(Path);
+	}
+
+	return fail_status ? ERROR : OK;
+}
+
 // ==================== 测试用例 ====================
 void TestAlgorithms()
 {
@@ -998,6 +1118,23 @@ void TestAlgorithms()
 
 	printf("Dijkstra 最短路径:\n");
 	assert(Dijkstra(G, "V1") == OK);
+
+	Graph G2;
+	char* names1[] = { "V0", "V1", "V2", "V3", "V4" };
+	assert(InitGraph(&G2, names1, 5, DIRECTED) == OK);
+
+	AddWeightedEdge(G2, "V0", "V3", 10);
+
+	AddWeightedEdge(G2, "V0", "V1", 1);
+	AddWeightedEdge(G2, "V1", "V2", 2);
+	AddWeightedEdge(G2, "V2", "V3", 1);
+	// 构造反向边，形成环
+	AddWeightedEdge(G2, "V3", "V0", 5);
+
+	printf("Floyd 算法所有顶点对最短路径:\n");
+	assert(Floyd(G2) == OK);
+
+	assert(DestroyGraph(&G2) == OK);
 
 	assert(DestroyGraph(&G) == OK);
 	printf("核心算法测试通过！\n\n");
